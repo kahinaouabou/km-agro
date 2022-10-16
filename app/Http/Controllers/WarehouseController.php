@@ -31,17 +31,25 @@ class WarehouseController extends Controller
             return Datatables::of($data)
 
                     ->addIndexColumn()
-
                     ->addColumn('action', function($row){
-
-
-
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-
-    
-
+                        $routeEdit =  route("warehouses.edit", $row->id) ;
+                        $routeDelete = route("warehouses.destroy", $row->id);
+                        $idDestroy = "destroy".$row->id;
+                        $btn ='
+                        <a rel="tooltip" class="btn btn-success btn-link" href='.$routeEdit.' data-original-title="" title="">
+                        <i class="material-icons">edit</i>
+                        <div class="ripple-container"></div>
+                            </a> 
+                        <a rel="tooltip" class="btn btn-danger btn-link"
+                        onclick="event.preventDefault(); document.getElementById('.$idDestroy.').submit();" data-original-title="" title="">
+                        <i class="material-icons">delete</i>
+                            <div class="ripple-container"></div>  
+                            </a>
+                            <form id='.$idDestroy.' action='.$routeDelete.' method="POST" style="display: none;">
+                                @csrf
+                                @method("DELETE")
+                            </form>';
                             return $btn;
-
                     })
 
                     ->rawColumns(['action'])

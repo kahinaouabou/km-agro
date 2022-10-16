@@ -53,7 +53,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Rooms number') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('number_rooms') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('number_rooms') ? ' is-invalid' : '' }}" name="number_rooms" id="input-number_rooms" type="integer" placeholder="{{ __('number rooms') }}" value="{{ $block->number_rooms }}" required />
+                      <input class="form-control{{ $errors->has('number_rooms') ? ' is-invalid' : '' }}" name="number_rooms" id="input-number_rooms" type="number" placeholder="{{ __('number rooms') }}" value="{{ $block->number_rooms }}" required />
                       @if ($errors->has('number_rooms'))
                         <span id="number_rooms-error" class="error text-danger" for="input-number_rooms">{{ $errors->first('number_rooms') }}</span>
                       @endif
