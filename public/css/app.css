@@ -1,0 +1,27 @@
+.ps-container > .ps-scrollbar-x-rail {
+    display: block !important;
+}
+
+.ps-container > .ps-scrollbar-y-rail {
+    display: block !important;
+}
+
+.card-footer-primary {
+    background: #4caf50 !important;
+}
+.footer-title{
+    font-weight: bold;
+}
+.col-form-label-filter{
+    line-height: 5 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.btn .material-icons {
+    margin-top: -0.5em !important;
+    margin-bottom: -0.5em !important;
+}
+.btn.btn-link {
+    border-color: transparent !important;
+}

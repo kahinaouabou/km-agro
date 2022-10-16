@@ -1,0 +1,11 @@
+.ps-container > .ps-scrollbar-x-rail {
+    display: block !important;
+}
+
+.ps-container > .ps-scrollbar-y-rail {
+    display: block !important;
+}
+
+.card-footer-primary {
+    background: rgba(0, 0, 0, 0.28) !important;
+}
