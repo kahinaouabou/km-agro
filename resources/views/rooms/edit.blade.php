@@ -60,7 +60,9 @@
                     <div class="form-group">
                     {!! Form::number('length', $room->length, [
                                                       'class' => 'form-control',
-                                                      'step' => '0.1',
+                                                      'step' => '0.1',                     
+                                                      'id'=>'length-id',
+                                                      'onchange'=>'calculateVolumeValue(this.value)',
                                                       'required' => true
                                                       ]) !!}
                     </div>
@@ -73,7 +75,9 @@
                     <div class="form-group">
                     {!! Form::number('width', $room->width, [
                                               'class' => 'form-control',
-                                              'step' => '0.1',
+                                              'step' => '0.1', 
+                                              'id'=>'width-id',
+                                              'onchange'=>'calculateVolumeValue(this.value)',
                                               'required' => true
                                               ]) !!}
                     </div>
@@ -86,6 +90,8 @@
                     {!! Form::number('height', $room->height, [
                                               'class' => 'form-control',
                                               'step' => '0.1',
+                                              'id'=>'height-id',
+                                              'onchange'=>'calculateVolumeValue(this.value)',
                                               'required' => true
                                               ]) !!}
                     </div>
@@ -98,6 +104,7 @@
                     {!! Form::number('volume', $room->volume, [
                                               'class' => 'form-control',
                                               'step' => '0.1',
+                                              'id'=>'volume-id',
                                               'required' => true
                                               ]) !!}
                     </div>
@@ -143,3 +150,5 @@
     </div>
   </div>
 @endsection
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>

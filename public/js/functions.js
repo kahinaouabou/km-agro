@@ -111,3 +111,15 @@ jQuery(document ).ready(function(){
       jQuery("#input-remaining").val(remaining);
   }
   }
+
+  function calculateVolumeValue(){
+    if(jQuery('#length-id').val() != '' && 
+      jQuery('#width-id').val() != '' && 
+      jQuery('#height-id').val() != ''){
+      let length = jQuery('#length-id').val();
+      let width = jQuery('#width-id').val();
+      let height =  jQuery('#height-id').val();
+      let volume = length * width * height;
+      jQuery("#volume-id").val(volume);
+    }
+  }
