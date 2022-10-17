@@ -90,11 +90,11 @@
                  
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Trucks') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('truck_id') ? ' has-danger' : '' }}">
                       <select class="form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('truck') }}" required >
-                      <option value="">{{ __('Select truck') }}</option>
+                      <option value="">{{ __('Select registration') }}</option>
                         @foreach($trucks as $truck)
                         <option value="{{ $truck->id }}" >{{ $truck->model }}</option>
                         @endforeach
@@ -104,12 +104,12 @@
                 </div>
                
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Number boxes') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Number boxes taken') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
                     {!! Form::number('number_boxes', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-number-boxes',
                                                 'required' => true,
                                                 'onchange'=>'calculateNetValue(this.value)'
@@ -123,7 +123,7 @@
                     <div class="form-group">
                     {!! Form::number('raw', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-raw',
                                                 'required' => true,
                                                 'onchange'=>'calculateNetValue(this.value)'
@@ -137,7 +137,7 @@
                     <div class="form-group">
                     {!! Form::number('tare', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-tare',
                                                 'required' => true,
                                                 'onchange'=>'calculateNetValue(this.value)'
@@ -151,7 +151,7 @@
                     <div class="form-group">
                     {!! Form::number('net', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-net',
                                                 'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
@@ -220,7 +220,7 @@
                     <div class="form-group">
                     {!! Form::number('number_boxes_returned', 0, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-number-boxes-returned',
                                                 ]) !!}
                     </div>
