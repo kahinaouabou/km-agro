@@ -86,7 +86,7 @@
                       </select>
                     </div>
                   </div>
-                  <button type="button" data-toggle="modal" data-target="#addThirdParty" class="btn btn-sm btn-primary" id="addThirdPartyButton">{{__('Add')}}</button>
+                  <button type="button" data-toggle="modal" data-target="#addThirdParty" class="btn btn-sm btn-primary" id="addThirdPartyButton"><i class="material-icons">edit</i></button>
                  
                 </div>
                 <div class="row">
