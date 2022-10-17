@@ -70,12 +70,24 @@ class ThirdPartyController extends Controller
             'is_supplier'=> 'required',
         ]);
         $isSupplier = (int)$request->is_supplier ;
-        ThirdParty::create($validatedData);
-        if($isSupplier== 1){
-            return redirect('/thirdParty/1')->with('message',__('Supplier successfully created.'));
+        $thirdParty = ThirdParty::create($validatedData);
+        if ($request->ajax()) {
+            $thirdParties = ThirdParty::all()->pluck('name', 'id')->where('is_supplier','=',$isSupplier);
+
+            return response()->json([
+                'selectedId'=>$thirdParty->id,
+                'thirdParties'=>$thirdParties
+                 ]);
         }else {
-            return redirect('/thirdParty/0')->with('message',__('Customer successfully created.'));
+            if($isSupplier== 1){
+                return redirect('/thirdParty/1')->with('message',__('Supplier successfully created.'));
+            }else {
+                return redirect('/thirdParty/0')->with('message',__('Customer successfully created.'));
+            }
         }
+        
+        
+       
         
         
     }

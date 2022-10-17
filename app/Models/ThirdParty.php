@@ -38,6 +38,18 @@ class ThirdParty extends Model
         return $thirdParties;
 
     }
+    public static function getThirdPartyTypeByBillType($billType){
+        
+        switch ($billType) {
+                case BillTypeEnum::EntryBill :
+                    $isSupplier = ThirdPartyEnum::Supplier;
+                    break;
+                case BillTypeEnum::ExitBill :
+                    $isSupplier=ThirdPartyEnum::Customer; 
+                    break;    
+        }
+        return $isSupplier;
+    }
     public static function getThirdPartiesByType($type){
        
        

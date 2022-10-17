@@ -1,3 +1,4 @@
+@include('bills.modals.addThirdParty')
 <div class="card-body ">
                 @if (session('status'))
                   <div class="row">
@@ -85,6 +86,8 @@
                       </select>
                     </div>
                   </div>
+                  <button type="button" data-toggle="modal" data-target="#addThirdParty" class="btn btn-sm btn-primary" id="addThirdPartyButton">{{__('Add')}}</button>
+                 
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Trucks') }}</label>
@@ -228,3 +231,70 @@
                                   'hidden' => true
                                   ]) !!}
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
+<script type="text/javascript">
+
+  $(function () {
+    $.ajaxSetup({
+    headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+        jQuery(document).on('click', '#addThirdPartyButton', function() {
+          $('#addThirdParty').appendTo("body").modal('show');
+
+            // $('#addThirdParty').addClass('show'); 
+            // $('#addThirdParty').css("display","block");
+      });
+        $("#add-third-party-button").click(function(e){
+
+e.preventDefault(); //empêcher une action par défaut
+
+let code = $('#input-code').val();
+let name = $('#input-name').val();
+let address = $('#input-address').val();
+let is_supplier = $('#input-is-supplier').val();
+$.ajax({
+  url : "{{ route('thirdParties.store') }}",
+  type: 'post',
+  headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+  data :{
+      code:code,
+      name:name,
+      address:address,
+      is_supplier:is_supplier
+  },
+  success:function(response){
+        console.log(response);
+        if(response) {
+          $('#input-third-party').empty();
+                $("#input-third-party").append('<option>{{ __("Select customer") }}</option>');
+               
+                    $.each(response.thirdParties,function(key,value){
+                      // $('#input-third-party').append($("<option/>", {
+                      //      value: key,
+                      //      text: value,
+                      //   }));
+                      if(key ==response.selectedId){
+                        $("#input-third-party").append( '<option selected="selected" value="'+key+'">'+value+'</option>' )
+                      }else {
+                        $("#input-third-party").append( '<option value="'+key+'">'+value+'</option>' )
+                      }
+                       
+                    });
+                
+            $('#addThirdParty').appendTo("body").modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        }
+      },
+      error: function(error) {
+        console.log(error);
+      }
+});
+});    
+      });
+  </script>

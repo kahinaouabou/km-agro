@@ -115,8 +115,6 @@ class BillController extends Controller
     public function create($type)
     {
         
-        
-        
         $products = Product::all();
         $trucks = Truck::all();
         $blocks = Block::all();
@@ -124,7 +122,8 @@ class BillController extends Controller
         $page = Bill::getTitleActivePageByTypeBill($type);
         $rooms =[];
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type);
-        return view('bills.create', compact('products','trucks','blocks',
+        $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
+        return view('bills.create', compact('products','trucks','blocks','isSupplier',
                                     'page','type','parcels','rooms','thirdParties'));
     }
 

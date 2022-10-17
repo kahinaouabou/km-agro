@@ -1,4 +1,6 @@
 jQuery(document ).ready(function(){
+
+ 
   let ids =[];
   jQuery(document).on('click', '.row-table', function() {
     //let id = $(this).data('id');
@@ -14,7 +16,7 @@ jQuery(document ).ready(function(){
            // let url = base_path +"{{ route('bills.getRoomsByBlockId' , ':blockId') }}";
            // url = url.replace(':blockId', blockId);
            let url = base_path +"bills/"+blockId+"/getRoomsByBlockId/";
-            console.log(url);
+           
               jQuery('#div-room').load(url , function(){
                 
                   });
@@ -37,6 +39,11 @@ jQuery(document ).ready(function(){
                     
                   });
       }) ;
+
+
+   
+
+    
   
     
     
