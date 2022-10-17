@@ -45,7 +45,7 @@
 
   <table width="100%">
     <tr>
-       <td valign="top"><img src="{{ public_path('images/logo.png') }}" alt="" width="150"/></td>
+       <td valign="top"></td>
         
         <td align="right">
             <h2>{{$company->name}} </h2>

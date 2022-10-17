@@ -88,7 +88,7 @@
                     <div class="form-group">
                     {!! Form::number('number_boxes', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-number-boxes',
                                                 'required' => true,
                                                 'onchange'=>'calculateNetValue(this.value)'
@@ -102,7 +102,7 @@
                     <div class="form-group">
                     {!! Form::number('raw', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-raw',
                                                 'required' => true,
                                                 'onchange'=>'calculateNetValue(this.value)'
@@ -116,7 +116,7 @@
                     <div class="form-group">
                     {!! Form::number('tare', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '1',
                                                 'id' =>'input-tare',
                                                 'required' => true,
                                                 'onchange'=>'calculateNetValue(this.value)'
