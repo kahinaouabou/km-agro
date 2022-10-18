@@ -61,6 +61,17 @@
                   </div>
                 </div>
                 <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Fax') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('fax') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('fax') ? ' is-invalid' : '' }}" name="fax" id="input-fax" type="text" placeholder="{{ __('Fax') }}" value="{{ $company->fax }}"   aria-required="true"/>
+                      @if ($errors->has('fax'))
+                        <span id="name-error" class="error text-danger" for="input-phone">{{ $errors->first('fax') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Email') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">

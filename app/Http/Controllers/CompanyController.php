@@ -74,7 +74,8 @@ class CompanyController extends Controller
             'name' => 'required',
             'address' => 'required',
             'phone' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'fax'=> 'nullable'
         ]);
         Company::whereId($id)->update($validatedData);
         return redirect('/companies/'.$id.'/edit')->with('message',__('Company successfully updated.'));
