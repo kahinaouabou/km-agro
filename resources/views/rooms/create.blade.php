@@ -109,8 +109,9 @@
                   <label class="col-sm-2 col-form-label">{{ __('Stored quantity') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
-                    {!! Form::number('stored_quantity', null, [
+                    {!! Form::number('stored_quantity', 0, [
                                                     'class' => 'form-control',
+                                                    'required'=> true,
                                                     'step' => '0.1',
                                                     ]) !!}
                     </div>

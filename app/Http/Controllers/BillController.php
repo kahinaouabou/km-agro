@@ -76,9 +76,17 @@ class BillController extends Controller
                 $count = $data->count();    
             
                 return Datatables::of($data)
-                ->filter(function($data) use ( $request) {
-                    $data->skip($request->start);
-                    $data->take($request->length);
+                ->filterColumn('productName',function($query) use ( $request) {
+                    $query->skip($request->start);
+                    $query->take($request->length);
+
+                    if (request()->has('productName')) {
+                        $query->where('Product.name', 'like', "%" . request('productName') . "%");
+                    }
+
+                    if (request()->has('blockName')) {
+                        $query->where('blockName', 'like', "%" . request('blockName') . "%");
+                    }
         
                     // filter logic
                     
