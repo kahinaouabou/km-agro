@@ -70,7 +70,14 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: url ,
+        ajax:{ 
+        url :url,
+        data: function (d) {
+            d.third_party_id  = jQuery('#input-third-party').val(),
+            d.date_from = jQuery('#input-date-from').val(),
+            d.date_to = jQuery('#input-date-to').val()
+        }
+        },
         columns: [
             {data: 'reference', name: 'reference'},
             {data: 'bill_date', name: 'bill_date' ,type:'date'},
@@ -87,6 +94,11 @@
         ]
     });
 
+    $("#btn-search").click(function(e){
+        e.preventDefault();
+           
+        table.draw(false);
+    });
 
   });
 </script>
