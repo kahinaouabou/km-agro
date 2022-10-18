@@ -49,8 +49,19 @@ class TruckController extends Controller
             'mark_id' => 'required',
             'tare' => 'required',
         ]);
-        Truck::create($validatedData);
-        return redirect('/trucks')->with('message',__('Truck successfully created.'));
+        
+        $truck=Truck::create($validatedData);
+        if ($request->ajax()) {
+            $trucks = Truck::all()->pluck('registration', 'id');
+
+            return response()->json([
+                'selectedId'=>$truck->id,
+                'trucks'=>$trucks
+                 ]);
+        }else {
+            return redirect('/trucks')->with('message',__('Truck successfully created.'));
+        }
+        
     }
 
     /**

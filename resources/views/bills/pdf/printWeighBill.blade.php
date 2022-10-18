@@ -5,22 +5,22 @@
                     {{__('Number boxes')}} 
                     </th>
                     <th>
-                    {{__('Raw')}} 
+                    {{__('Raw').'  '.__('(Kg)')}} 
                     </th>
                     <th>
-                    {{__('Tare')}} 
+                    {{__('Tare').'  '.__('(Kg)')}} 
                     </th>
                     <th>
-                    {{__('Net')}} 
+                    {{__('Net').'  '.__('(Kg)')}} 
       </tr>
     </thead>
     <tbody>
        
             <tr>
-                <td align="right">{{$bill->number_boxes}}</td>
-                <td align="right">{{$bill->raw}}</td>
-                <td align="right">{{$bill->tare}}</td>
-                <td align="right">{{$bill->net}}</td>
+                <td align="right" width="100px">{{number_format($bill->number_boxes, 0, ',', ' ')}}</td>
+                <td align="right" width="100px">{{number_format($bill->raw, 0, ',', ' ')}}</td>
+                <td align="right" width="100px">{{number_format($bill->tare, 0, ',', ' ')}}</td>
+                <td align="right" width="200px">{{number_format($bill->net, 0, ',', ' ')}}</td>
             </tr>
         
      

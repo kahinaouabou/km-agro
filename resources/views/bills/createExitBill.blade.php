@@ -1,4 +1,5 @@
 @include('bills.modals.addThirdParty')
+@include('bills.modals.addTruck')
 <div class="card-body ">
                 @if (session('status'))
                   <div class="row">
@@ -93,14 +94,16 @@
                   <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('truck_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('truck') }}" required >
+                      <select class="form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('Registration') }}" required >
                       <option value="">{{ __('Select registration') }}</option>
                         @foreach($trucks as $truck)
-                        <option value="{{ $truck->id }}" >{{ $truck->model }}</option>
+                        <option value="{{ $truck->id }}" >{{ $truck->registration }}</option>
                         @endforeach
                     </select>
                     </div>
                   </div>
+                  <button type="button" data-toggle="modal" data-target="#addTruck" class="btn btn-sm btn-primary" id="addTruckButton"><i class="material-icons">edit</i></button>
+                 
                 </div>
                
                 <div class="row">
@@ -241,13 +244,18 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });
-        jQuery(document).on('click', '#addThirdPartyButton', function() {
+jQuery(document).on('click', '#addThirdPartyButton', function() {
           $('#addThirdParty').appendTo("body").modal('show');
 
             // $('#addThirdParty').addClass('show'); 
             // $('#addThirdParty').css("display","block");
       });
-        $("#add-third-party-button").click(function(e){
+jQuery(document).on('click', '#addTruckButton', function() {
+          $('#addTruck').appendTo("body").modal('show');
+
+      }); 
+
+jQuery("#add-third-party-button").click(function(e){
 
 e.preventDefault(); //empêcher une action par défaut
 
@@ -295,6 +303,57 @@ $.ajax({
         console.log(error);
       }
 });
-});    
+}); 
+
+jQuery("#add-truck-button").click(function(e){
+
+e.preventDefault(); //empêcher une action par défaut
+
+let registration = $('#input-registration').val();
+let model = $('#input-model').val();
+let tare = $('#input-tare-truck').val();
+let mark_id = $('#input-mark').val();
+console.log(tare);
+$.ajax({
+  url : "{{ route('trucks.store') }}",
+  type: 'post',
+  headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+  data :{
+      registration:registration,
+      model:model,
+      tare:tare,
+      mark_id:mark_id
+  },
+  success:function(response){
+        console.log(response);
+        if(response) {
+          $('#input-truck').empty();
+                $("#input-truck").append('<option>{{ __("Select registration") }}</option>');
+               
+                    $.each(response.trucks,function(key,value){
+                      // $('#input-third-party').append($("<option/>", {
+                      //      value: key,
+                      //      text: value,
+                      //   }));
+                      if(key ==response.selectedId){
+                        $("#input-truck").append( '<option selected="selected" value="'+key+'">'+value+'</option>' )
+                      }else {
+                        $("#input-truck").append( '<option value="'+key+'">'+value+'</option>' )
+                      }
+                       
+                    });
+                
+            $('#addTruck').appendTo("body").modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        }
+      },
+      error: function(error) {
+        console.log(error);
+      }
+});
+});
       });
   </script>
