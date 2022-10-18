@@ -63,7 +63,7 @@
 
   </table>
 <hr>
-    <div style="width: 500px; margin-left : 180px; margin-bottom :80px">
+    <div style="width: 500px; margin-left : 180px; margin-bottom :150px; margin-top:50px">
     <h1 >{{__($page['name'])}} N°: {{$bill->reference}}</h1>
     </div>
     <div style ="width:700px" >
@@ -82,7 +82,7 @@
         </table>
     
     </div>
-    <div style="width: 600px; margin-left : 380px; margin-bottom :20px">
+    <div style="width: 600px; margin-left : 380px; margin-bottom :50px">
          </div>
   <table width="100%">
     <tr>
