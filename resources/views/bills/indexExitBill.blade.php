@@ -22,6 +22,9 @@
                     <th>
                         {{__('Net remaining')}} 
                     </th>
+                    <th>
+                        {{__('Net paid')}} 
+                    </th>
                     <!-- <th>
                         {{__('Block')}} 
                     </th>
@@ -109,6 +112,7 @@
             {data: 'thirdPartyName', name: 'thirdPartyName'},
             {data: 'net_payable', name: 'net_payable'},
             {data: 'net_remaining', name: 'net_remaining'},
+            {data: 'net_paid', name: 'net_paid'},
             //  {data: 'block_id', name: 'block_id'},
             // {data: 'room_id', name: 'room_id'},
             // 

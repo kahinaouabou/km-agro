@@ -51,7 +51,9 @@ class BillController extends Controller
                 ->join('blocks as Block', 'Block.id', '=', 'bills.block_id')     
                 ->join('rooms as Room', 'Room.id', '=', 'bills.room_id')     
                 ->join('trucks as Truck', 'Truck.id', '=', 'bills.truck_id')     
-                ->select('bills.*', 
+                ->select(
+                DB::raw('bills.net_payable - bills.net_remaining as net_paid')  , 
+                'bills.*', 
                 'Product.name as productName',
                 'Block.name as blockName',
                 'Room.name as roomName',
@@ -68,7 +70,22 @@ class BillController extends Controller
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';});   
-            return Datatables::of($data)
+            
+                $columns = $request['columns'];
+                    
+                $count = $data->count();    
+            
+                return Datatables::of($data)
+                ->filter(function($data) use ( $request) {
+                    $data->skip($request->start);
+                    $data->take($request->length);
+        
+                    // filter logic
+                    
+                }, true)
+                ->skipPaging()
+                ->setTotalRecords($count)
+                ->setFilteredRecords($this->filterApplied($request) ? $count : $count)
                     ->addIndexColumn()
                     ->addColumn('action', function($row) use ($type){
                         $routeEdit =  route("bills.edit", [$row->id,$row->bill_type]) ;
@@ -105,6 +122,19 @@ class BillController extends Controller
         $selected_id['date_to'] = $request->date_to;
         return view('bills.index',compact('bills','type','page','selected_id','dbBillType'));
    
+    }
+    public function filterApplied($request) {
+        $check = array();
+    
+        foreach($request['columns'] as $key => $column) {
+            if (!empty($column['search']['value']))
+                $check[] = $column['search']['value'];
+        }
+    
+        if (!empty($request['search']['value']))
+            $check[] = $request['search']['value'];
+    
+        return sizeof($check);
     }
 
     /**

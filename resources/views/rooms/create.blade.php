@@ -55,7 +55,7 @@
                     <div class="form-group">
                     {!! Form::number('length', null, [
                                   'class' => 'form-control',
-                                  'step' => '0.1',
+                                  'step' => '0.01',
                                   'id'=>'length-id',
                                   'onchange'=>'calculateVolumeValue(this.value)',
                                   'required' => true
@@ -70,7 +70,7 @@
                     <div class="form-group">
                     {!! Form::number('width', null, [
                                             'class' => 'form-control',
-                                            'step' => '0.1',
+                                            'step' => '0.01',
                                             'id'=>'width-id',
                                             'onchange'=>'calculateVolumeValue(this.value)',
                                             'required' => true
@@ -84,7 +84,7 @@
                     <div class="form-group">
                     {!! Form::number('height', null, [
                                             'class' => 'form-control',
-                                            'step' => '0.1',
+                                            'step' => '0.01',
                                             'id'=>'height-id',
                                             'onchange'=>'calculateVolumeValue(this.value)',
                                             'required' => true
@@ -98,7 +98,7 @@
                     <div class="form-group">
                     {!! Form::number('volume', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id'=>'volume-id',
                                                 'required' => true
                                                 ]) !!}

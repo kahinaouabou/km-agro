@@ -37,6 +37,9 @@
                       <th>
                         {{__('Amount paid')}} 
                       </th>
+                      <th>
+                        {{__('Amount remaining')}} 
+                      </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,6 +56,9 @@
                               </td>
                               <td>
                                   {{ number_format($paymentBill->amount_paid, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->bill->net_remaining, 2, ',', ' ')}}
                               </td>
                           </tr>
                       @endforeach

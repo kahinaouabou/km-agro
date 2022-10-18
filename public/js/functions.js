@@ -120,6 +120,7 @@ jQuery(document ).ready(function(){
       let width = jQuery('#width-id').val();
       let height =  jQuery('#height-id').val();
       let volume = length * width * height;
-      jQuery("#volume-id").val(volume);
+
+      jQuery("#volume-id").val(volume.toFixed(2));
     }
   }
