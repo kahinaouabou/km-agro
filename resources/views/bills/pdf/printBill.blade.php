@@ -87,7 +87,7 @@
   <table width="100%">
     <tr>
         <td><p style="font-size:16px"><strong >{{__('Product')}} :</strong> {{$bill->product->name}}</p></td>
-        <td><p style="font-size:16px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration.' - '.$bill->truck->model}}</p> </</td>
+        <td><p style="font-size:16px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </</td>
    
     </tr>
   </table>
