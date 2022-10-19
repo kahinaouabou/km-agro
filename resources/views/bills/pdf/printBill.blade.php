@@ -49,15 +49,13 @@
         
         <td align="left">
             <h1>{{$company->name}} </h1>
-            <p>{{$company->address}}</p>
-              
+            <p>{{$company->address}}</p>  
             <p>Email: {{$company->email}}</p> 
             @if(!empty($company->fax))  
             <p >Tel: {{$company->phone}} / Fax: {{$company->fax}}</p>
             @else 
             <p >Tel: {{$company->phone}} </p>
-            @endif
-            
+            @endif 
         </td>
     </tr>
 

@@ -16,7 +16,7 @@ class RoomController extends Controller
      */
     public function index(Room $model)
     {
-        $rooms = Room::paginate(15);
+        $rooms = Room::paginate();
         return view('rooms.index',compact('rooms')); 
         //
     }

@@ -6,16 +6,14 @@
 
 <style type="text/css">
      @page{
-        margin-top: 210px;
-        margin-bottom: 100px;
+        margin-top: 200px;
       }
       header{
         position: fixed;
         left: 0px;
         right: 0px;
-        height: 200px;
-        margin-top: -200px;
-        
+        height: 180px;
+        margin-top: -200px;  
       }
       footer{
         position: fixed;
@@ -67,18 +65,21 @@
 </head>
 <body>
 <header>
- <div style='border-bottom: 1px solid;width:100%; height: 170px'>
+ <div style='border-bottom: 1px solid;width:100%;'>
   <table width="100%">
     <tr>
-       <td valign="top"></td>
+        <td valign="top" width="300px"></td>
         
-        <td align="right">
-            <h2>{{$company->name}} </h2>
-            <pre>
-                {{$company->address}}
-                {{$company->phone}}
-                {{$company->email}}
-            </pre>
+       <td align="left">
+            <h1>{{$company->name}} </h1>
+            <p>{{$company->address}}</p>
+            <p>Email: {{$company->email}}</p> 
+            @if(!empty($company->fax))  
+            <p>Tel: {{$company->phone}} / Fax: {{$company->fax}}</p>
+            @else 
+            <p>Tel: {{$company->phone}} </p>
+            @endif
+            
         </td>
     </tr>
 
