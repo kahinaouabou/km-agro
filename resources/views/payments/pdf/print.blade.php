@@ -6,21 +6,22 @@
 
 <style type="text/css">
      @page{
-        margin-top: 200px;
+        margin-top: 220px;
+        margin-bottom:130px;
       }
       header{
         position: fixed;
         left: 0px;
         right: 0px;
-        height: 180px;
-        margin-top: -200px;  
+        height: 220px;
+        margin-top: -220px; 
       }
       footer{
         position: fixed;
         left: 0px;
         right: 0px;
-        height: 80px;
-        margin-bottom: -80px;
+        height: 70px;
+        margin-bottom: -70px;
       }
     * {
         font-family: Verdana, Arial, sans-serif;
@@ -65,8 +66,8 @@
 </head>
 <body>
 <header>
- <div style='border-bottom: 1px solid;width:100%;'>
-  <table width="100%">
+ <div style='width:100%; height:190px; border-bottom: 1px solid;' >
+  <table width="100%" height="100px">
     <tr>
         <td valign="top" width="300px"></td>
         
@@ -84,11 +85,11 @@
     </tr>
 
   </table>
-  <div style='width:100%; height: 20px'>
-  </div>
  </div>
+ <div style='width:100%; height:30px; border-top: 1px solid;' ></div>
 </header>  
-
+<body>
+    
     <div style="width: 500px; margin-left : 180px; margin-bottom :50px">
     <h1 >{{__('Payment receipt')}} :  {{$payment->reference}}</h1>
     </div>
@@ -328,7 +329,85 @@
                           </tr>
                       @endforeach
                       @foreach($paymentBills as $paymentBill)
-    <?php $netRemaining = $paymentBill->bill->net_payable- $paymentBill->amount_paid ?>
+                        <?php $netRemaining = $paymentBill->bill->net_payable- $paymentBill->amount_paid ?>
+                          <tr>
+                              <td>
+                                  {{ $paymentBill->bill->reference }}
+                              </td>
+                              <td>
+                                  {{ $paymentBill->bill->bill_date->format('d/m/Y') }}
+                              </td>
+                              <td>
+                                  {{ $paymentBill->bill->net }}
+                              </td>
+                              <td>
+                                  {{number_format( $paymentBill->bill->unit_price, 2, ',', ' ') }}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->bill->net_payable, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->amount_paid, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($netRemaining, 2, ',', ' ')}}
+                              </td>
+                          </tr>
+                      @endforeach
+                      @foreach($paymentBills as $paymentBill)
+                        <?php $netRemaining = $paymentBill->bill->net_payable- $paymentBill->amount_paid ?>
+                          <tr>
+                              <td>
+                                  {{ $paymentBill->bill->reference }}
+                              </td>
+                              <td>
+                                  {{ $paymentBill->bill->bill_date->format('d/m/Y') }}
+                              </td>
+                              <td>
+                                  {{ $paymentBill->bill->net }}
+                              </td>
+                              <td>
+                                  {{number_format( $paymentBill->bill->unit_price, 2, ',', ' ') }}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->bill->net_payable, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->amount_paid, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($netRemaining, 2, ',', ' ')}}
+                              </td>
+                          </tr>
+                      @endforeach
+                      @foreach($paymentBills as $paymentBill)
+                        <?php $netRemaining = $paymentBill->bill->net_payable- $paymentBill->amount_paid ?>
+                          <tr>
+                              <td>
+                                  {{ $paymentBill->bill->reference }}
+                              </td>
+                              <td>
+                                  {{ $paymentBill->bill->bill_date->format('d/m/Y') }}
+                              </td>
+                              <td>
+                                  {{ $paymentBill->bill->net }}
+                              </td>
+                              <td>
+                                  {{number_format( $paymentBill->bill->unit_price, 2, ',', ' ') }}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->bill->net_payable, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($paymentBill->amount_paid, 2, ',', ' ')}}
+                              </td>
+                              <td>
+                                  {{ number_format($netRemaining, 2, ',', ' ')}}
+                              </td>
+                          </tr>
+                      @endforeach
+                      @foreach($paymentBills as $paymentBill)
+                        <?php $netRemaining = $paymentBill->bill->net_payable- $paymentBill->amount_paid ?>
                           <tr>
                               <td>
                                   {{ $paymentBill->bill->reference }}
@@ -358,7 +437,7 @@
 
  
   </table>
-
+  </body>
   <footer>
     </footer>
 </body>

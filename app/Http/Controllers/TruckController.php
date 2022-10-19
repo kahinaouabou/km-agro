@@ -18,7 +18,7 @@ class TruckController extends Controller
     public function index(Truck $model)
     {
         //
-        $trucks = $model->paginate();
+        $trucks = $model->all();
         return view('trucks.index',compact('trucks')); 
     }
 
