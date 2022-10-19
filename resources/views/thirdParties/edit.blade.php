@@ -35,7 +35,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Code') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('code') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code" id="input-code" type="text" placeholder="{{ __('Code') }}"  value="{{ $thirdParty->code }}" required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code" id="input-code" type="text" placeholder="{{ __('Code') }}"  value="{{ $thirdParty->code }}"  aria-required="true"/>
                       @if ($errors->has('code'))
                         <span id="code-error" class="error text-danger" for="input-code">{{ $errors->first('code') }}</span>
                       @endif
@@ -57,7 +57,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Address') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-name" type="text" placeholder="{{ __('Address') }}" value="{{ $thirdParty->address }}"  required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-name" type="text" placeholder="{{ __('Address') }}" value="{{ $thirdParty->address }}"   aria-required="true"/>
                       @if ($errors->has('address'))
                         <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('address') }}</span>
                       @endif

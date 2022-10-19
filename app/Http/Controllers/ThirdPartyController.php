@@ -19,7 +19,7 @@ class ThirdPartyController extends Controller
     {
         //
         $isSupplier = (int)$isSupplier;
-        $thirdParties = ThirdParty::where('is_supplier', $isSupplier)->paginate(15);
+        $thirdParties = ThirdParty::all()->where('is_supplier', $isSupplier);
         //and create a view which we return - note dot syntax to go into folder
         if($isSupplier==1)  {     
             $activePage= 'thirdParty/1';
@@ -64,9 +64,9 @@ class ThirdPartyController extends Controller
     {
         //
         $validatedData = $request->validate([
-            'code' => 'required|min:3',
+            'code' => 'nullable',
             'name' => 'required|min:3',
-            'address' => 'required',
+            'address' => 'nullable',
             'is_supplier'=> 'required',
         ]);
         $isSupplier = (int)$request->is_supplier ;
@@ -138,9 +138,9 @@ class ThirdPartyController extends Controller
     {
         //
         $validatedData = $request->validate([
-            'code' => 'required|min:3',
+            'code' => 'nullable',
             'name' => 'required|min:3',
-            'address' => 'required',
+            'address' => 'nullable',
             'is_supplier'=> 'required',
         ]);
         ThirdParty::whereId($id)->update($validatedData);

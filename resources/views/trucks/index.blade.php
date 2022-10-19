@@ -53,16 +53,19 @@
                         {{ $truck->registration }}
                         </td>
                         <td>
+                        @if(!empty($truck->model))
                         {{ $truck->model }}
-
+                        @endif
                         </td>
                         <td>
+                        @if(!empty($truck->mark->name))
                         {{ $truck->mark->name }}
-
+                        @endif
                         </td>
                         <td>
+                        @if(!empty($truck->tare))
                         {{ $truck->tare }}
-
+                        @endif
                         </td>
                         <td class="td-actions text-right">
                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('trucks.edit', $truck->id) }}" data-original-title="" title="">

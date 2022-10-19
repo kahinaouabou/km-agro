@@ -24,9 +24,7 @@ class ThirdPartyRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'min:3'],
             'name' => ['required', 'min:3'],
-            'address' => ['required'],
             'is_supplier' => ['required'],
         ];
     }

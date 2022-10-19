@@ -64,7 +64,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Marks') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
-                   
+                    @if(!empty($truck->mark->id))
                     {!! Form::select('mark_id', $marks, $truck->mark->id,
                       [
                         'class' => 'form-control',
@@ -72,6 +72,16 @@
                         'label'=>__('Marks'),
       
                         ]) !!}
+                    @else 
+                    {!! Form::select('mark_id', $marks, null,
+                      [
+                        'class' => 'form-control',
+                        'placeholder'=> __('Select mark') ,
+                        'label'=>__('Marks'),
+      
+                        ]) !!}
+                    @endif
+                    
                     </div>
                   </div>
                 </div>
