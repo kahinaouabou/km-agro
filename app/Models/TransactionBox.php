@@ -11,6 +11,10 @@ class TransactionBox extends Model
     {
         return $this->belongsTo('App\Models\ThirdParty');
     }
+    public function bill()
+    {
+        return $this->belongsTo('App\Models\Bill');
+    }
     
     protected $fillable  = ['transaction_date','number_boxes_returned','number_boxes_taken','bill_id','third_party_id'];
     protected $table = 'transaction_boxes';

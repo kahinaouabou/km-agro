@@ -49,21 +49,29 @@
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
-                              {!! Form::input('date','date_from', $selected_id['date_from']  ,['class' => 'form-control']) !!}
+                              {!! Form::input('date','date_from', $selected_id['date_from']  ,
+                                              [
+                                                'class' => 'form-control',
+                                                'id'=> 'input-date-form'
+                                                ]) !!}
                               </div>
                             </div>	
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Date to') }}</label>
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
-                              {!! Form::input('date','date_to',$selected_id['date_to'],['class' => 'form-control']) !!}
+                              {!! Form::input('date','date_to',$selected_id['date_to'],
+                                          [
+                                            'class' => 'form-control',
+                                            'id'=>'input-date-to'
+                                            ]) !!}
                               </div>
                             </div>
                           </div>			   
                           
                     </div>
                     <div class="card-footer ml-auto mr-auto">
-                            <input type="submit" class="btn btn-danger btn-sm" value="{{ __('Filter') }}"> 
+                      <input type="submit" class="btn btn-danger btn-sm" value="{{ __('Filter') }}"> 
                     </div>
                     
                   
@@ -82,32 +90,44 @@
 				    <div class="card-body">
               <div class="row">
                 <div class="col-12 text-right">
+                <a href="{{ route('transactionBoxes.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
+                
                   <a href="{{ route('transactionBoxes.create') }}" class="btn btn-sm btn-primary">{{__('Add returned boxes')}}</a>
                 </div>
               </div>
 				      <div class="table-responsive">
                 <table class="table">
                   <thead class=" text-primary">
-                    <tr><th>
-                       {{ __('Date')}}
-                    </th>
-                    <th>
-                    {{__('Customer')}} 
-                    </th>
-                    <th>
-                    {{__('Nb boxes taken')}} 
-                    </th>
-                    <th>
-                    {{__('Nb boxes returned')}} 
-                    </th>
-                    <th class="text-right">
-                    {{ __('Actions')}}
-                    </th>
-                  </tr></thead>
+                    <tr>
+                      <th>
+                        {{ __('Reference').' '.__('Bill')}}
+                      </th>
+                      <th>
+                        {{ __('Date')}}
+                      </th>
+                      <th>
+                      {{__('Customer')}} 
+                      </th>
+                      <th>
+                      {{__('Nb boxes taken')}} 
+                      </th>
+                      <th>
+                      {{__('Nb boxes returned')}} 
+                      </th>
+                      <th class="text-right">
+                      {{ __('Actions')}}
+                      </th>
+                    </tr>
+                </thead>
                   <tbody>
                   @forelse($transactionBoxes as $transactionBox)
                
                     <tr>
+                        <td>
+                        @if(!empty($transactionBox->bill->reference))
+                        {{  $transactionBox->bill->reference }}
+                        @endif
+                        </td>
                         <td>
                         {{  $transactionBox->transaction_date->format('d/m/Y') }}
                         </td>
@@ -157,3 +177,12 @@
     </div>
 </div>
 @endsection
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
+<script type="text/javascript">
+
+
+
+</script>

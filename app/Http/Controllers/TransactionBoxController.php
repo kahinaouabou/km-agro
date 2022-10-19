@@ -7,8 +7,9 @@ use App\Enums\ThirdPartyEnum;
 use App\Models\ThirdParty;
 use App\Models\TransactionBox;
 use App\Models\Bill;
+use App\Models\Company;
 use Illuminate\Http\Request;
-
+use PDF;
 class TransactionBoxController extends Controller
 {
     /**
@@ -34,20 +35,50 @@ class TransactionBoxController extends Controller
                     ->get();
          
         $selected_id = [];
-        $selected_id['third_party_id'] = $request->third_party_id;
-        $selected_id['date_from'] = $request->date_from;
-        $selected_id['date_to'] = $request->date_to;
+        if(!empty($request->third_party_id)){
+            $selected_id['third_party_id'] = $request->third_party_id;
+        }else {
+            $selected_id['third_party_id'] = '';
+        }
+        if(!empty($request->date_from)){
+            $selected_id['date_from'] = $request->date_from;
+        }else {
+            $selected_id['date_from'] = '';
+        }
+        if(!empty($request->date_to)){
+            $selected_id['date_to'] = $request->date_to;
+        }else {
+            $selected_id['date_to'] = '';
+        }
+        
         $countReturnedBoxes = TransactionBox::where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
-       })->where(function($query) use($request){
+        })->where(function($query) use($request){
            return $request->date_from ?
                   $query->from('transactionBoxes')->where('transaction_date','>=',$request->date_from) : '';
-      })->where(function($query) use($request){
+        })->where(function($query) use($request){
        return $request->date_to ?
               $query->from('transactionBoxes')->where('transaction_date','<=',$request->date_to) : '';
-  })->sum('number_boxes_returned');
+        })->sum('number_boxes_returned');
         $countTakenBoxes = TransactionBox::where( function($query) use($request){
+            return $request->third_party_id ?
+                   $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
+        })->where(function($query) use($request){
+           return $request->date_from ?
+                  $query->from('transactionBoxes')->where('transaction_date','>=',$request->date_from) : '';
+        })->where(function($query) use($request){
+       return $request->date_to ?
+              $query->from('transactionBoxes')->where('transaction_date','<=',$request->date_to) : '';
+        })->sum('number_boxes_taken');
+        return view('transactionBoxes.index',
+        compact('transactionBoxes','selected_id','countReturnedBoxes','countTakenBoxes'));
+    
+    }
+
+    function print (Request $request) {
+        
+        $transactionBoxes = TransactionBox::where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
        })->where(function($query) use($request){
@@ -56,10 +87,15 @@ class TransactionBoxController extends Controller
       })->where(function($query) use($request){
        return $request->date_to ?
               $query->from('transactionBoxes')->where('transaction_date','<=',$request->date_to) : '';
-  })->sum('number_boxes_taken');
-        return view('transactionBoxes.index',
-        compact('transactionBoxes','selected_id','countReturnedBoxes','countTakenBoxes'));
-    
+        })->get();
+        $transactionBoxName = __('Transaction boxes');
+        $company = Company::first();
+        $thirdParty = ThirdParty::find($request->third_party_id);
+      
+        $pdf = PDF::loadView('transactionBoxes.pdf.print', 
+        compact('transactionBoxes','company','thirdParty'));
+        
+        return $pdf->download($transactionBoxName.'.pdf');
     }
    
 

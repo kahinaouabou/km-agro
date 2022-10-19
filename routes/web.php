@@ -85,6 +85,8 @@ Route::get('bills/{thirdParty}/print', 'App\Http\Controllers\BillController@prin
 Route::get('bill/addPaymentContent', 'App\Http\Controllers\BillController@addPaymentContent')->name('bills.addPaymentContent')->middleware('auth');
 Route::resource('transactionBoxes', 'App\Http\Controllers\TransactionBoxController')->middleware('auth');
 Route::get('transactionBox', 'App\Http\Controllers\TransactionBoxController@filter')->name('transactionBoxes.filter')->middleware('auth');
+Route::get('transactionBox/print', 'App\Http\Controllers\TransactionBoxController@print')->name('transactionBoxes.print')->middleware('auth');
+
 Route::get('transactionBoxes/test', 'App\Http\Controllers\TransactionBoxController@test')->name('transactionBoxes.test')->middleware('auth');
 Route::resource('payments', 'App\Http\Controllers\PaymentController')->middleware('auth');
 Route::get('payments/{payment}/print', 'App\Http\Controllers\PaymentController@print')->name('payments.print')->middleware('auth');

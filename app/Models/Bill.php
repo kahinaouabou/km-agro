@@ -33,6 +33,10 @@ class Bill extends Model
     {
         return $this->belongsTo('App\Models\Room');
     }
+    public function transactionBoxes()
+    {
+        return $this->hasMany('App\Models\TransactionBox');
+    }
     public function payments()
     {
         return $this->belongsToMany('App\Models\Payment', 'bill_payment');

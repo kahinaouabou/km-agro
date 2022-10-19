@@ -210,7 +210,7 @@ class PaymentController extends Controller
         $paymentBills = BillPayment::where('payment_id',$id)->get();
         $pdf = PDF::loadView('payments.pdf.print', 
         compact('payment','paymentName','company','paymentBills'));
-        return $pdf->download($payment.'.pdf');
+        return $pdf->download($paymentName.'.pdf');
     }
 
 

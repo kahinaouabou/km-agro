@@ -176,5 +176,7 @@
 "Weigh bills for payment":"Bons de pesée pour paiement",
 "Payment receipt":"Reçu de paiement",
 "Payment amount":"Montant paiement",
-"Net paid":"Net payé"
+"Net paid":"Net payé",
+"Print PDF":"Imprimer PDF",
+"Bill":"Bon"
 }
