@@ -29,13 +29,13 @@
             border: 1px solid black;
             padding: 10px 5px 15px 5px;
             text-align: center;
-            font-size: 14px
+            font-size: 18px
         }
 
         .main-table td {
             text-align: center;
             padding: 3px 5px;
-            font-size: 14px;
+            font-size: 16px;
             padding: 15px 5px 50px 5px;
         }
 </style>
@@ -69,8 +69,8 @@
     <div style ="width:700px" >
         <table >
             <tr>
-                <td style=" font-weight:bold; font-size:18px">{{__('Date')}}: </td>
-                <td style=" font-size:16px">
+                <td style=" font-weight:bold; font-size:22px">{{__('Date')}}: </td>
+                <td style=" font-size:20px">
                     {{$bill->bill_date->format('d/m/Y')}}</td>
                 <td style=" width:350px;text-align:right;
                 display: block; position: relative; top:0px; font-weight:bold; font-size:20px"></span>
@@ -86,9 +86,8 @@
          </div>
   <table width="100%">
     <tr>
-        <td><p style="font-size:16px"><strong >{{__('Product')}} :</strong> {{$bill->product->name}}</p></td>
-        <td><p style="font-size:16px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </</td>
-   
+        <td><p style="font-size:18px"><strong >{{__('Product')}} :</strong> {{$bill->product->name}}</p></td>
+        <td><p style="font-size:18px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </td>
     </tr>
   </table>
   <br/>

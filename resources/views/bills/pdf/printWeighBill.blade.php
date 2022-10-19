@@ -3,7 +3,7 @@
     <thead style="background-color: lightgray;">
       <tr>
       <th>
-                    {{__('Number boxes')}} 
+                    {{__('Nb boxes')}} 
                     </th>
                     <th>
                     {{__('Raw').'  '.__('(Kg)')}} 
