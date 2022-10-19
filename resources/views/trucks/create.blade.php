@@ -31,7 +31,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('registration') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('registration') ? ' is-invalid' : '' }}" name="registration" id="input-registration" type="text" placeholder="{{ __('Code') }}" required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('registration') ? ' is-invalid' : '' }}" name="registration" id="input-registration" type="text" placeholder="{{ __('Registration') }}" required="true" aria-required="true"/>
                       @if ($errors->has('registration'))
                         <span id="registration-error" class="error text-danger" for="input-registration">{{ $errors->first('registration') }}</span>
                       @endif
@@ -42,7 +42,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Model') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('model') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('model') ? ' is-invalid' : '' }}" name="model" id="input-model" type="text" placeholder="{{ __('Model') }}"  required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('model') ? ' is-invalid' : '' }}" name="model" id="input-model" type="text" placeholder="{{ __('Model') }}"   aria-required="true"/>
                       @if ($errors->has('model'))
                         <span id="model-error" class="error text-danger" for="input-model">{{ $errors->first('model') }}</span>
                       @endif
@@ -64,7 +64,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Marks') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('mark_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('mark_id') ? ' is-invalid' : '' }}" name="mark_id" id="input-mark" type="select" placeholder="{{ __('Mark') }}" required >
+                      <select class="form-control{{ $errors->has('mark_id') ? ' is-invalid' : '' }}" name="mark_id" id="input-mark" type="select" placeholder="{{ __('Mark') }}"  >
                       <option value="">{{ __('Select mark') }}</option>
                         @foreach($marks as $mark)
                         <option value="{{ $mark->id }}" >{{ $mark->name }}</option>

@@ -6,15 +6,15 @@
 
 <style type="text/css">
      @page{
-        margin-top: 250px;
+        margin-top: 280px;
         margin-bottom:130px;
       }
       header{
         position: fixed;
         left: 0px;
         right: 0px;
-        height: 250px;
-        margin-top: -250px; 
+        height: 280px;
+        margin-top: -280px; 
       }
       footer{
         position: fixed;
@@ -66,7 +66,7 @@
 </head>
 
 <header>
- <div style='width:100%; height:200px; border-bottom: 1px solid; padding-top:25px' >
+ <div style='width:100%; height:170px; border-bottom: 1px solid; padding-top:30px; padding-bottom:30px' >
   <table width="100%" height="100px">
     <tr>
         <td valign="top" width="300px"></td>
@@ -90,9 +90,8 @@
 </header>  
 <body>
     
-    <div style="width: 500px; margin-left : 180px; margin-bottom :50px">
-    <h1 >{{__('Payment receipt')}} :  {{$payment->reference}}</h1>
-    </div>
+    <h1 style=' width: 500px; margin-left : 180px; margin-bottom :50px; display:inline-block' >{{__('Payment receipt')}} :  {{$payment->reference}}</h1>
+    
     <div style ="width:700px" >
         <table >
             <tr>
