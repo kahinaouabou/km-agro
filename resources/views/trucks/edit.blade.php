@@ -42,7 +42,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Model') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('model') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('model') ? ' is-invalid' : '' }}" name="model" id="input-model" type="text" placeholder="{{ __('Model') }}" value="{{ $truck->model }}"  required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('model') ? ' is-invalid' : '' }}" name="model" id="input-model" type="text" placeholder="{{ __('Model') }}" value="{{ $truck->model }}"   aria-required="true"/>
                       @if ($errors->has('model'))
                         <span id="model-error" class="error text-danger" for="input-model">{{ $errors->first('model') }}</span>
                       @endif
@@ -56,7 +56,6 @@
                     {!! Form::number('tare', $truck->tare, [
                                                             'class' => 'form-control',
                                                             'step' => '0.1',
-                                                            'required' => true
                                                             ]) !!}
                     </div>
                   </div>

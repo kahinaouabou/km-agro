@@ -45,9 +45,9 @@ class TruckController extends Controller
         //
         $validatedData = $request->validate([
             'registration' => 'required|min:3',
-            'model' => 'required|min:3',
-            'mark_id' => 'required',
-            'tare' => 'required',
+            'model' => 'nullable',
+            'mark_id' => 'nullable',
+            'tare' => 'nullable',
         ]);
         
         $truck=Truck::create($validatedData);
@@ -101,9 +101,9 @@ class TruckController extends Controller
         //
         $validatedData = $request->validate([
             'registration' => 'required|min:3',
-            'model' => 'required|min:3',
-            'mark_id' => 'required',
-            'tare' => 'required',
+            'model' => 'nullable',
+            'mark_id' => 'nullable',
+            'tare' => 'nullable',
         ]);
         Truck::whereId($id)->update($validatedData);
         return redirect('/trucks')->with('message',__('Truck successfully updated.'));

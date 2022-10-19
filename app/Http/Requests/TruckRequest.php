@@ -24,10 +24,7 @@ class TruckRequest extends FormRequest
     public function rules()
     {
         return [
-            'registration' => ['required', 'min:3'],
-            'model' => ['required', 'min:3'],
-            'mark_id' => ['required'],
-            'tare' => ['required'],
+            'registration' => ['required', 'min:3']
         ];
     }
 }

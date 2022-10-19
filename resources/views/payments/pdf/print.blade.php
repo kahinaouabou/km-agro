@@ -6,15 +6,15 @@
 
 <style type="text/css">
      @page{
-        margin-top: 280px;
+        margin-top: 290px;
         margin-bottom:130px;
       }
       header{
         position: fixed;
         left: 0px;
         right: 0px;
-        height: 280px;
-        margin-top: -280px; 
+        height: 290px;
+        margin-top: -290px; 
       }
       footer{
         position: fixed;
@@ -66,7 +66,7 @@
 </head>
 
 <header>
- <div style='width:100%; height:170px; border-bottom: 1px solid; padding-top:30px; padding-bottom:30px' >
+ <div style='width:100%; height:180px; border-bottom: 1px solid; padding-top:40px; padding-bottom:30px' >
   <table width="100%" height="100px">
     <tr>
         <td valign="top" width="300px"></td>
@@ -86,7 +86,7 @@
 
   </table>
  </div>
- <div style='width:100%; height:50px; border-top: 1px solid;' ></div>
+ <div style='width:100%; height:40px; border-top: 1px solid;' ></div>
 </header>  
 <body>
     
