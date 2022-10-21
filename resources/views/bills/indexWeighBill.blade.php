@@ -1,4 +1,4 @@
-
+@include('bills.modals.alertMessage')
 <table  class="table table-bordered data-table">
                   <thead class=" text-primary">
                     <tr>
@@ -67,6 +67,7 @@
     //console.log(data);
     let url = "{{ route('bills' , ':type') }}";
     url = url.replace(':type', jQuery('#type').val());
+    
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
@@ -80,19 +81,42 @@
         },
         columns: [
             {data: 'reference', name: 'reference'},
-            {data: 'bill_date', name: 'bill_date' ,type:'date'},
-            {data: 'productName', name: 'productName'},
-            {data: 'thirdPartyName', name: 'thirdPartyName'},
-            {data: 'blockName', name: 'blockName'},
-            {data: 'roomName', name: 'roomName'},
-            {data: 'truckName', name: 'truckName'},
+            {data: 'bill_date', name: 'bill_date' ,stype:'eu_date'},
+            {data: 'productName', name: 'Product.name'},
+            {data: 'thirdPartyName', name: 'ThirdParty.name'},
+            {data: 'blockName', name: 'Block.name'},
+            {data: 'roomName', name: 'Room.name'},
+            {data: 'truckName', name: 'Truck.registration'},
             {data: 'number_boxes', name: 'number_boxes'},
             {data: 'raw', name: 'raw'},
             {data: 'tare', name: 'tare'},
             {data: 'net', name: 'net'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+            {data: 'action', name: 'action', orderable: false, searchable: true},
+        ],
+        "columnDefs":[
+  { targets: 1,
+    render: function ( data, type, row ) {
+      var datetime = moment(data, 'YYYY-MM-DD');
+      var displayString = moment(datetime).format('DD/MM/YYYY');
+      if ( type === 'display' || type === 'filter' ) {
+        return displayString;
+      } else {
+        return datetime;
+      }
+    }
+  }]
+      
     });
+
+    jQuery(document).on('click', '.edit-bill-button', function(e) {
+     
+     e.preventDefault();
+        $('#alertMessage').addClass('show'); 
+        $('#alertMessage').css("display","block");
+        $('#alertMessage .modal-body').html("<p><?php echo __('Do you accepte that the association with the payment will be deleted ?') ?></p>");
+        $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
+      
+     } )
 
     $("#btn-search").click(function(e){
         e.preventDefault();

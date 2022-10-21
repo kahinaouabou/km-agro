@@ -8,6 +8,7 @@ use App\Models\Block;
 use App\Models\Room;
 use App\Models\Parcel;
 use App\Models\ThirdParty;
+use App\Models\BillPayment;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Requests\BillRequest;
@@ -16,6 +17,7 @@ use App\Enums\ThirdPartyEnum;
 use App\Http\Requests\TransactionBoxRequest;
 use App\Models\TransactionBox;
 use PDF;
+use Illuminate\Support\Facades\Date;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 use  Illuminate\Support\Facades\DB;
@@ -43,8 +45,8 @@ class BillController extends Controller
             break ;    
         }  
         if ($request->ajax()) {
-          
-
+            $limit = request('length');
+            $start = request('start');
             $data = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')     
@@ -57,9 +59,9 @@ class BillController extends Controller
                 'Product.name as productName',
                 'Block.name as blockName',
                 'Room.name as roomName',
-                'Truck.model as truckName',
-                'ThirdParty.name as thirdPartyName',
-                DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date"))
+                'Truck.registration as truckName',
+                'ThirdParty.name as thirdPartyName')
+               // DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date") )
                 ->where('bill_type', '=', $dbBillType)
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
@@ -69,38 +71,23 @@ class BillController extends Controller
                           $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
-                        $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';});   
-            
+                        $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+                ->orderBy("bill_date","desc") ; 
                 $columns = $request['columns'];
                     
                 $count = $data->count();    
-            
+                $data = $data->offset($start)->limit($limit);
                 return Datatables::of($data)
-                ->filterColumn('productName',function($query) use ( $request) {
-                    $query->skip($request->start);
-                    $query->take($request->length);
-
-                    if (request()->has('productName')) {
-                        $query->where('Product.name', 'like', "%" . request('productName') . "%");
-                    }
-
-                    if (request()->has('blockName')) {
-                        $query->where('blockName', 'like', "%" . request('blockName') . "%");
-                    }
-        
-                    // filter logic
-                    
-                }, true)
-                ->skipPaging()
+                
                 ->setTotalRecords($count)
-                ->setFilteredRecords($this->filterApplied($request) ? $count : $count)
                     ->addIndexColumn()
+                   
                     ->addColumn('action', function($row) use ($type){
                         $routeEdit =  route("bills.edit", [$row->id,$row->bill_type]) ;
                         $routeDelete = route("bills.destroy", $row->id);
                         $routePrint = route("bills.printBill", [$row->id,$type ]);
                         $idDestroy = "destroy".$row->id;
-                        $btn ='<a rel="tooltip" class="btn btn-success btn-link" href='.$routeEdit.' data-original-title="" title="">
+                        $btn ='<a rel="tooltip" class="btn btn-success btn-link edit-bill-button" href='.$routeEdit.' data-original-title="" title="">
                         <i class="material-icons">edit</i>
                         <div class="ripple-container"></div>
                             </a>
@@ -128,6 +115,7 @@ class BillController extends Controller
         $selected_id['third_party_id'] = $request->third_party_id;
         $selected_id['date_from'] = $request->date_from;
         $selected_id['date_to'] = $request->date_to;
+      
         return view('bills.index',compact('bills','type','page','selected_id','dbBillType'));
    
     }
@@ -159,7 +147,7 @@ class BillController extends Controller
         $parcels = Parcel::all()->where('parcel_category_id','=',1);
         $page = Bill::getTitleActivePageByTypeBill($type);
         $rooms =[];
-        $thirdParties = ThirdParty:: getThirdPartiesByBillType($type);
+        $thirdParties = ThirdParty:: getThirdPartiesByBillType($type,'create');
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
         return view('bills.create', compact('products','trucks','blocks','isSupplier',
                                     'page','type','parcels','rooms','thirdParties'));
@@ -235,15 +223,17 @@ class BillController extends Controller
      */
     public function edit($id, $type)
     {
-        $products = Product::all();
-        $trucks = Truck::all();
-        $blocks = Block::all();
-        $parcels = Parcel::all()->where('parcel_category_id','=',1);
+        $products = Product::pluck('name', 'id');
+        $trucks = Truck::pluck('registration', 'id');
+        $blocks = Block::pluck('name', 'id');
+        $parcels = Parcel::pluck('name', 'id')->where('parcel_category_id','=',1);
         $page = Bill::getTitleActivePageByTypeBill($type);
-        $rooms =[];
-        $thirdParties = ThirdParty:: getThirdPartiesByBillType($type);
+        
+        $thirdParties = ThirdParty:: getThirdPartiesByBillType($type, 'edit');
+        $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
         $bill = Bill::findOrFail($id);
-        return view('bills.edit', compact('products','trucks','blocks','bill',
+        $rooms =Room::where('block_id','=',$bill->block->id)->pluck('name', 'id');
+        return view('bills.edit', compact('products','trucks','blocks','bill','isSupplier',
                                     'page','type','parcels','rooms','thirdParties'));
     }
 
@@ -257,6 +247,53 @@ class BillController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $precedentBill = Bill::findOrFail($id);
+        $request->net_remaining = $request->net_payable;
+        $validatedData = Bill::getValidateDataByType($request);
+        $validatedData['net_remaining']=  $validatedData['net_payable'];
+        
+        
+        $type = (int)$request->bill_type ;
+        if($bill=Bill::whereId($id)->update($validatedData)){
+            if($type==BillTypeEnum::ExitBill){
+                $transactionBox = TransactionBox::where('bill_id','=',$id)->get();
+                if(!empty($transactionBox[0])){
+                $params = [
+                    'number_boxes_taken' => $request->number_boxes,
+                    'number_boxes_returned' => $request->number_boxes_returned,
+                    'transaction_date' => $request->bill_date,
+                    'bill_id' => $id,
+                    'third_party_id' => $request->third_party_id,
+                ]; 
+                $rules = [
+                    'transaction_date' => 'required',
+                    'third_party_id' => 'required',
+                ];
+                  //dd($request->all());
+                  $validator = Validator::make($params, $rules);
+                  if (!$validator->fails()) {
+                        TransactionBox::whereId($transactionBox[0]->id)->update($params);
+                  }
+                }
+                if(($bill->net_payable != $precedentBill->net_payable) ||
+                ($bill->third_party_id != $precedentBill->third_party_id)
+                    ){
+                        Bill::where('id', $id)->update(array('net_remaining' => $bill->net_payable));
+                        BillPayment::where('bill_id', $id)->delete();
+                    }
+                
+                
+            }
+            switch ($type){
+                case BillTypeEnum::EntryBill :
+                    return redirect('/bill/'.BillTypeEnum::EntryBill)->with('message',__('Entry bill successfully updated.'));
+                    break;
+                case BillTypeEnum::ExitBill :
+                    return redirect('/bill/'.BillTypeEnum::ExitBill)->with('message',__('Exit bill successfully updated.'));
+                    break; 
+            }
+        }
+
     }
 
     /**

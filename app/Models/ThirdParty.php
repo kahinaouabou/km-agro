@@ -25,16 +25,32 @@ class ThirdParty extends Model
         return $this->hasMany('App\Models\TransactionBox');
     } 
 
-    public static function getThirdPartiesByBillType($billType){
+    public static function getThirdPartiesByBillType($billType, $action){
         $thirdParties = [];
-        switch ($billType) {
-                case BillTypeEnum::EntryBill :
-                    $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Supplier);
-                    break;
-                case BillTypeEnum::ExitBill :
-                    $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Customer); 
-                    break;    
+        switch ($action) {
+            case 'create':
+                switch ($billType) {
+                    case BillTypeEnum::EntryBill :
+                        $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Supplier);
+                        break;
+                    case BillTypeEnum::ExitBill :
+                        $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Customer); 
+                        break;    
+                }
+            break;
+            case 'edit':
+                switch ($billType) {
+                    case BillTypeEnum::EntryBill :
+                        $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Supplier);
+                        break;
+                    case BillTypeEnum::ExitBill :
+                        $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Customer); 
+                        break;    
+                }
+            break ;   
+
         }
+       
         return $thirdParties;
 
     }

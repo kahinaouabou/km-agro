@@ -97,6 +97,7 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
+        
         ajax:{ 
         url :url,
         data: function (d) {
@@ -107,7 +108,21 @@
         },
         columns: [
             {data: 'reference', name: 'reference'},
-            {data: 'bill_date', name: 'bill_date' ,type:'date'},
+            {
+
+                data: 'bill_date',
+
+                type: 'num',
+
+                render: {
+
+                    _: 'display',
+
+                    sort: 'timestamp'
+
+                }
+
+                },
             {data: 'productName', name: 'productName'},
             {data: 'thirdPartyName', name: 'thirdPartyName'},
             {data: 'net_payable', name: 'net_payable'},
@@ -124,7 +139,7 @@
             // {data: 'unit_price', name: 'unit_price'},
              
             // {data: 'number_boxes_returned', name: 'number_boxes_returned'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+            {data: 'action', name: 'action', orderable: true, searchable: true},
         ],
         "createdRow": function ( row, data, index ) {
             if(index==0){
@@ -135,8 +150,6 @@
                 sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(data.net_remaining);
             }
             
-            console.log(data.net_remaining);
-            console.log(data.net_payable);
             $('#total-net-payable').html(sumNetPayable.toFixed(2));
             $('#total-net-remaining').html(sumNetRemaining.toFixed(2));
         },
@@ -206,6 +219,19 @@ $.ajax({
                 //console.log(table.rows('.selected').data()[i].id);
             }
     });
+    jQuery(document).on('click', '.edit-bill-button', function(e) {
+     
+        e.preventDefault();
+        
+        $('#alertMessage').addClass('show'); 
+        $('#alertMessage').css("display","block");
+        $('#alertMessage .modal-body').html("<p><?php echo __('Do you accepte that the association with the payment will be deleted ?') ?></p>");
+        $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
+      
+     } )
+
+      
+
     jQuery(document).on('click', '#addPaymentButton', function() {
      
       if(table.rows('.selected').data().length==0){
@@ -213,7 +239,7 @@ $.ajax({
         $('#alertMessage').css("display","block");
         $('#alertMessage .modal-body').html("<p><?php echo __('Select one row of table at least') ?></p>");
         
-      }else {
+      } else {
         let thirdPartyIds = [table.rows('.selected').data()[0].third_party_id];
         for(i=0;i<= table.rows('.selected').data().length-1;i++){
             let thirdPartyId = table.rows('.selected').data()[i].third_party_id;
@@ -246,5 +272,7 @@ $.ajax({
         } 
       }
   });
+
+
   });
 </script>

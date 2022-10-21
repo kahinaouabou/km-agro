@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
 });
+Route::resource('users', 'App\Http\Controllers\UserController')->middleware('auth');
 Route::resource('blocks', 'App\Http\Controllers\BlockController')->middleware('auth');
 Route::resource('warehouses', 'App\Http\Controllers\WarehouseController')->middleware('auth');	
 Route::group(['middleware' => 'auth'], function () {

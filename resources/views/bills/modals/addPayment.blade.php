@@ -88,7 +88,7 @@
         
       </div>
       <div class="modal-footer">
-        <button type="submit" id="add-payment-button" class="btn btn-primary">{{ __('Save') }}</button>
+        <button type="button" id="add-payment-button" class="btn btn-primary">{{ __('Save') }}</button>
         <button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __('Close') }}</button>
       </div>
       </form>

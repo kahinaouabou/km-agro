@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content" >
         <div class="modal-header">
-                <h4 class="modal-title">{{__("Add payment")}}</h4>
+                <h4 class="modal-title">{{__("Alert")}}</h4>
                 <button type="button" class="close quick-close" data-dismiss="modal">
                   <span>&times;</span>
                 </button>            
@@ -13,7 +13,7 @@
                  
         
         </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id='modal-footer'>
         <button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __('Close') }}</button>
       </div>
     </div>
@@ -24,5 +24,11 @@
         $('#alertMessage').removeClass('show'); 
         $('#alertMessage').css("display","none");
   });
+  
+  jQuery(document).on('click', '#accept-button', function() {
+        let href = $('.edit-bill-button').attr('href');
+        console.log(href);
+        window.location.href = href;
+    }) 
 </script>     
       

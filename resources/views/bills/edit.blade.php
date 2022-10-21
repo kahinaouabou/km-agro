@@ -6,9 +6,9 @@
       <div class="row">
         <div class="col-md-12">
           
-          <form method="post" action="{{ route('bills.update', $bill->id)}}" autocomplete="off" class="form-horizontal">
+        <form method="POST" action="{{ route('bills.update', $bill->id) }}" class="form-horizontal">
             @csrf
-            @method('post')
+            @method('PUT')
             <div class="card ">
               <div class="card-header card-header-primary">
                 <h4 class="card-title ">{{__($page['titleCard'])}}</h4>
@@ -16,10 +16,10 @@
               </div>
               @switch($type)
                 @case (\App\Enums\BillTypeEnum::EntryBill)
-                  @include('bills.updateEntryBill')
+                  @include('bills.editEntryBill')
                 @break
                 @case (\App\Enums\BillTypeEnum::ExitBill)
-                  @include('bills.updateExitBill')
+                  @include('bills.editExitBill')
                 @break
               @endswitch
               <div class="card-footer ml-auto mr-auto">
@@ -35,7 +35,4 @@
     </div>
   </div>
 @endsection
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
 

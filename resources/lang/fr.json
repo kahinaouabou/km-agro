@@ -154,6 +154,8 @@
 "Date from": "Date de",
 "Date to":"Date à",
 "Select one row of table at least" :"Sélectionnez au moins une ligne du tableau.",
+"Select one customer":"Veuillez sélectionner un client",
+"Do you accepte that the association with the payment will be deleted ?":"Acceptez-vous que l'association avec le paiement soit supprimée",
 "Add payment":"Ajouter paiement",
 "Amount":"Montant",
 "Payment":"Paiement",
@@ -178,5 +180,8 @@
 "Payment amount":"Montant paiement",
 "Net paid":"Net payé",
 "Print PDF":"Imprimer PDF",
-"Bill":"Bon"
+"Bill":"Bon",
+"Welcome to HAOUCHINE FILAHA":"Bienvenue à HAOUCHINE FILAHA",
+"Log in to  HAOUCHINE FILAHA": "Connectez-vous à HAOUCHINE FILAHA",
+"Alert":"Alerte"
 }

@@ -51,25 +51,16 @@ class Bill extends Model
     protected $casts  = [
 
         'type' => BillTypeEnum::class,
-        'bill_date' => 'datetime',
+        'bill_date' => 'datetime:d/m/Y',
         'weight_discount_percentage' => 0,
         'discount_value' => 0,
         'number_boxes_returned' => 0,
 
     ];
  
-    
     use HasFactory;
 
-    public function serializeDate($date){
-        if($date != null){
-            Carbon::parse($date)->format('Y-m-d H:i:s');
-        }else {
-            $date =null;
-        }
-        
-         return $date;
-    }
+   
     /**
      * 
      * @param tinyint $type

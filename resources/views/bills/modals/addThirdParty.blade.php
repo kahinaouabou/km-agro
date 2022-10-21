@@ -12,8 +12,7 @@
                 </button>            
             </div>
             <form id="add-third-party-form"   autocomplete="off" class="form-horizontal">
-            @csrf
-            @method('post')
+           
                 <div class="modal-body">
                     <div class="row">
                     <label class="col-sm-2 col-form-label">{{ __('Code') }}</label>
@@ -55,7 +54,7 @@
             
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="add-third-party-button" class="btn btn-primary">{{ __('Save') }}</button>
+                    <button type="button" id="add-third-party-button" class="btn btn-primary">{{ __('Save') }}</button>
                     <button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __('Close') }}</button>
                 </div>
             </form>
