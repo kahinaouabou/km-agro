@@ -79,18 +79,19 @@ jQuery(document ).ready(function(){
     
   if (jQuery('#input-net').val() != '' && jQuery('#input-unit-price').val() != '' ){
   let netPayable = parseFloat(net)*parseFloat(unitPrice);
-  jQuery("#input-net-payable").val(netPayable);
+  jQuery("#input-net-payable").val(netPayable.toFixed(2));
   }
  
   }
   function calculateNetValueWithWeightDiscountPercentage (){
-    
-    if(jQuery('#input-net').val() != '' && jQuery('#input-weight-discount-percentage').val() != ''){
             let net = jQuery('#input-net').val();
             let weightDiscountPercentage = jQuery('#input-weight-discount-percentage').val();
+    if(jQuery('#input-net').val() != '' && jQuery('#input-weight-discount-percentage').val() != ''){
+            
             let weightDiscount = (parseFloat(net)* parseFloat(weightDiscountPercentage))/100;
             net = net -weightDiscount ;
-            jQuery("#input-net").val(net);
+            console.log(net);
+            jQuery("#input-net").val(net.toFixed(2));
     }
   }
 
@@ -99,7 +100,7 @@ jQuery(document ).ready(function(){
         let netPayable = jQuery('#input-net-payable').val();
         let discountValue = jQuery('#input-discount-value').val();
         netPayable = netPayable - discountValue;
-        jQuery("#input-net-payable").val(netPayable);
+        jQuery("#input-net-payable").val(netPayable.toFixed(2));
     }
   }
 
@@ -108,7 +109,7 @@ jQuery(document ).ready(function(){
       let amountPayable = jQuery('#input-amount-payable').val();
       let amount = jQuery('#input-amount').val();
       let remaining = amountPayable - amount;
-      jQuery("#input-remaining").val(remaining);
+      jQuery("#input-remaining").val(remaining.toFixed(2));
   }
   }
 

@@ -42,6 +42,16 @@
                                                 'id' =>'input-amount',
                                                 'required' => true,
                                                 ]) !!}
+                                                {!! Form::number('payment_type', 1, [
+                                                'class' => 'form-control',
+                                                'step' => '0.1',
+                                                'required' => true,
+                                                ]) !!} 
+                                                {!! Form::number('third_party_id', 1, [
+                                                'class' => 'form-control',
+                                                'step' => '0.1',
+                                                'required' => true,
+                                                ]) !!}                             
                     </div>
                   </div>
                 </div>  

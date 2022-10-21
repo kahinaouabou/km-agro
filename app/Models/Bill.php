@@ -57,6 +57,16 @@ class Bill extends Model
         'number_boxes_returned' => 0,
 
     ];
+
+    public function serializeDate($date){
+        if($date != null){
+            Carbon::parse($date)->format('Y-m-d');
+        }else {
+            $date =null;
+        }
+        
+         return $date;
+    }
  
     use HasFactory;
 

@@ -195,7 +195,7 @@ $.ajax({
             console.log(response);
           $('#addPayment').modal('hide');
           $('#addPayment').css("display","none");
-          window.location.reload();
+         // window.location.reload();
         }
       },
       error: function(error) {

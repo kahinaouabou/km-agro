@@ -17,7 +17,7 @@ class Payment extends Model
     }
     
     protected $casts  = [
-        'payment_date' => 'datetime',
+        'payment_date' => 'date:d/m/Y',
 
     ];
  
@@ -26,7 +26,7 @@ class Payment extends Model
 
     public function serializeDate($date){
         if($date != null){
-            Carbon::parse($date)->format('Y-m-d H:i:s');
+            Carbon::parse($date)->format('Y-m-d');
         }else {
             $date =null;
         }

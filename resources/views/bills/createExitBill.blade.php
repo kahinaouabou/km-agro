@@ -170,7 +170,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.1',
                                                 'id' =>'input-weight-discount-percentage',
-                                                'onchange'=>'calculateNetValueWithWeightDiscountPercentage(this.value)',
+                                                'foucusout'=>'calculateNetValueWithWeightDiscountPercentage(this.value)',
                                                 
                                                 ]) !!}
                     </div>

@@ -101,18 +101,18 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-           $validator = Validator::make($request->all(),[
+       
+
+            $validatedData = $request->validate([
+                
                'reference' => 'required|min:3',
                'third_party_id' => 'required',
                'amount' => 'required',
                'payment_type' => 'required',
                'payment_date' => 'required',
-           ]);
-           if($validator->failed()){
-             return response()->json(['errors'=>$validator->errors()->all()]);
-           }else {
-        
-        $payment = Payment::create($request->all());
+            ]);
+        $payment = Payment::create($validatedData);
+       
            $billIds = JSON_decode($request->billIds);
            
             $bills = Bill::whereIn('id', $billIds)
@@ -147,7 +147,7 @@ class PaymentController extends Controller
             }
                        
             return response()->json(['success'=>$bills]);
-          }
+          
           
         //  
        
