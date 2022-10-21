@@ -81,7 +81,15 @@ class BillController extends Controller
                 
                 ->setTotalRecords($count)
                     ->addIndexColumn()
-                   
+                    ->editColumn('raw', function($row) {
+                        return number_format($row->raw, 0, ',', ' ');
+                    })
+                    ->editColumn('tare', function($row) {
+                        return number_format($row->raw, 0, ',', ' ');
+                    })
+                    ->editColumn('net', function($row) {
+                        return number_format($row->raw, 0, ',', ' ');
+                    })
                     ->addColumn('action', function($row) use ($type){
                         $routeEdit =  route("bills.edit", [$row->id,$row->bill_type]) ;
                         $routeDelete = route("bills.destroy", $row->id);

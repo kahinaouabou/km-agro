@@ -108,23 +108,9 @@
         },
         columns: [
             {data: 'reference', name: 'reference'},
-            {
-
-                data: 'bill_date',
-
-                type: 'num',
-
-                render: {
-
-                    _: 'display',
-
-                    sort: 'timestamp'
-
-                }
-
-                },
-            {data: 'productName', name: 'productName'},
-            {data: 'thirdPartyName', name: 'thirdPartyName'},
+            {data: 'bill_date', name: 'bill_date' ,stype:'eu_date'},
+            {data: 'productName', name: 'Product.name'},
+            {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'net_payable', name: 'net_payable'},
             {data: 'net_remaining', name: 'net_remaining'},
             {data: 'net_paid', name: 'net_paid'},
@@ -141,6 +127,18 @@
             // {data: 'number_boxes_returned', name: 'number_boxes_returned'},
             {data: 'action', name: 'action', orderable: true, searchable: true},
         ],
+        "columnDefs":[
+            { targets: 1,
+                render: function ( data, type, row ) {
+                var datetime = moment(data, 'YYYY-MM-DD');
+                var displayString = moment(datetime).format('DD/MM/YYYY');
+                if ( type === 'display' || type === 'filter' ) {
+                    return displayString;
+                } else {
+                    return datetime;
+                }
+                }
+            }],
         "createdRow": function ( row, data, index ) {
             if(index==0){
                 sumNetPayable=  parseFloat(data.net_payable);

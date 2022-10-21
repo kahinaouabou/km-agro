@@ -82,7 +82,7 @@
         columns: [
             {data: 'reference', name: 'reference'},
             {data: 'bill_date', name: 'bill_date' ,stype:'eu_date'},
-            {data: 'productName', name: 'Product.name'},
+            {data: 'productName', name: 'Product.name', searchable: true},
             {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'blockName', name: 'Block.name'},
             {data: 'roomName', name: 'Room.name'},
@@ -94,17 +94,17 @@
             {data: 'action', name: 'action', orderable: false, searchable: true},
         ],
         "columnDefs":[
-  { targets: 1,
-    render: function ( data, type, row ) {
-      var datetime = moment(data, 'YYYY-MM-DD');
-      var displayString = moment(datetime).format('DD/MM/YYYY');
-      if ( type === 'display' || type === 'filter' ) {
-        return displayString;
-      } else {
-        return datetime;
-      }
-    }
-  }]
+            { targets: 1,
+                render: function ( data, type, row ) {
+                var datetime = moment(data, 'YYYY-MM-DD');
+                var displayString = moment(datetime).format('DD/MM/YYYY');
+                if ( type === 'display' || type === 'filter' ) {
+                    return displayString;
+                } else {
+                    return datetime;
+                }
+                }
+            }]
       
     });
 
