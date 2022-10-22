@@ -172,6 +172,18 @@ class BillController extends Controller
         $request->net_remaining = $request->net_payable;
         $validatedData = Bill::getValidateDataByType($request);
         $validatedData['net_remaining']=  $validatedData['net_payable'];
+        if($validatedData['number_boxes_returned']==Null){
+            $validatedData['number_boxes_returned']=0; 
+        }
+        if($validatedData['weight_discount_percentage']==Null){
+            $validatedData['weight_discount_percentage']=0; 
+        }
+        if($validatedData['discount_value']==Null){
+            $validatedData['discount_value']=0; 
+        }
+        if($validatedData['net_weight_discount']==Null){
+            $validatedData['net_weight_discount']=0; 
+        }
         
         //dd($request);
         $type = (int)$request->bill_type ;
@@ -180,7 +192,7 @@ class BillController extends Controller
                 $transactionBoxesRequest = new TransactionBoxRequest();
                 $params = [
                     'number_boxes_taken' => $request->number_boxes,
-                    'number_boxes_returned' => $request->number_boxes_returned,
+                    'number_boxes_returned' => $validatedData['number_boxes_returned'],
                     'transaction_date' => $request->bill_date,
                     'bill_id' => $bill->id,
                     'third_party_id' => $request->third_party_id,
