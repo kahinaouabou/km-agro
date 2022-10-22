@@ -156,7 +156,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '1',
                                                 'id' =>'input-net',
-                                                'onchange'=>'calculateNetPayableValue(this.value)',
+                                                //'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
                                                 ]) !!}
                     </div>
@@ -170,8 +170,21 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.1',
                                                 'id' =>'input-weight-discount-percentage',
-                                                'foucusout'=>'calculateNetValueWithWeightDiscountPercentage(this.value)',
                                                 
+                                                ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Net with weight discount') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('net_weight_discount', null, [
+                                                'class' => 'form-control',
+                                                'step' => '0.01',
+                                                'id' =>'input-net-weight-discount',
+                                                //'onchange'=>'calculateNetPayableValue(this.value)',
+                                                'required' => true
                                                 ]) !!}
                     </div>
                   </div>
@@ -184,7 +197,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.1',
                                                 'id' =>'input-unit-price',
-                                                'onchange'=>'calculateNetPayableValue(this.value)',
+                                                //'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
                                                 ]) !!}
                     </div>
@@ -198,7 +211,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.1',
                                                 'id' =>'input-discount-value',
-                                                'onchange'=>'calculateNetPayableValueWithDiscountValue(this.value)',
+                                                //'onchange'=>'calculateNetPayableValueWithDiscountValue(this.value)',
                                                 
                                                 ]) !!}
                     </div>
@@ -246,12 +259,14 @@
         });
 jQuery(document).on('click', '#addThirdPartyButton', function() {
           $('#addThirdParty').appendTo("body").modal('show');
-
+          $('#input-name').attr('required',true);
+          
             // $('#addThirdParty').addClass('show'); 
             // $('#addThirdParty').css("display","block");
       });
 jQuery(document).on('click', '#addTruckButton', function() {
           $('#addTruck').appendTo("body").modal('show');
+          $('#input-registration').attr('required',true);
 
       }); 
 
@@ -297,6 +312,7 @@ $.ajax({
             $('#addThirdParty').appendTo("body").modal('hide');
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
+            $('#input-name').removeAttr('required');
         }
       },
       error: function(error) {
@@ -348,6 +364,7 @@ $.ajax({
             $('#addTruck').appendTo("body").modal('hide');
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
+            $('#input-registration').removeAttr('required');
         }
       },
       error: function(error) {

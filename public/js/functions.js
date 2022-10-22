@@ -40,9 +40,41 @@ jQuery(document ).ready(function(){
                   });
       }) ;
 
+      $("#input-weight-discount-percentage").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
 
-   
+      $("#input-weight-discount-percentage").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateNetValueWithWeightDiscountPercentage();
+      })
 
+      $("#input-net").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
+
+      $("#input-net").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateNetPayableValue();
+      })
+
+      $("#input-unit-price").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
+
+      $("#input-unit-price").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateNetPayableValue();
+      })
+
+      $("#input-discount-value").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
+
+      $("#input-discount-value").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateNetPayableValueWithDiscountValue();
+      })
     
   
     
@@ -69,11 +101,12 @@ jQuery(document ).ready(function(){
     if (jQuery('#input-number-boxes').val() != '' && jQuery('#input-raw').val() != '' && jQuery('#input-tare').val() != ''){
     let net = parseFloat(raw)-parseFloat(tare)-(parseInt(numberBoxes)*2);
     jQuery("#input-net").val(net);
+    jQuery("#input-net-weight-discount").val(net);
     } 
   }
   
   function calculateNetPayableValue(){
-    let net = jQuery('#input-net').val();
+    let net = jQuery('#input-net-weight-discount').val();
       
     let unitPrice = jQuery('#input-unit-price').val();
     
@@ -86,12 +119,13 @@ jQuery(document ).ready(function(){
   function calculateNetValueWithWeightDiscountPercentage (){
             let net = jQuery('#input-net').val();
             let weightDiscountPercentage = jQuery('#input-weight-discount-percentage').val();
+           
     if(jQuery('#input-net').val() != '' && jQuery('#input-weight-discount-percentage').val() != ''){
             
             let weightDiscount = (parseFloat(net)* parseFloat(weightDiscountPercentage))/100;
             net = net -weightDiscount ;
             console.log(net);
-            jQuery("#input-net").val(net.toFixed(2));
+            jQuery("#input-net-weight-discount").val(net.toFixed(2));
     }
   }
 

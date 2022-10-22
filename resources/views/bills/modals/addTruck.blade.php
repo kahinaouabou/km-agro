@@ -14,7 +14,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('registration') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('registration') ? ' is-invalid' : '' }}" name="registration" id="input-registration" type="text" placeholder="{{ __('Registration') }}" required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('registration') ? ' is-invalid' : '' }}" name="registration" id="input-registration" type="text" placeholder="{{ __('Registration') }}"  aria-required="true"/>
                       @if ($errors->has('registration'))
                         <span id="registration-error" class="error text-danger" for="input-registration">{{ $errors->first('registration') }}</span>
                       @endif
@@ -74,6 +74,7 @@
   jQuery(document).on('click', '.quick-close', function() {
         $('#addTruck').removeClass('show'); 
         $('#addTruck').css("display","none");
+        $('#input-registration').removeAttr('required');
   });
  
 
