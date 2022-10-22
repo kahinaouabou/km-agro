@@ -186,7 +186,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Net with weight discount') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
-                    {!! Form::number('net_weight_discount', null, [
+                    {!! Form::number('net_weight_discount', $bill->net_weight_discount, [
                                                 'class' => 'form-control',
                                                 'step' => '0.01',
                                                 'id' =>'input-net-weight-discount',
