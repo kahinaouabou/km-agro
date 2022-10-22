@@ -29,3 +29,29 @@
     font-size: 14px !important;
     line-height: 17px !important;
 }
+.card {
+    font-size: .75rem !important;
+  }
+  table.dataTable thead .sorting {
+    background-image:none !important;
+  } 
+
+  .table thead tr th {
+    font-size: .85rem !important;
+    text-align: center !important;
+  }
+
+  table.dataTable thead .sorting::before{
+    content: none !important;
+  }
+  table.dataTable thead .sorting::after{
+    content: none !important;
+  }
+
+  table.dataTable tbody tr {
+    text-align: center !important;
+  }
+  .btn-action {
+    padding: 0px !important;
+    margin:0px !important;
+  }

@@ -113,7 +113,7 @@
             {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'net_payable', name: 'net_payable'},
             {data: 'net_remaining', name: 'net_remaining'},
-            {data: 'net_paid', name: 'net_paid'},
+            {data: 'net_paid', name: 'net_payable'},
             //  {data: 'block_id', name: 'block_id'},
             // {data: 'room_id', name: 'room_id'},
             // 

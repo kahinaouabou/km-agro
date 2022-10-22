@@ -3,7 +3,7 @@
                   <thead class=" text-primary">
                     <tr>
                     <th>  
-                        {{ __('Reference')}}
+                        {{ __('Ref.')}}
                     </th>
                     <th>
                         {{__('Date')}} 
@@ -19,7 +19,7 @@
                         {{__('Block')}} 
                     </th>
                     <th>
-                        {{__('Room')}} 
+                        {{__('Ch')}} 
                     </th>
                     
                     <th>
@@ -97,7 +97,7 @@
             { targets: 1,
                 render: function ( data, type, row ) {
                 var datetime = moment(data, 'YYYY-MM-DD');
-                var displayString = moment(datetime).format('DD/MM/YYYY');
+                var displayString = moment(datetime).format('DD/MM/YY');
                 if ( type === 'display' || type === 'filter' ) {
                     return displayString;
                 } else {
@@ -105,6 +105,7 @@
                 }
                 }
             }]
+         
       
     });
 

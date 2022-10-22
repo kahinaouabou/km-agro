@@ -90,20 +90,32 @@ class BillController extends Controller
                     ->editColumn('net', function($row) {
                         return number_format($row->raw, 0, ',', ' ');
                     })
+                    ->editColumn('number_boxes', function($row) {
+                        return number_format($row->number_boxes, 0, ',', ' ');
+                    })
+                    ->editColumn('net_payable', function($row) {
+                        return number_format($row->number_boxes, 2, ',', ' ');
+                    })
+                    ->editColumn('net_remaining', function($row) {
+                        return number_format($row->net_remaining, 2, ',', ' ');
+                    })
+                    ->editColumn('net_paid', function($row) {
+                        return number_format($row->net_paid, 2, ',', ' ');
+                    })
                     ->addColumn('action', function($row) use ($type){
                         $routeEdit =  route("bills.edit", [$row->id,$row->bill_type]) ;
                         $routeDelete = route("bills.destroy", $row->id);
                         $routePrint = route("bills.printBill", [$row->id,$type ]);
                         $idDestroy = "destroy".$row->id;
-                        $btn ='<a rel="tooltip" class="btn btn-success btn-link edit-bill-button" href='.$routeEdit.' data-original-title="" title="">
+                        $btn ='<a rel="tooltip" class="btn btn-action btn-success btn-link edit-bill-button" href='.$routeEdit.' data-original-title="" title="">
                         <i class="material-icons">edit</i>
                         <div class="ripple-container"></div>
                             </a>
-                            <a rel="tooltip" class="btn btn-warning btn-link" href='.$routePrint.' data-original-title="" title="" target="_blank">
+                            <a rel="tooltip" class="btn btn-action btn-warning btn-link" href='.$routePrint.' data-original-title="" title="" target="_blank">
                         <i class="material-icons">print</i>
                         <div class="ripple-container"></div>
                             </a>
-                        <a rel="tooltip" class="btn btn-danger btn-link"
+                        <a rel="tooltip" class="btn btn-action btn-danger btn-link"
                         onclick="event.preventDefault(); document.getElementById('.$idDestroy.').submit();" data-original-title="" title="">
                         <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>  
@@ -295,8 +307,9 @@ class BillController extends Controller
                         TransactionBox::whereId($transactionBox[0]->id)->update($params);
                   }
                 }
-                if(($bill->net_payable != $precedentBill->net_payable) ||
-                ($bill->third_party_id != $precedentBill->third_party_id)
+                $actualBill = Bill::findOrFail($id);
+                if(($actualBill->net_payable != $precedentBill->net_payable) ||
+                ($actualBill->third_party_id != $precedentBill->third_party_id)
                     ){
                         Bill::where('id', $id)->update(array('net_remaining' => $bill->net_payable));
                         BillPayment::where('bill_id', $id)->delete();
