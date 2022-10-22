@@ -174,7 +174,7 @@
                     <div class="form-group">
                     {!! Form::number('weight_discount_percentage', $bill->weight_discount_percentage, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-weight-discount-percentage',
                                                 'onchange'=>'calculateNetValueWithWeightDiscountPercentage(this.value)',
                                                 
@@ -202,7 +202,7 @@
                     <div class="form-group">
                     {!! Form::number('unit_price', $bill->unit_price, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-unit-price',
                                                 'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
@@ -216,7 +216,7 @@
                     <div class="form-group">
                     {!! Form::number('discount_value', $bill->discount_value, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-discount-value',
                                                 'onchange'=>'calculateNetPayableValueWithDiscountValue(this.value)',
                                                 
@@ -230,7 +230,7 @@
                     <div class="form-group">
                     {!! Form::number('net_payable', $bill->net_payable, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-net-payable',
                                                 'required' => true
                                                 ]) !!}

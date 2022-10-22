@@ -43,7 +43,7 @@ class Bill extends Model
     }
     protected $fillable  = ['reference','bill_date','bill_type','product_id','truck_id',
                             'origin','parcel_id','third_party_id','block_id','room_id',
-                            'number_boxes','raw','tare','net',
+                            'number_boxes','raw','tare','net','net_weight_discount',
                             'weight_discount_percentage','unit_price','discount_value',
                             'net_payable','net_remaining','number_boxes_returned'];
     protected $table = 'bills';
@@ -141,6 +141,7 @@ class Bill extends Model
                     'number_boxes_returned' => 'nullable',           
                     'weight_discount_percentage' => 'nullable',
                     'discount_value' => 'nullable',
+                    'net_weight_discount' => 'nullable',
                 ]);
                 break;
             default :
