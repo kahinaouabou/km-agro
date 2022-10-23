@@ -32,7 +32,18 @@ class ThirdPartyController extends Controller
         return view('thirdParties.index',compact('thirdParties','isSupplier','activePage','titlePage'));
     }
 
+   public function searchName(Request $request){
+    
+    $term = strtolower($request->name);
+    $term=trim($term);
+    dd($term);
+    $thirdParty = ThirdParty::whereRaw('lower(TRIM(name)) like (?)',["{$term}"])->get();
    
+    return response()->json([
+        'thirdParty'=>$thirdParty
+         ]);
+        
+   }
 
     /**
      * Show the form for creating a new resource.

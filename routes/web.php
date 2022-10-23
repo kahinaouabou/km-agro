@@ -70,6 +70,7 @@ Route::resource('parcels', 'App\Http\Controllers\ParcelController')->middleware(
 Route::resource('marks', 'App\Http\Controllers\MarkController')->middleware('auth');
 Route::resource('trucks', 'App\Http\Controllers\TruckController')->middleware('auth');
 Route::resource('thirdParties', 'App\Http\Controllers\ThirdPartyController')->middleware('auth');
+Route::get('thirdParty/searchName', 'App\Http\Controllers\ThirdPartyController@searchName')->name('thirdParties.searchName')->middleware('auth');
 Route::get('thirdParty/{isSupplier}', 'App\Http\Controllers\ThirdPartyController@index')->name('thirdParties')->middleware('auth');
 Route::get('thirdParties/{isSupplier}/create', 'App\Http\Controllers\ThirdPartyController@create')->name('thirdParties.create')->middleware('auth');
 Route::get('thirdParties/{thirdParty}/{isSupplier}/edit', 'App\Http\Controllers\ThirdPartyController@edit')->name('thirdParties.edit')->middleware('auth');

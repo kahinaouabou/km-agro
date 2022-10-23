@@ -11,7 +11,7 @@
           
                 <div class="modal-body">
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
+                  <label class="col-sm-3 col-form-label">{{ __('Registration') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('registration') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('registration') ? ' is-invalid' : '' }}" name="registration" id="input-registration" type="text" placeholder="{{ __('Registration') }}"  aria-required="true"/>
@@ -21,42 +21,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Model') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('model') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('model') ? ' is-invalid' : '' }}" name="model" id="input-model" type="text" placeholder="{{ __('Model') }}"   aria-required="true"/>
-                      @if ($errors->has('model'))
-                        <span id="model-error" class="error text-danger" for="input-model">{{ $errors->first('model') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Tare') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('tare', null, [
-                                                    'class' => 'form-control',
-                                                    'id'=>'input-tare-truck',
-                                                    'step' => '0.1',
-                                                    ]) !!}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Marks') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('mark_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('mark_id') ? ' is-invalid' : '' }}" name="mark_id" id="input-mark" type="select" placeholder="{{ __('Mark') }}" required >
-                      <option value="">{{ __('Select mark') }}</option>
-                        @foreach(\App\Models\Mark::select('id','name')->get() as $mark)
-                        <option value="{{ $mark->id }}" >{{ $mark->name }}</option>
-                        @endforeach
-                    </select>
-                    </div>
-                  </div>
-                </div>
+             
+             
+            
                 
             
                 </div>

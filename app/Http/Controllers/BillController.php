@@ -85,16 +85,16 @@ class BillController extends Controller
                         return number_format($row->raw, 0, ',', ' ');
                     })
                     ->editColumn('tare', function($row) {
-                        return number_format($row->raw, 0, ',', ' ');
+                        return number_format($row->tare, 0, ',', ' ');
                     })
                     ->editColumn('net', function($row) {
-                        return number_format($row->raw, 0, ',', ' ');
+                        return number_format($row->net, 0, ',', ' ');
                     })
                     ->editColumn('number_boxes', function($row) {
                         return number_format($row->number_boxes, 0, ',', ' ');
                     })
                     ->editColumn('net_payable', function($row) {
-                        return number_format($row->number_boxes, 2, ',', ' ');
+                        return number_format($row->net_payable, 2, ',', ' ');
                     })
                     ->editColumn('net_remaining', function($row) {
                         return number_format($row->net_remaining, 2, ',', ' ');
