@@ -73,7 +73,13 @@
                 {!! Form::number('sum_net_remaining', 0, [
                                 'id'=>'input-sum-net-remaining',
                                 'hidden' => true
-                                  ]) !!}                                     
+                                  ]) !!}  
+                                  
+                {!! Form::text('href', null, [
+                                  'id'=>'input-href',
+                                  'hidden' => true
+                                  ]) !!}                  
+
                                   
                                   
 
@@ -141,15 +147,18 @@
             }],
         "createdRow": function ( row, data, index ) {
             if(index==0){
-                sumNetPayable=  parseFloat(data.net_payable);
-                sumNetRemaining =  parseFloat(data.net_remaining);
+                sumNetPayable=  parseFloat(data.net_payable.replace(/ /g, ''));
+                sumNetRemaining =  parseFloat(data.net_remaining.replace(/ /g, ''));
             }else {
-                sumNetPayable= parseFloat(sumNetPayable) + parseFloat(data.net_payable);
-                sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(data.net_remaining);
+                sumNetPayable= parseFloat(sumNetPayable) + parseFloat(data.net_payable.replace(/ /g, ''));
+                sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(data.net_remaining.replace(/ /g, ''));
             }
-            
-            $('#total-net-payable').html(sumNetPayable.toFixed(2));
-            $('#total-net-remaining').html(sumNetRemaining.toFixed(2));
+            sumNetPayable = sumNetPayable.toFixed(2);
+            sumNetRemaining = sumNetRemaining.toFixed(2);
+            ;
+            console.log(sumNetPayable);
+            $('#total-net-payable').html(new Intl.NumberFormat().format(sumNetPayable));
+            $('#total-net-remaining').html(new Intl.NumberFormat().format(sumNetRemaining));
         },
        
     });
@@ -221,13 +230,14 @@ $.ajax({
     jQuery(document).on('click', '.edit-bill-button', function(e) {
      
         e.preventDefault();
-        
+        let href = $(this).attr('href');
+        $('#input-href').val(href);
+        console.log(href);
         $('#alertMessage').addClass('show'); 
         $('#alertMessage').css("display","block");
         $('#alertMessage .modal-body').html("<p><?php echo __('Do you accepte that the association with the payment will be deleted ?') ?></p>");
         $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
-      
-     } )
+     })
 
       
 
@@ -260,9 +270,10 @@ $.ajax({
             let sumNetRemaining = 0;
             for(i=0;i<= table.rows('.selected').data().length-1;i++){
                 billIds.push(table.rows('.selected').data()[i].id);
-                let netPayable = table.rows('.selected').data()[i].net_payable;
+                let netPayable = table.rows('.selected').data()[i].net_payable.replace(/ /g, '');
+                console.log(parseFloat(netPayable));
                 sumNetPayable =  parseFloat(sumNetPayable)+parseFloat(netPayable);
-                let netRemaining = table.rows('.selected').data()[i].net_remaining;
+                let netRemaining = table.rows('.selected').data()[i].net_remaining.replace(/ /g, '');
                 sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(netRemaining);
                 console.log(sumNetRemaining);
             }

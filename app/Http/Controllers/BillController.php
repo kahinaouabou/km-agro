@@ -96,9 +96,9 @@ class BillController extends Controller
                     ->editColumn('net_payable', function($row) {
                         return number_format($row->net_payable, 2, ',', ' ');
                     })
-                    // ->editColumn('net_remaining', function($row) {
-                    //     return number_format($row->net_remaining, 2, ',', ' ');
-                    // })
+                    ->editColumn('net_remaining', function($row) {
+                        return number_format($row->net_remaining, 2, ',', ' ');
+                    })
                     ->editColumn('net_paid', function($row) {
                         return number_format($row->net_paid, 2, ',', ' ');
                     })

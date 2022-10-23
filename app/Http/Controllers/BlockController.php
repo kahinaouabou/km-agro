@@ -20,6 +20,17 @@ class BlockController extends Controller
         $blocks = Block:: paginate(15);
         return view('blocks.index',compact('blocks'));    
     }
+    public function all()
+    {
+        $blocks = Block:: paginate(15);
+        $columns =  [
+        ];
+        return response()->json([
+            'columns'=>$columns,
+            'rows'=>$blocks
+            
+             ]);  
+    }
 
     /**
      * Show the form for creating a new resource.

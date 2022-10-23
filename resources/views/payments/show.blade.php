@@ -45,19 +45,19 @@
                     <tbody>
                       @foreach($paymentBills as $paymentBill)
                           <tr>
-                              <td>
+                              <td align="center">
                                   {{ $paymentBill->bill->reference }}
                               </td>
-                              <td>
+                              <td align="center">
                                   {{ $paymentBill->bill->bill_date->format('d/m/Y') }}
                               </td>
-                              <td>
+                              <td align="center">
                                   {{ number_format($paymentBill->bill->net_payable, 2, ',', ' ')}}
                               </td>
-                              <td>
+                              <td align="center">
                                   {{ number_format($paymentBill->amount_paid, 2, ',', ' ')}}
                               </td>
-                              <td>
+                              <td align="center">
                                   {{ number_format($paymentBill->bill->net_remaining, 2, ',', ' ')}}
                               </td>
                           </tr>

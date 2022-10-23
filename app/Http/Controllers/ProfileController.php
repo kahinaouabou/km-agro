@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -43,4 +44,6 @@ class ProfileController extends Controller
 
         return back()->withStatusPassword(__('Password successfully updated.'));
     }
+
+   
 }

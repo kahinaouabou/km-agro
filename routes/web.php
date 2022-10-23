@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::resource('users', 'App\Http\Controllers\UserController')->middleware('auth');
 Route::resource('blocks', 'App\Http\Controllers\BlockController')->middleware('auth');
+
+Route::get('block/all', 'App\Http\Controllers\BlockController@all')->name('blocks.all');
+
 Route::resource('warehouses', 'App\Http\Controllers\WarehouseController')->middleware('auth');	
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);

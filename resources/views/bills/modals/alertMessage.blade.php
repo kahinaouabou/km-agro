@@ -10,7 +10,7 @@
       
         <div class="modal-body">
         
-                 
+       
         
         </div>
       <div class="modal-footer" id='modal-footer'>
@@ -26,7 +26,7 @@
   });
   
   jQuery(document).on('click', '#accept-button', function() {
-        let href = $('.edit-bill-button').attr('href');
+        let href = $('#input-href').val();
         console.log(href);
         window.location.href = href;
     }) 
