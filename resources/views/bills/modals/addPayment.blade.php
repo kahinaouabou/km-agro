@@ -41,6 +41,7 @@
                     <div class="form-group">
                     {!! Form::number('amount_payable', null, [
                                                 'class' => 'form-control',
+                                                'step' => '0.01',
                                                 'id' =>'input-amount-payable',
                                                 'readonly'=>true
                                                 ]) !!}
@@ -53,7 +54,7 @@
                     <div class="form-group">
                     {!! Form::number('amount', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-amount',
                                                 'onchange'=>'calculateRemainingValue(this.value)',
                                                 'required' => true,
@@ -67,7 +68,7 @@
                     <div class="form-group">
                     {!! Form::number('remaining', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-remaining',
                                                 'required' => true,
                                                 ]) !!}

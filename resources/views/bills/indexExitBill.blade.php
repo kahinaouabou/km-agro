@@ -264,6 +264,7 @@ $.ajax({
                 sumNetPayable =  parseFloat(sumNetPayable)+parseFloat(netPayable);
                 let netRemaining = table.rows('.selected').data()[i].net_remaining;
                 sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(netRemaining);
+                console.log(sumNetRemaining);
             }
                 $('#input-amount').val(sumNetRemaining);
                 $('#input-amount-payable').val(sumNetRemaining);     
