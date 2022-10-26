@@ -1,5 +1,5 @@
-<h1 style=' width: 500px; margin-left : 180px; 
-margin-bottom :50px; display:inline-block' >{{__($page['name'])}} N°: {{$bill->reference}}</h1>
+<h2 style=' width: 500px; margin-left : 100px; 
+margin-bottom :50px; display:inline-block' >{{__('Exit bill with payment')}} N°: {{$bill->reference}}</h2>
     
     <div style ="width:700px" >
         <table >
@@ -50,7 +50,7 @@ margin-bottom :50px; display:inline-block' >{{__($page['name'])}} N°: {{$bill->
  
   </table>
   <br><br><br><br><br><br>
-@if(!empty($billPayments))
+@if(!empty($billPayments[0]))
     <table width="100%" class='payment-table'>
     <thead style="background-color: lightgray;">
     <tr>
