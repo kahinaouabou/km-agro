@@ -8,8 +8,14 @@ use App\Http\Requests\BlockRequest;
 use App\Models\Block;
 use App\Models\Room;
 use App\Models\Warehouse;
+use  Illuminate\Support\Facades\DB;
 class BlockController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('editBloc','all');
+    }
+    
     /**
      * Display a listing of the resource.
      * @param  \App\Models\Block  $model
@@ -22,13 +28,11 @@ class BlockController extends Controller
     }
     public function all()
     {
-        $blocks = Block:: paginate(15);
-        $columns =  [
-        ];
+        $blocks = DB::table('blocks')
+                    ->join('warehouses', 'warehouses.id', '=', 'Blocks.warehouse_id')
+                    ->select('blocks.*','warehouses.name as warehouse')->get();
         return response()->json([
-            'columns'=>$columns,
             'rows'=>$blocks
-            
              ]);  
     }
 
@@ -105,6 +109,19 @@ class BlockController extends Controller
         ]);
         Block::whereId($id)->update($validatedData);
         return redirect('/blocks')->with('message',__('Block successfully updated.'));
+    }
+
+    public function editBloc(Request $request,$id){
+        $validatedData = $request->validate([
+            'code' => 'required|min:3',
+            'name' => 'required|min:3',
+            'number_rooms' => 'required',
+            'warehouse_id' => 'required',
+        ]);
+        Block::whereId($id)->update($validatedData);
+        return response()->json([
+            'sucsses'=>__('Block successfully updated.')
+             ]);
     }
 
     /**

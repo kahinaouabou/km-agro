@@ -51,11 +51,18 @@
   table.dataTable tbody tr {
     text-align: center !important;
   }
-  .btn-action {
+   .btn-action {
+    margin: 0px !important;
     padding: 0px !important;
-    margin:0px !important;
-  }
+    display: inline-flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+  } 
 
+  .div-action-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 .table-responsive td{
   text-align: center !important;
 }

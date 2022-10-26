@@ -35,8 +35,8 @@ class ThirdPartyController extends Controller
    public function searchName(Request $request){
     
     $term = strtolower($request->name);
-    $term=trim($term);
-    dd($term);
+    $term=str_replace(' ','',$term);;
+    //dd($term);
     $thirdParty = ThirdParty::whereRaw('lower(TRIM(name)) like (?)',["{$term}"])->get();
    
     return response()->json([

@@ -189,7 +189,8 @@
   <table width="100%" >
     
     <tr style ="height:20px; ">
-        <td style='  width:170px; height:10px!important; padding:0; margin:0;'><p style="font-size:16px ;"><strong >{{__('Total net payable')}} :</strong></p></td><td><p> {{number_format($totalNetPayable, 2, ',', ' ');}}  DA</p></td>
+        <td style='  width:170px; height:10px!important; padding:0; margin:0;'>
+        <p style="font-size:16px ;"><strong >{{__('Total net payable')}} :</strong></p></td><td><p> {{number_format($totalNetPayable, 2, ',', ' ');}}  DA</p></td>
         
     </tr>
     <tr style ="height:20px;">

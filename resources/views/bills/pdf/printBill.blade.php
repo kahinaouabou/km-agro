@@ -14,14 +14,35 @@
     .gray {
         background-color: lightgray
     }
-    .main-table {
+    .main-table, .bill-table, .payment-table {
             border: 1px solid black;
             width: 100%;
             border-collapse: collapse;
             margin: 0;
         }
 
-        .main-table > thead > tr > th, .main-table > tbody > tr > th, .main-table > tfoot > tr > th, .main-table > thead > tr > td, .main-table > tbody > tr > td, .main-table > tfoot > tr > td {
+        .main-table > thead > tr > th, 
+        .main-table > tbody > tr > th, 
+        .main-table > tfoot > tr > th, 
+        .main-table > thead > tr > td, 
+        .main-table > tbody > tr > td, 
+        .main-table > tfoot > tr > td,
+        
+        .bill-table > thead > tr > th, 
+        .bill-table > tbody > tr > th, 
+        .bill-table > tfoot > tr > th, 
+        .bill-table > thead > tr > td, 
+        .bill-table > tbody > tr > td, 
+        .bill-table > tfoot > tr > td,
+
+        .payment-table > thead > tr > th, 
+        .payment-table > tbody > tr > th, 
+        .payment-table > tfoot > tr > th, 
+        .payment-table > thead > tr > td, 
+        .payment-table > tbody > tr > td, 
+        .payment-table > tfoot > tr > td
+
+         {
             border: 1px solid #000;
         }
 
@@ -37,6 +58,20 @@
             padding: 3px 5px;
             font-size: 16px;
             padding: 15px 5px 50px 5px;
+        }
+
+        .bill-table th, .payment-table th  {
+            border: 1px solid black;
+            padding:  5px ;
+            text-align: center;
+            font-size: 14px
+        }
+
+        .bill-table td, .payment-table td {
+            text-align: center;
+            padding:  5px;
+            font-size: 12px;
+            padding:  5px ;
         }
 </style>
 
@@ -61,41 +96,16 @@
 
   </table>
 <hr>
-    <div style="width: 500px; margin-left : 180px; margin-bottom :100px; margin-top:50px">
-    <h1 >{{__($page['name'])}} N°: {{$bill->reference}}</h1>
-    </div>
-    <div style ="width:700px" >
-        <table >
-            <tr>
-                <td style=" font-weight:bold; font-size:22px">{{__('Date')}}: </td>
-                <td style=" font-size:20px">
-                    {{$bill->bill_date->format('d/m/Y')}}</td>
-                <td style=" width:350px;text-align:right;
-                display: block; position: relative; top:0px; font-weight:bold; font-size:20px"></span>
-                </td>
-                <td style=" width:200px ; font-size:18px; ">
-                </td>
-            </tr>
-            
-        </table>
-    
-    </div>
-    <div style="width: 600px; margin-left : 380px; margin-bottom :50px">
-         </div>
-  <table width="100%">
-    <tr>
-        <td><p style="font-size:18px"><strong >{{__('Product')}} :</strong> {{$bill->product->name}}</p></td>
-        <td><p style="font-size:18px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </td>
-    </tr>
-  </table>
-  <br/>
+
             @switch($type)
-                @case (\App\Enums\BillTypeEnum::EntryBill):
-                @case (\App\Enums\BillTypeEnum::ExitBill)
-                  @include('bills.pdf.printEntryExitBill')
+                @case (\App\Enums\BillTypeEnum::EntryBill)
+                  @include('bills.pdf.printEntryBill')
                 @break
                 @case (\App\Enums\BillTypeEnum::WeighBill)
                   @include('bills.pdf.printWeighBill')
+                @break 
+                @case (\App\Enums\BillTypeEnum::ExitBill)
+                  @include('bills.pdf.printExitBill')
                 @break 
             @endswitch
 

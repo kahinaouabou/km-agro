@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['block/all'],
+    'paths' => ['*'],
 
     'allowed_methods' => ['GET'],
 

@@ -368,8 +368,14 @@ class BillController extends Controller
         $page = Bill::getTitleActivePageByTypeBill($type);
         $billName = __($page['name']).'-'.$bill->reference;
         $company = Company::first();
+        $billPayments = [];
+
+        if($type == BillTypeEnum::ExitBill){
+            $billPayments = BillPayment::where('bill_id',$id)->get();
+        }
         $pdf = PDF::loadView('bills.pdf.printBill', 
-        compact('bill','page','billName','type','company'));
+        compact('bill','page','billName','type','company','billPayments'));
+        
         return $pdf->download($billName.'.pdf');
     }
     public function print($id){

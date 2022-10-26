@@ -36,19 +36,17 @@ class WarehouseController extends Controller
                         $routeDelete = route("warehouses.destroy", $row->id);
                         $idDestroy = "destroy".$row->id;
                         $btn ='
-                        <a rel="tooltip" class="btn btn-success btn-link" href='.$routeEdit.' data-original-title="" title="">
+                        <div class ="div-action-2">
+                        <a rel="tooltip" class="btn  btn-success btn-link" href='.$routeEdit.' data-original-title="" title="">
                         <i class="material-icons">edit</i>
-                        <div class="ripple-container"></div>
                             </a> 
-                        <a rel="tooltip" class="btn btn-danger btn-link"
-                        onclick="event.preventDefault(); document.getElementById('.$idDestroy.').submit();" data-original-title="" title="">
-                        <i class="material-icons">delete</i>
-                            <div class="ripple-container"></div>  
-                            </a>
-                            <form id='.$idDestroy.' action='.$routeDelete.' method="POST" style="display: none;">
-                                @csrf
-                                @method("DELETE")
-                            </form>';
+                            <form action='.$routeDelete.' method="POST">
+                    '.csrf_field().'
+                    '.method_field("DELETE").'
+                    <button type="submit" rel="tooltip" class="btn  btn-danger btn-link"
+                        onclick="return confirm(\'Are You Sure Want to Delete?\')"
+                        style="padding: .0em !important;font-size: xx-small;"><i class="material-icons">delete</i></button>
+                    </form> </div>';
                             return $btn;
                     })
 
@@ -64,7 +62,12 @@ class WarehouseController extends Controller
 
     }
 
-
+    public function all (){
+        $warehouses = Warehouse::all();
+        return response()->json([
+            'warehouses'=>$warehouses
+             ]); 
+    }
 
     /**
      * Show the form for creating a new resource.

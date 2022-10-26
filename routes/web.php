@@ -57,6 +57,10 @@ Route::resource('users', 'App\Http\Controllers\UserController')->middleware('aut
 Route::resource('blocks', 'App\Http\Controllers\BlockController')->middleware('auth');
 
 Route::get('block/all', 'App\Http\Controllers\BlockController@all')->name('blocks.all');
+Route::group(['middleware'=>['admin']], function(){
+});
+Route::post('block/editBloc/{id}', 'App\Http\Controllers\BlockController@editBloc')->name('blocks.editBloc')->middleware('admin');
+Route::get('warehouse/all', 'App\Http\Controllers\WarehouseController@all')->name('warehouses.all');
 
 Route::resource('warehouses', 'App\Http\Controllers\WarehouseController')->middleware('auth');	
 Route::group(['middleware' => 'auth'], function () {

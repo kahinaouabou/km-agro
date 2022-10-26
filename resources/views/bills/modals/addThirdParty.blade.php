@@ -21,7 +21,7 @@
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                             <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" 
                             id="input-name" type="text" placeholder="{{ __('Name') }}"  
-                            onchange="checkIfNameThirdPartyExist()" 
+                            //onfocusout="checkIfNameThirdPartyExist()" 
                             aria-required="true"/>
                             @if ($errors->has('name'))
                                 <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
@@ -52,7 +52,9 @@
         $('#addThirdParty').css("display","none");
         $('#input-name').removeAttr('required');
   });
- 
+  $("#input-name").focusout(function(e) {
+    checkIfNameThirdPartyExist();
+  })
 
 });
 function checkIfNameThirdPartyExist(){
@@ -69,6 +71,13 @@ function checkIfNameThirdPartyExist(){
   },
   success:function(response){
         console.log(response);
+        if((response.thirdParty.length!=="")){
+          $('#alertMessage').addClass('show'); 
+          $('#alertMessage').css("display","block");
+          $('#alertMessage .modal-body').html("<p><?php echo __('Custemer already exist. change name') ?></p>");
+          $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
+     
+        }
 
       },
       error: function(error) {
