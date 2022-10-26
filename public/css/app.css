@@ -41,6 +41,10 @@
     text-align: center !important;
   }
 
+  .table thead tr td {
+    font-size: .85rem !important;
+    text-align: center !important;
+  }
   table.dataTable thead .sorting::before{
     content: none !important;
   }
@@ -64,5 +68,6 @@
     grid-template-columns: 1fr 1fr;
   }
 .table-responsive td{
+  font-size: .75rem !important;
   text-align: center !important;
 }

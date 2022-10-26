@@ -172,14 +172,21 @@
  
   </table>
   <div style="height: 50px; "></div>
+  <?php 
+            $countNotReturnedBoxes = $countTakenBoxes - $countReturnedBoxes;
+            ?>
   <table width="100%" >
     
     <tr style ="height:20px; ">
-        <td style='  width:260px; height:10px!important; padding:0; margin:0;'><p style="font-size:16px ;"><strong >{{__('Number boxes taken')}} :</strong></p></td><td><p> {{number_format($countTakenBoxes, 0, ',', ' ');}}</p></td>
+        <td style='  width:300px; height:10px!important; padding:0; margin:0;'><p style="font-size:16px ;"><strong >{{__('Number boxes taken')}} :</strong></p></td><td><p> {{number_format($countTakenBoxes, 0, ',', ' ');}}</p></td>
         
     </tr>
     <tr style ="height:20px;">
         <td ><p style="font-size:16px"><strong >{{__('Number boxes returned')}} :</strong> </p></td><td><p>{{number_format($countReturnedBoxes, 0, ',', ' ');}}</p></td>
+        
+    </tr>
+    <tr style ="height:20px;">
+        <td ><p style="font-size:16px"><strong >{{__('Number boxes not returned')}} :</strong> </p></td><td><p>{{number_format($countNotReturnedBoxes, 0, ',', ' ');}}</p></td>
         
     </tr>
   </table>

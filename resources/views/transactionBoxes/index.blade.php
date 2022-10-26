@@ -90,7 +90,7 @@
 				    <div class="card-body">
               <div class="row">
                 <div class="col-12 text-right">
-                <a href="{{ route('transactionBoxes.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
+                <a target="_blanck" href="{{ route('transactionBoxes.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
                 
                   <a href="{{ route('transactionBoxes.create') }}" class="btn btn-sm btn-primary">{{__('Add returned boxes')}}</a>
                 </div>
@@ -135,10 +135,10 @@
                         {{ $transactionBox->thirdParty->name }}
                         </td>
                         <td>
-                        {{ $transactionBox->number_boxes_taken }}
+                        {{ number_format($transactionBox->number_boxes_taken, 0, ',', ' ') }}
                         </td>
                         <td>
-                        {{ $transactionBox->number_boxes_returned }}
+                        {{number_format( $transactionBox->number_boxes_returned, 0, ',', ' ') }}
                         </td>
                         <td class="td-actions text-right">
                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('transactionBoxes.edit', $transactionBox->id) }}" data-original-title="" title="">
@@ -167,8 +167,13 @@
               </div>
 			      </div>
 			      <div class="card-header card-header-primary card-footer-primary">
-              <h4 class="card-title ">{{__('Number boxes taken')}} : <strong >{{$countTakenBoxes}}</strong></h4>
-              <h4 class="card-title ">{{__('Number boxes returned')}} : <strong>{{$countReturnedBoxes}}</strong></h4>
+            <?php 
+            $countNotReturnedBoxes = $countTakenBoxes - $countReturnedBoxes;
+            ?>
+              <h4 class="card-title ">{{__('Number boxes taken')}} : <strong >{{number_format($countTakenBoxes, 0, ',', ' ')}}</strong></h4>
+              <h4 class="card-title ">{{__('Number boxes returned')}} : <strong>{{number_format($countReturnedBoxes, 0, ',', ' ')}}</strong></h4>
+              <h4 class="card-title ">{{__('Number boxes not returned')}} : <strong>{{number_format($countNotReturnedBoxes, 0, ',', ' ')}}</strong></h4>
+            
             </div> 
 	    	</div>
                 </div>

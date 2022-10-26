@@ -23,7 +23,7 @@ class BlockController extends Controller
      */
     public function index()
     {
-        $blocks = Block:: paginate(15);
+        $blocks = Block:: orderBy("name","asc")->get(); ;
         return view('blocks.index',compact('blocks'));    
     }
     public function all()

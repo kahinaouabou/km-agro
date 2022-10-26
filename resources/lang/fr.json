@@ -140,6 +140,7 @@
 "Exit bill successfully created.":"Le bon de sortie a été créé avec succès.",
 "Entry bill successfully created.":"Le bon d'entrée a été créé avec succès.",
 "Number boxes returned":"Nombre de caisses retournées",
+"Number boxes not returned":"Nombre de caisses non retournées",
 "Number boxes taken":"Nombre de caisses prises",
 "Nb boxes returned":"Nb caisses retournées",
 "Nb boxes taken":"Nb caisses prises",
