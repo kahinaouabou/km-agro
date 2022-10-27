@@ -71,3 +71,7 @@
   font-size: .75rem !important;
   text-align: center !important;
 }
+#p-msg{
+  margin-left: 5rem;
+  color: red;
+}

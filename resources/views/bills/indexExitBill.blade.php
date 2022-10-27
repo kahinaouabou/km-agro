@@ -263,6 +263,7 @@ $.ajax({
             $('#alertMessage .modal-body').html("<p><?php echo __('Select one customer') ?></p>");
         
         }else {
+            getPaymentReference();
             $('#add-payment-form').trigger("reset");
             $('#addPayment').addClass('show'); 
             $('#addPayment').css("display","block");
@@ -286,4 +287,26 @@ $.ajax({
 
 
   });
+
+  function getPaymentReference(){
+    $.ajax({
+  url : "{{ route('payments.getReference') }}",
+  type: 'get',
+  headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+ 
+  success:function(response){
+        console.log(response);
+        if((response.reference.length!=="")){
+            $('#input-reference').val(response.reference);
+            
+        }
+
+      },
+      error: function(error) {
+        console.log(error);
+      }
+});
+  }
 </script>

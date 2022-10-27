@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Payment;
 use App\Models\Bill;
+use App\Models\Setting;
 use App\Models\Company;
 use App\Models\BillPayment;
 use Illuminate\Http\Request;
@@ -112,7 +113,7 @@ class PaymentController extends Controller
                'payment_date' => 'required',
             ]);
         $payment = Payment::create($validatedData);
-       
+        Setting::setNextReferenceNumber('payment');
            $billIds = JSON_decode($request->billIds);
            
             $bills = Bill::whereIn('id', $billIds)
@@ -167,6 +168,12 @@ class PaymentController extends Controller
         $paymentBills = BillPayment::where('payment_id',$id)->get();
         $payment= Payment::findOrFail($id);
         return view('payments.show',compact('paymentBills','payment'));
+    }
+    public function getReference(){
+        $nextReference = Setting::getNextReferenceByFieldName('payment');
+        return response()->json([
+            'reference'=>$nextReference
+             ]);
     }
 
     /**

@@ -28,6 +28,7 @@
                             @endif
                             </div>
                         </div>
+                        <p id='p-msg'></p>
                     </div>
                  
                     {!! Form::number('is_supplier', $isSupplier, [
@@ -44,6 +45,7 @@
         </div>
   </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
   
@@ -70,13 +72,12 @@ function checkIfNameThirdPartyExist(){
       name:name,
   },
   success:function(response){
-        console.log(response);
-        if((response.thirdParty.length!=="")){
-          $('#alertMessage').addClass('show'); 
-          $('#alertMessage').css("display","block");
-          $('#alertMessage .modal-body').html("<p><?php echo __('Custemer already exist. change name') ?></p>");
-          $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
-     
+        console.log(response.thirdParty.length);
+        if((response.thirdParty.length!==0)){
+          //$('#input-name').val('');
+         $('#p-msg').html("<?php echo __('Name already exist, change it.')?>")
+        }else {
+          $('#p-msg').html("")
         }
 
       },

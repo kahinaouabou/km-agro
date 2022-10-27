@@ -99,6 +99,9 @@ Route::get('transactionBox/print', 'App\Http\Controllers\TransactionBoxControlle
 Route::get('transactionBoxes/test', 'App\Http\Controllers\TransactionBoxController@test')->name('transactionBoxes.test')->middleware('auth');
 Route::resource('payments', 'App\Http\Controllers\PaymentController')->middleware('auth');
 Route::get('payments/{payment}/print', 'App\Http\Controllers\PaymentController@print')->name('payments.print')->middleware('auth');
+Route::get('payment/getReference', 'App\Http\Controllers\PaymentController@getReference')->name('payments.getReference')->middleware('auth');
+
+
 Route::resource('companies', 'App\Http\Controllers\CompanyController')->middleware('auth');
 
 
