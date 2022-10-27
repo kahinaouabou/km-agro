@@ -97,7 +97,7 @@
         columns: [
             {data: 'reference', name: 'reference'},
             {data: 'payment_date', name: 'payment_date' ,type:'date'},
-            {data: 'thirdPartyName', name: 'thirdPartyName'},
+            {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'payment_type', name: 'payment_type'},
             {data: 'amount', name: 'amount'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
