@@ -16,6 +16,7 @@ use App\Enums\BillTypeEnum;
 use App\Enums\ThirdPartyEnum;
 use App\Http\Requests\TransactionBoxRequest;
 use App\Models\TransactionBox;
+use App\Models\Setting;
 use PDF;
 use Illuminate\Support\Facades\Date;
 use Yajra\DataTables\DataTables;
@@ -103,11 +104,12 @@ class BillController extends Controller
                         return number_format($row->net_paid, 2, ',', ' ');
                     })
                     ->addColumn('action', function($row) use ($type){
-                        $routeEdit =  route("bills.edit", [$row->id,$row->bill_type]) ;
+                        $routeEdit =  route("bills.edit", [$row->id,$type]) ;
                         $routeDelete = route("bills.destroy", $row->id);
                         $routePrint = route("bills.printBill", [$row->id,$type ]);
                         $idDestroy = "destroy".$row->id;
-                        $btn ='<a rel="tooltip" class="btn btn-action btn-success btn-link edit-bill-button" href='.$routeEdit.' data-original-title="" title="">
+                        $btn ='<a rel="tooltip" class="btn btn-action btn-success btn-link edit-bill-button" 
+                        href='.$routeEdit.' data-original-title="" title="">
                         <i class="material-icons">edit</i>
                         <div class="ripple-container"></div>
                             </a>
@@ -169,8 +171,18 @@ class BillController extends Controller
         $rooms =[];
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type,'create');
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
-        return view('bills.create', compact('products','trucks','blocks','isSupplier',
-                                    'page','type','parcels','rooms','thirdParties'));
+        switch ($type){
+            case BillTypeEnum::EntryBill:
+                $dbBillType = BillTypeEnum::EntryBill;
+            break;
+            case BillTypeEnum::ExitBill : 
+            case BillTypeEnum::WeighBill:
+                $dbBillType = BillTypeEnum::ExitBill;
+            break ;    
+        } 
+        $nextReference = Setting::getNextReferenceByFieldName('weigh_bill');
+        return view('bills.create', compact('products','trucks','blocks','isSupplier','dbBillType',
+                                    'page','type','parcels','rooms','thirdParties','nextReference'));
     }
 
     /**
@@ -200,6 +212,7 @@ class BillController extends Controller
         //dd($request);
         $type = (int)$request->bill_type ;
         if($bill= Bill::create($validatedData)){
+            Setting::setNextReferenceNumber('weigh_bill');
             if($type==BillTypeEnum::ExitBill){
                 $transactionBoxesRequest = new TransactionBoxRequest();
                 $params = [
@@ -220,13 +233,17 @@ class BillController extends Controller
                         TransactionBox::create($params);
                   }   
             }
-            switch ($type){
+            $displayType = (int)$request->display_type ;
+            switch ($displayType){
                 case BillTypeEnum::EntryBill :
                     return redirect('/bill/'.BillTypeEnum::EntryBill)->with('message',__('Entry bill successfully created.'));
                     break;
                 case BillTypeEnum::ExitBill :
                     return redirect('/bill/'.BillTypeEnum::ExitBill)->with('message',__('Exit bill successfully created.'));
                     break; 
+                case BillTypeEnum::WeighBill :
+                    return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully created.'));
+                    break;     
             }
         }
     
@@ -265,8 +282,18 @@ class BillController extends Controller
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
         $bill = Bill::findOrFail($id);
         $rooms =Room::where('block_id','=',$bill->block->id)->pluck('name', 'id');
+        switch ($type){
+            case BillTypeEnum::EntryBill:
+                $dbBillType = BillTypeEnum::EntryBill;
+            break;
+            case BillTypeEnum::ExitBill : 
+            case BillTypeEnum::WeighBill:
+                $dbBillType = BillTypeEnum::ExitBill;
+            break ;    
+        }
+       
         return view('bills.edit', compact('products','trucks','blocks','bill','isSupplier',
-                                    'page','type','parcels','rooms','thirdParties'));
+                                    'page','type','parcels','rooms','thirdParties','dbBillType'));
     }
 
     /**
@@ -317,13 +344,17 @@ class BillController extends Controller
                 
                 
             }
-            switch ($type){
+            $displayType = (int)$request->display_type ;
+            switch ($displayType){
                 case BillTypeEnum::EntryBill :
                     return redirect('/bill/'.BillTypeEnum::EntryBill)->with('message',__('Entry bill successfully updated.'));
                     break;
                 case BillTypeEnum::ExitBill :
                     return redirect('/bill/'.BillTypeEnum::ExitBill)->with('message',__('Exit bill successfully updated.'));
                     break; 
+                case BillTypeEnum::WeighBill :
+                    return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully updated.'));
+                    break;     
             }
         }
 

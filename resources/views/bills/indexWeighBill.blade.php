@@ -50,7 +50,11 @@
                                 'id'=>'type',
                                 'hidden' => true
                                   ]) !!} 
-                                  
+
+                 {!! Form::text('href', null, [
+                                  'id'=>'input-href',
+                                  'hidden' => true
+                                  ]) !!}                  
                                   
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -111,7 +115,9 @@
 
     jQuery(document).on('click', '.edit-bill-button', function(e) {
      
-     e.preventDefault();
+        e.preventDefault();
+        let href = $(this).attr('href');
+        $('#input-href').val(href);
         $('#alertMessage').addClass('show'); 
         $('#alertMessage').css("display","block");
         $('#alertMessage .modal-body').html("<p><?php echo __('Do you accepte that the association with the payment will be deleted ?') ?></p>");

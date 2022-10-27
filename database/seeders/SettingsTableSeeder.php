@@ -14,16 +14,13 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('settings')->insert([
-
-            'name'=>'reference', 
-            'payment_ref_auto'=>'1', 
-            'payment_date_position'=>'1', 
-            'payment_prefix'=>'P', 
-            'payment_size'=>4, 
-            'payment_next_ref'=>1, 
-            'created_at'=>now(), 
-            'updated_at'=>now()
+        DB::table('settings')->update([
+            'id'=>1,
+            'weigh_bill_ref_auto'=>'1', 
+            'weigh_bill_date_position'=>'1', 
+            'weigh_bill_prefix'=>'BP', 
+            'weigh_bill_size'=>4, 
+            'weigh_bill_next_ref'=>1
     
         ]);
     }

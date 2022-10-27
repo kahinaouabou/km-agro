@@ -17,7 +17,9 @@
                   <label class="col-sm-2 col-form-label">{{ __('Reference') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('reference') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('reference') ? ' is-invalid' : '' }}" name="reference" id="input-reference" type="text" placeholder="{{ __('Reference') }}" 
+                      <input class="form-control{{ $errors->has('reference') ? ' is-invalid' : '' }}" 
+                      value="{{ $nextReference }}"
+                      name="reference" id="input-reference" type="text" placeholder="{{ __('Reference') }}" 
                        required="true" aria-required="true"/>
                       @if ($errors->has('reference'))
                         <span id="reference-error" class="error text-danger" for="input-reference">{{ $errors->first('reference') }}</span>
@@ -243,9 +245,12 @@
                   </div>
                 </div>
                
-                {!! Form::number('bill_type', $type, [
+                {!! Form::number('bill_type', $dbBillType, [
                                   'hidden' => true
                                   ]) !!}
+                {!! Form::number('display_type', $type, [
+                                  'hidden' => true
+                                  ]) !!}                  
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>

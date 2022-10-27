@@ -28,7 +28,7 @@
                   @if($type==\App\Enums\BillTypeEnum::ExitBill)
                   <button type="button" data-toggle="modal" data-target="#addPayments" class="btn btn-sm btn-primary" id="addPaymentButton">{{__('Payment')}}</button>
                   @endif
-                  <a href="{{ route('bills.create',$dbBillType) }}" class="btn btn-sm btn-primary">{{ __($page['title'])}}</a>
+                  <a href="{{ route('bills.create',$type) }}" class="btn btn-sm btn-primary">{{ __($page['title'])}}</a>
                 
                 </div>
               </div>

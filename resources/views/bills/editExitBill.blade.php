@@ -250,9 +250,13 @@
                   </div>
                 </div>
                
-                {!! Form::number('bill_type', $type, [
+                {!! Form::number('bill_type', $dbBillType, [
                                   'hidden' => true
                                   ]) !!}
+
+                                  {!! Form::number('display_type', $type, [
+                                  'hidden' => true
+                                  ]) !!}                   
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>

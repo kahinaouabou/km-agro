@@ -77,6 +77,7 @@ class Bill extends Model
      * @return array
      */
     public static function getTitleActivePageByTypeBill($type=null){
+        
        $page = [];
         switch ($type){
             case BillTypeEnum::EntryBill :

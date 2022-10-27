@@ -19,6 +19,7 @@
                   @include('bills.createEntryBill');
                 @break
                 @case (\App\Enums\BillTypeEnum::ExitBill)
+                @case (\App\Enums\BillTypeEnum::WeighBill)
                   @include('bills.createExitBill');
                 @break
               @endswitch

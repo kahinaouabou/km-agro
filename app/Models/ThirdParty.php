@@ -34,6 +34,7 @@ class ThirdParty extends Model
                         $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Supplier);
                         break;
                     case BillTypeEnum::ExitBill :
+                    case BillTypeEnum::WeighBill:
                         $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Customer); 
                         break;    
                 }
@@ -44,6 +45,7 @@ class ThirdParty extends Model
                         $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Supplier);
                         break;
                     case BillTypeEnum::ExitBill :
+                    case BillTypeEnum::WeighBill:    
                         $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Customer); 
                         break;    
                 }
@@ -61,6 +63,7 @@ class ThirdParty extends Model
                     $isSupplier = ThirdPartyEnum::Supplier;
                     break;
                 case BillTypeEnum::ExitBill :
+                case BillTypeEnum::WeighBill:    
                     $isSupplier=ThirdPartyEnum::Customer; 
                     break;    
         }
