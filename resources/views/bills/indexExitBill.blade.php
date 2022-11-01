@@ -83,7 +83,7 @@
                                   
                                   
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
 <script type="text/javascript">
 
@@ -91,6 +91,7 @@
     let billIds = [];
     let sumNetPayable = jQuery('#input-sum-net-payable').val();
     let sumNetRemaining =jQuery('#input-sum-net-remaining').val();
+    let sumNetPaid =jQuery('#input-sum-net-paid').val();
     $.ajaxSetup({
     headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -149,16 +150,20 @@
             if(index==0){
                 sumNetPayable=  parseFloat(data.net_payable.replace(/ /g, ''));
                 sumNetRemaining =  parseFloat(data.net_remaining.replace(/ /g, ''));
+                sumNetPaid =  parseFloat(data.net_paid.replace(/ /g, ''));
             }else {
                 sumNetPayable= parseFloat(sumNetPayable) + parseFloat(data.net_payable.replace(/ /g, ''));
                 sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(data.net_remaining.replace(/ /g, ''));
+                sumNetPaid =  parseFloat(sumNetPaid)+parseFloat(data.net_paid.replace(/ /g, ''));
+            
             }
             sumNetPayable = sumNetPayable.toFixed(2);
             sumNetRemaining = sumNetRemaining.toFixed(2);
-            ;
+            sumNetPaid = sumNetPaid.toFixed(2);
             console.log(sumNetPayable);
             $('#total-net-payable').html(new Intl.NumberFormat().format(sumNetPayable));
             $('#total-net-remaining').html(new Intl.NumberFormat().format(sumNetRemaining));
+            $('#total-net-paid').html(new Intl.NumberFormat().format(sumNetPaid));
         },
        
     });
@@ -269,6 +274,7 @@ $.ajax({
             $('#addPayment').css("display","block");
             let sumNetPayable = 0;
             let sumNetRemaining = 0;
+            let sumNetPaid = 0;
             for(i=0;i<= table.rows('.selected').data().length-1;i++){
                 billIds.push(table.rows('.selected').data()[i].id);
                 let netPayable = table.rows('.selected').data()[i].net_payable.replace(/ /g, '');
@@ -277,6 +283,9 @@ $.ajax({
                 let netRemaining = table.rows('.selected').data()[i].net_remaining.replace(/ /g, '');
                 sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(netRemaining);
                 console.log(sumNetRemaining);
+                let netPaid = table.rows('.selected').data()[i].net_paid.replace(/ /g, '');
+                sumNetPaid =  parseFloat(sumNetPaid)+parseFloat(netPaid);
+                console.log(sumNetPaid);
             }
                 $('#input-amount').val(sumNetRemaining);
                 $('#input-amount-payable').val(sumNetRemaining);     

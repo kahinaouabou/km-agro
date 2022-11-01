@@ -62,16 +62,15 @@
             </div>
           </div>
           <div class="card-header card-header-primary card-footer-primary">
-                <h4 class="card-title ">{{__('Total amount')}} : <strong id="total-amount"></strong></h4>
-                <h4 class="card-title ">{{__('Total net remaining')}} : <strong id="total-net-remaining"></strong></h4>
-              </div> 
+                <h4 class="card-title ">{{__('Total amount')}} : <strong id="total-amount"></strong><strong> DA</strong></h4>
+                 </div> 
          
       </div>
     </div>
   </div>
 </div>
 @endsection
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
 <script type="text/javascript">
     $(function () {
