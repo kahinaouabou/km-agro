@@ -74,7 +74,7 @@ function checkIfNameThirdPartyExist(){
   success:function(response){
         console.log(response.thirdParty.length);
         if((response.thirdParty.length!==0)){
-          //$('#input-name').val('');
+         $('#input-name').val('');
          $('#p-msg').html("<?php echo __('Name already exist, change it.')?>")
         }else {
           $('#p-msg').html("")
