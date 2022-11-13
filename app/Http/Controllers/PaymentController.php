@@ -118,7 +118,8 @@ class PaymentController extends Controller
            
             $bills = Bill::whereIn('id', $billIds)
                         ->where('net_remaining','>',0)
-                        ->orderBy('net_payable', 'asc')
+                        ->orderBy('bill_date', 'asc')
+                        ->orderBy('reference', 'asc')
                         ->get();
                     
                        
