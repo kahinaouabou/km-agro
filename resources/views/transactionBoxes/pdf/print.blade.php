@@ -161,10 +161,10 @@
                           </td>
                         @endif
                         <td>
-                        {{ $transactionBox->number_boxes_taken }}
+                        {{ number_format( $transactionBox->number_boxes_taken, 0, ',', ' ') }}
                         </td>
                         <td>
-                        {{ $transactionBox->number_boxes_returned }}
+                        {{ number_format($transactionBox->number_boxes_returned, 0, ',', ' ') }}
                         </td>
                       </tr>
 					        @endforeach

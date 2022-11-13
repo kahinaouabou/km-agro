@@ -34,7 +34,6 @@ class ThirdPartyController extends Controller
 
    public function searchName(Request $request){
     
-  
     $search = mb_strtolower(trim($request->name));
     
     $thirdParty = ThirdParty::whereRaw('LOWER(TRIM(`name`)) LIKE ? ',[$search])->get();

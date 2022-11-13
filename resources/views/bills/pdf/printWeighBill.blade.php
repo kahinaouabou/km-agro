@@ -1,4 +1,4 @@
-<div style="width: 500px; margin-left : 180px; margin-bottom :100px; margin-top:50px">
+<div style="width: 500px; margin-left : 130px; margin-bottom :100px; margin-top:50px">
     <h1 >{{__($page['name'])}} N°: {{$bill->reference}}</h1>
     </div>
     <div style ="width:700px" >

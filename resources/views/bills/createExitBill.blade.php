@@ -279,51 +279,82 @@ jQuery("#add-third-party-button").click(function(e){
 
 e.preventDefault(); //empêcher une action par défaut
 
-let code = $('#input-code').val();
+
 let name = $('#input-name').val();
-let address = $('#input-address').val();
-let is_supplier = $('#input-is-supplier').val();
-$.ajax({
-  url : "{{ route('thirdParties.store') }}",
-  type: 'post',
+if(name.length!==0){
+  let name = $('#input-name').val();
+    let exist = false ;
+    let url =  "{{ route('thirdParties.searchName') }}";
+    $.ajax({
+  url : url,
+  type: 'get',
   headers: {
       'X-CSRF-TOKEN': '{{ csrf_token() }}'
     },
   data :{
-      code:code,
       name:name,
-      address:address,
-      is_supplier:is_supplier
   },
   success:function(response){
-        console.log(response);
-        if(response) {
-          $('#input-third-party').empty();
-                $("#input-third-party").append('<option>{{ __("Select customer") }}</option>');
-               
-                    $.each(response.thirdParties,function(key,value){
-                      // $('#input-third-party').append($("<option/>", {
-                      //      value: key,
-                      //      text: value,
-                      //   }));
-                      if(key ==response.selectedId){
-                        $("#input-third-party").append( '<option selected="selected" value="'+key+'">'+value+'</option>' )
-                      }else {
-                        $("#input-third-party").append( '<option value="'+key+'">'+value+'</option>' )
-                      }
-                       
-                    });
-                
-            $('#addThirdParty').appendTo("body").modal('hide');
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            $('#input-name').removeAttr('required');
+        if((response.thirdParty.length!==0)){
+         $('#input-name').val('');
+         $('#p-msg').html("<?php __('Name already exist, change it.')?>");
+         exist = true ;
+         console.log(exist);
+        }else {
+          $('#p-msg').html("");
+          exist = false ;
+          let is_supplier = $('#input-is-supplier').val();
+          $.ajax({
+            url : "{{ route('thirdParties.store') }}",
+            type: 'post',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+              },
+            data :{
+                name:name,
+                is_supplier:is_supplier
+            },
+            success:function(response){
+                  console.log(response);
+                  if(response) {
+                    $('#input-third-party').empty();
+                          $("#input-third-party").append('<option>{{ __("Select customer") }}</option>');
+                         
+                              $.each(response.thirdParties,function(key,value){
+                                // $('#input-third-party').append($("<option/>", {
+                                //      value: key,
+                                //      text: value,
+                                //   }));
+                                if(key ==response.selectedId){
+                                  $("#input-third-party").append( '<option selected="selected" value="'+key+'">'+value+'</option>' )
+                                }else {
+                                  $("#input-third-party").append( '<option value="'+key+'">'+value+'</option>' )
+                                }
+                                 
+                              });
+                          
+                      $('#addThirdParty').appendTo("body").modal('hide');
+                      $('body').removeClass('modal-open');
+                      $('.modal-backdrop').remove();
+                      $('#input-name').removeAttr('required');
+                  }
+                },
+                error: function(error) {
+                  console.log(error);
+                }
+          });
         }
+        console.log(exist);
       },
       error: function(error) {
         console.log(error);
       }
 });
+
+ 
+
+}
+
 }); 
 
 jQuery("#add-truck-button").click(function(e){

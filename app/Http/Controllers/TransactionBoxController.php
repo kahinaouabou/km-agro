@@ -78,6 +78,7 @@ class TransactionBoxController extends Controller
 
     function print (Request $request) {
         
+       
         $transactionBoxes = TransactionBox::where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';

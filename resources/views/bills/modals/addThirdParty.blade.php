@@ -59,32 +59,5 @@
   })
 
 });
-function checkIfNameThirdPartyExist(){
-    let name = $('#input-name').val();
-    console.log(name);
-    $.ajax({
-  url : "{{ route('thirdParties.searchName') }}",
-  type: 'get',
-  headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    },
-  data :{
-      name:name,
-  },
-  success:function(response){
-        console.log(response.thirdParty.length);
-        if((response.thirdParty.length!==0)){
-         $('#input-name').val('');
-         $('#p-msg').html("<?php echo __('Name already exist, change it.')?>")
-        }else {
-          $('#p-msg').html("")
-        }
 
-      },
-      error: function(error) {
-        console.log(error);
-      }
-});
-    
-}
 </script> 

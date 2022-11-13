@@ -1,5 +1,5 @@
-<h2 style=' width: 500px; margin-left : 100px; 
-margin-bottom :50px; display:inline-block' >{{__('Exit bill with payment')}} N°: {{$bill->reference}}</h2>
+<h2 style=' width: 500px; margin-left : 170px; 
+margin-bottom :50px; display:inline-block' >{{__('Exit bill with payment')}} <br> <span style='margin-left:75px'> N°: {{$bill->reference}}</span></h2>
     
     <div style ="width:700px" >
         <table >
