@@ -145,7 +145,10 @@
   function calculateNetPayable(){
     let netTotal = jQuery('#input-total-net').val();
     let unitPrice = jQuery('#input-unit-price').val(); 
-    if (jQuery('#input-net-total').val() != '' && jQuery('#input-unit-price').val() != '' ){
+    if(jQuery('#input-unit-price').val() == '' ){
+        unitPrice =0;
+    }
+    if (jQuery('#input-net-total').val() != ''){
     let totalNetPayable = parseFloat(netTotal)*parseFloat(unitPrice);
     jQuery("#input-total-net-payable").val(totalNetPayable.toFixed(2));
     $('#total-net-payable').html(new Intl.NumberFormat().format(totalNetPayable));
