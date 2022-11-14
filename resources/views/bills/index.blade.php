@@ -49,13 +49,20 @@
             </div>
           
           </div>
-          @if ( $type == \App\Enums\BillTypeEnum::ExitBill)
+          @switch($type)
+            @case ( \App\Enums\BillTypeEnum::ExitBill)
               <div class="card-header card-header-primary card-footer-primary">
                 <h4 class="card-title ">{{__('Total net payable')}} : <strong id="total-net-payable"></strong><strong> DA</strong></h4>
                 <h4 class="card-title ">{{__('Total net paid')}} : <strong id="total-net-paid"></strong><strong> DA</strong></h4>
                 <h4 class="card-title ">{{__('Total net remaining')}} : <strong id="total-net-remaining"></strong><strong> DA</strong></h4>
               </div> 
-            @endif
+            @break
+            @case ( \App\Enums\BillTypeEnum::WeighBill)
+              <div class="card-header card-header-primary card-footer-primary">
+                <h4 class="card-title ">{{__('Total quantity removed')}} : <strong id="total-net"></strong><strong> Kg</strong></h4>
+                </div> 
+            @break
+          @endswitch
          
       </div>
     </div>

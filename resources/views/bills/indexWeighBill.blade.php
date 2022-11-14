@@ -108,7 +108,16 @@
                     return datetime;
                 }
                 }
-            }]
+            }],
+            "createdRow": function ( row, data, index ) {
+            if(index==0){
+                sumNet=  parseFloat(data.net.replace(/ /g, ''));
+            }else {
+                sumNet= parseFloat(sumNet) + parseFloat(data.net.replace(/ /g, ''));
+            }
+            sumNet = sumNet.toFixed(2);
+            $('#total-net').html(new Intl.NumberFormat().format(sumNet));
+        },    
          
       
     });
