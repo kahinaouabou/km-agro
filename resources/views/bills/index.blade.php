@@ -59,8 +59,24 @@
             @break
             @case ( \App\Enums\BillTypeEnum::WeighBill)
               <div class="card-header card-header-primary card-footer-primary">
-                <h4 class="card-title ">{{__('Total quantity removed')}} : <strong id="total-net"></strong><strong> Kg</strong></h4>
-                </div> 
+                <h4 class="card-title">{{__('Total quantity removed')}} : <strong id="total-net"></strong><strong> Kg</strong></h4>
+                {!! Form::number('total_net', 0, [
+                                'id'=>'input-total-net'
+                                  ]) !!}
+                  
+                  <label class="col-sm-2 col-form-label" style="color: #000;">{{ __('Unit price') }}</label>
+                      {!! Form::number('unit_price', null, [
+                                                  'step' => '0.01',
+                                                  'id' =>'input-unit-price',
+                                                  'onchange'=>'calculateNetPayable(this.value)'
+                                                  ]) !!}
+                           
+                                  
+                {!! Form::number('total_net_payable', 0, [
+                                'id'=>'input-total-net-payable'
+                                  ]) !!}  
+                <h4 class="card-title">{{__('Total net payable')}} : <strong id="total-net-payable"></strong><strong> DA</strong></h4>                                      
+              </div> 
             @break
           @endswitch
          
