@@ -346,7 +346,7 @@ class BillController extends Controller
                 if(($actualBill->net_payable != $precedentBill->net_payable) ||
                 ($actualBill->third_party_id != $precedentBill->third_party_id)
                     ){
-                        Bill::where('id', $id)->update(array('net_remaining' => $bill->net_payable));
+                        Bill::where('id', $id)->update(array('net_remaining' => $actualBill->net_payable));
                         BillPayment::where('bill_id', $id)->delete();
                     }
                 

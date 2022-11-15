@@ -127,4 +127,12 @@ class RoomController extends Controller
         $room->delete();
         return redirect('/rooms')->with('message',__('Room successfully deleted.'));
     }
+
+    public function getRoomsByBlock($blockId = null){
+        $rooms = Room::all()->where('block_id','=',$blockId)->pluck('name', 'id');
+
+        return response()->json([
+            'rooms'=>$rooms
+             ]);
+    }
 }

@@ -36,7 +36,7 @@
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
-                                <select name="block_id" id="input-block-search" class="form-control">
+                                <select name="block_id" id="input-block-search" class="form-control" onchange="getRoomsByBlock()">
                                   <option value="0">{{ __('Select block') }}</option>
                                   @foreach (\App\Models\Block::select('id','name')->get() as $block)
                                     <option value="{{ $block->id }}" {{ $block->id == $selected_id['block_id'] ? 'selected' : '' }}>
@@ -53,11 +53,11 @@
                               <div class="form-group">
                                 <select name="room_id" id="input-room-search" class="form-control">
                                   <option value="0">{{ __('Select room') }}</option>
-                                  @foreach (\App\Models\Room::select('id','name')->get() as $room)
+                                  <!-- @foreach (\App\Models\Room::select('id','name')->get() as $room)
                                     <option value="{{ $room->id }}" {{ $room->id == $selected_id['room_id'] ? 'selected' : '' }}>
                                     {{ $room['name'] }}
                                     </option>
-                                  @endforeach
+                                  @endforeach -->
                                 </select>
                               </div>
                             </div>

@@ -160,3 +160,33 @@ jQuery(document ).ready(function(){
 
 }
 
+function getRoomsByBlock(){
+  let blockId= jQuery('#input-block-search').val();
+  let url = base_path +"rooms/getRoomsByBlock/"+blockId;
+  $.ajax({
+    url : url,
+    type: 'get',
+    headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+    data :{
+        blockId:blockId
+    },
+    success:function(response){
+          console.log(response);
+          if(response) {
+                  $('#input-room-search').empty();
+                      $.each(response.rooms,function(key,value){
+                        $("#input-room-search").append("<option>'<?php __('Select room') ?>'</option>");
+                         
+                         $('#input-room-search').append( '<option value="'+key+'">'+value+'</option>' )
+                                
+                      });
+          }
+        },
+        error: function(error) {
+          console.log(error);
+        }
+  });
+}
+
