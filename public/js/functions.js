@@ -176,9 +176,10 @@ function getRoomsByBlock(){
           console.log(response);
           if(response) {
                   $('#input-room-search').empty();
+                  msg = "<?php echo __('Select room') ?>";
+                  $("#input-room-search").append("<option>"+msg+"</option>");
                       $.each(response.rooms,function(key,value){
-                        $("#input-room-search").append("<option>'<?php __('Select room') ?>'</option>");
-                         
+                        
                          $('#input-room-search').append( '<option value="'+key+'">'+value+'</option>' )
                                 
                       });
