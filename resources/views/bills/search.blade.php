@@ -12,8 +12,7 @@
                 <div class="card ">
                   
                     <div class="card-body ">
-                      
-                        <div class="col-sm-12">
+                    <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Customers') }}</label>
                         
                             <div class="col-sm-3" style="display: inline-block;">
@@ -27,9 +26,43 @@
                                   @endforeach
                                 </select>
                               </div>
-                            </div>	
+                            </div>
+                            
                             
                           </div>	
+                      
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Blocks') }}</label>
+                        
+                            <div class="col-sm-3" style="display: inline-block;">
+                              <div class="form-group">
+                                <select name="block_id" id="input-block-search" class="form-control">
+                                  <option value="0">{{ __('Select block') }}</option>
+                                  @foreach (\App\Models\Block::select('id','name')->get() as $block)
+                                    <option value="{{ $block->id }}" {{ $block->id == $selected_id['block_id'] ? 'selected' : '' }}>
+                                    {{ $block['name'] }}
+                                    </option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+
+                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Rooms') }}</label>
+                        
+                            <div class="col-sm-3" style="display: inline-block;">
+                              <div class="form-group">
+                                <select name="room_id" id="input-room-search" class="form-control">
+                                  <option value="0">{{ __('Select room') }}</option>
+                                  @foreach (\App\Models\Room::select('id','name')->get() as $room)
+                                    <option value="{{ $room->id }}" {{ $room->id == $selected_id['room_id'] ? 'selected' : '' }}>
+                                    {{ $room['name'] }}
+                                    </option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+                            
+                        </div>	
                           
                           <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Date from') }}</label>

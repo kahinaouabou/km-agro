@@ -109,6 +109,8 @@
         url :url,
         data: function (d) {
             d.third_party_id  = jQuery('#input-third-party-search').val(),
+            d.block_id  = jQuery('#input-block-search').val(),
+            d.room_id  = jQuery('#input-room-search').val(),
             d.date_from = jQuery('#input-date-from').val(),
             d.date_to = jQuery('#input-date-to').val()
         }

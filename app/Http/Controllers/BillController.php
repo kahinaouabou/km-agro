@@ -67,6 +67,12 @@ class BillController extends Controller
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
                            $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('block_id') ?
+                          $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('room_id') ?
+                            $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
                 ->where(function($query) use($request){
                     return $request->get('date_from') ?
                           $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
@@ -135,6 +141,8 @@ class BillController extends Controller
         $page = Bill::getTitleActivePageByTypeBill($type);
         $selected_id = [];
         $selected_id['third_party_id'] = $request->third_party_id;
+        $selected_id['block_id'] = $request->block_id;
+        $selected_id['room_id'] = $request->room_id;
         $selected_id['date_from'] = $request->date_from;
         $selected_id['date_to'] = $request->date_to;
       

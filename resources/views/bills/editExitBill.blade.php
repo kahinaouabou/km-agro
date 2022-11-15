@@ -162,7 +162,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '1',
                                                 'id' =>'input-net',
-                                                'onchange'=>'calculateNetPayableValue(this.value)',
+                                                //'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
                                                 ]) !!}
                     </div>
@@ -176,7 +176,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.01',
                                                 'id' =>'input-weight-discount-percentage',
-                                                'onchange'=>'calculateNetValueWithWeightDiscountPercentage(this.value)',
+                                                //'onchange'=>'calculateNetValueWithWeightDiscountPercentage(this.value)',
                                                 
                                                 ]) !!}
                     </div>
@@ -204,7 +204,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.01',
                                                 'id' =>'input-unit-price',
-                                                'onchange'=>'calculateNetPayableValue(this.value)',
+                                                //'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
                                                 ]) !!}
                     </div>
@@ -218,7 +218,7 @@
                                                 'class' => 'form-control',
                                                 'step' => '0.01',
                                                 'id' =>'input-discount-value',
-                                                'onchange'=>'calculateNetPayableValueWithDiscountValue(this.value)',
+                                                //'onchange'=>'calculateNetPayableValueWithDiscountValue(this.value)',
                                                 
                                                 ]) !!}
                     </div>
