@@ -77,6 +77,7 @@ class ThirdPartyController extends Controller
             'code' => 'nullable',
             'name' => 'required|min:3',
             'address' => 'nullable',
+            'phone' => 'nullable',
             'is_supplier'=> 'required',
         ]);
         $isSupplier = (int)$request->is_supplier ;
@@ -151,6 +152,7 @@ class ThirdPartyController extends Controller
             'code' => 'nullable',
             'name' => 'required|min:3',
             'address' => 'nullable',
+            'phone' => 'nullable',
             'is_supplier'=> 'required',
         ]);
         ThirdParty::whereId($id)->update($validatedData);

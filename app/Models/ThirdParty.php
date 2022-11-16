@@ -77,7 +77,7 @@ class ThirdParty extends Model
         return $thirdParties;
 
     }
-    protected $fillable  = ['code','name','address','is_supplier'];
+    protected $fillable  = ['code','name','address','phone','is_supplier'];
     protected $table = 'third_parties';
     
     use HasFactory;

@@ -52,6 +52,9 @@
                     <th>
                     {{__('Address')}} 
                     </th>
+                    <th>
+                    {{__('Phone')}} 
+                    </th>
                     
                     <th class="text-right">
                     {{ __('Actions')}}
@@ -69,6 +72,10 @@
                         </td>
                         <td>
                         {{ $thirdParty->address }}
+                        
+                        </td>
+                        <td>
+                        {{ $thirdParty->phone }}
                         
                         </td>
                         <td class="td-actions text-right">

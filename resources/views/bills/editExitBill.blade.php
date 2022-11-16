@@ -291,6 +291,7 @@ e.preventDefault(); //empêcher une action par défaut
 let code = $('#input-code').val();
 let name = $('#input-name').val();
 let address = $('#input-address').val();
+let phone = $('#input-phone').val();
 let is_supplier = $('#input-is-supplier').val();
 $.ajax({
   url : "{{ route('thirdParties.store') }}",
@@ -302,6 +303,7 @@ $.ajax({
       code:code,
       name:name,
       address:address,
+      phone:phone,
       is_supplier:is_supplier
   },
   success:function(response){

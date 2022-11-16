@@ -304,6 +304,8 @@ if(name.length!==0){
           $('#p-msg').html("");
           exist = false ;
           let is_supplier = $('#input-is-supplier').val();
+          let address = $('#input-address').val();
+          let phone = $('#input-phone').val();
           $.ajax({
             url : "{{ route('thirdParties.store') }}",
             type: 'post',
@@ -312,6 +314,8 @@ if(name.length!==0){
               },
             data :{
                 name:name,
+                address:address,
+                phone:phone,
                 is_supplier:is_supplier
             },
             success:function(response){

@@ -65,6 +65,17 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Phone') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-name" type="text" placeholder="{{ __('Phone') }}"   aria-required="true"/>
+                      @if ($errors->has('phone'))
+                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('phone') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                </div>
                 {!! Form::number('is_supplier', $isSupplier, [
                                   'hidden' => true
                                   ]) !!}
