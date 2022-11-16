@@ -317,7 +317,7 @@ class BillController extends Controller
         $precedentBill = Bill::findOrFail($id);
         $request->net_remaining = $request->net_payable;
         $validatedData = Bill::getValidateDataByType($request);
-        $validatedData['net_remaining']=  $validatedData['net_payable'];
+        //$validatedData['net_remaining']=  $validatedData['net_payable'];
         
         
         $type = (int)$request->bill_type ;

@@ -54,6 +54,7 @@
                       {!! Form::select('block_id', $blocks, $bill->block->id,
                       [
                         'class' => 'form-control',
+                        'id'=>"input-block",
                         'placeholder'=> __('Select block') ,
                         'label'=>__('Blocks'),
       
@@ -234,6 +235,9 @@
                                                 'id' =>'input-net-payable',
                                                 'required' => true
                                                 ]) !!}
+                    {!! Form::number('net_remaining', $bill->net_remaining, [
+                                                'hidden' => 'true'
+                                                ]) !!}                            
                     </div>
                   </div>
                 </div>
