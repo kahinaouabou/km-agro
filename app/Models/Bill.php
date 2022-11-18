@@ -152,5 +152,10 @@ class Bill extends Model
 
     }
 
+    public static function getSumUnstockedQuantityByRoomId($roomId){
+        $sumUnstockedQuantity = Bill::where('room_id','=',$roomId)->sum('net');
+        return $sumUnstockedQuantity;
+    }
+
    
 }

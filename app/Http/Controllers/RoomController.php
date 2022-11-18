@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RoomRequest;
 use App\Models\Room;
 use App\Models\Block;
+use App\Models\Bill;
 class RoomController extends Controller
 {
     /**
@@ -79,7 +80,8 @@ class RoomController extends Controller
         //
         $room = Room::findOrFail($id);
         $blocks = Block::pluck('name', 'id');
-        return view('rooms.edit', compact('room','blocks'));
+        $sumUnstockedQuantity = Bill::getSumUnstockedQuantityByRoomId($id);
+        return view('rooms.edit', compact('room','blocks','sumUnstockedQuantity'));
     }
 
     /**
@@ -101,6 +103,11 @@ class RoomController extends Controller
             'height'=>'required',
             'volume'=>'required',
             'stored_quantity'=>'required',
+            'unstocked_quantity'=>'required',
+            'damaged_quantity'=>'required',
+            'weightloss_value'=>'required',
+            'loss_value'=>'required',
+            'loss_percentage'=>'required',
             'block_id' => 'required',
         ]);
         if(Room::whereId($id)->update($validatedData)){

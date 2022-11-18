@@ -118,6 +118,54 @@
                   </div>
                 </div>
                 <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Unstocked quantity') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('unstocked_quantity', 0, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Damaged quantity') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('damaged_quantity', 0, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Weightloss') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('weightloss_value', 0, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Loss') .' %' }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('loss_percentage', 0, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Blocks') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('block_id') ? ' has-danger' : '' }}">

@@ -33,19 +33,25 @@
                     {{__('Name')}} 
                     </th>
                     <th>
-                    {{__('Length')}} 
-                    </th>
-                    <th>
-                    {{__('Width')}} 
-                    </th>
-                    <th>
-                    {{__('Height')}} 
-                    </th>
-                    <th>
                     {{__('Volume')}} 
                     </th>
                     <th>
                     {{__('Stored quantity')}} 
+                    </th>
+                    <th>
+                    {{__('Unstocked quantity')}} 
+                    </th>
+                    <th>
+                    {{__('Damaged quantity')}} 
+                    </th>
+                    <th>
+                    {{__('Weightloss')}} 
+                    </th>
+                    <th>
+                    {{__('Loss')}} 
+                    </th>
+                    <th>
+                    {{__('Loss'). ' %'}} 
                     </th>
                     <th>
                     {{__('Blocks')}} 
@@ -64,20 +70,27 @@
                         <td>
                         {{ $room->name }}
                         </td>
-                        <td>
-                        {{ $room->length }}
-                        </td>
-                        <td>
-                        {{ $room->width }}
-                        </td>
-                        <td>
-                        {{ $room->height }}
-                        </td>
+                       
                         <td>
                         {{ $room->volume }}
                         </td>
                         <td>
                         {{ $room->stored_quantity }}
+                        </td>
+                        <td>
+                        {{ $room->unstocked_quantity }}
+                        </td>
+                        <td>
+                        {{ $room->damaged_quantity }}
+                        </td>
+                        <td>
+                        {{ $room->weightloss_value }}
+                        </td>
+                        <td>
+                        {{ $room->loss_value }}
+                        </td>
+                        <td>
+                        {{ $room->loss_percentage }}
                         </td>
                         <td>
                         {{ $room->block->name }}

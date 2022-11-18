@@ -117,8 +117,85 @@
                     {!! Form::number('stored_quantity', $room->stored_quantity, [
                                                             'class' => 'form-control',
                                                             'step' => '0.1',
+                                                            'id' => 'input-stored-quantity',
                                                             'required' => true
                                                             ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Unstocked quantity') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    
+                    @if(($room->unstocked_quantity!=0))
+                    {!! Form::number('unstocked_quantity', $room->unstocked_quantity, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'id' => 'input-unstocked-quantity',
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    @else
+                    {!! Form::number('unstocked_quantity', $sumUnstockedQuantity, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'id' => 'input-unstocked-quantity',
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    @endif                                
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Damaged quantity') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('damaged_quantity', $room->damaged_quantity, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'id' => 'input-damaged-quantity',
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Weightloss') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('weightloss_value', $room->weightloss_value, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'id' => 'input-weightloss-value',
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Loss') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('loss_value', $room->loss_value, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'id' => 'input-loss-value',
+                                                    'step' => '0.1',
+                                                    ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Loss') .' %' }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::number('loss_percentage', $room->loss_percentage, [
+                                                    'class' => 'form-control',
+                                                    'required'=> true,
+                                                    'id' => 'input-loss-percentage',
+                                                    'step' => '0.01',
+                                                    ]) !!}
                     </div>
                   </div>
                 </div>

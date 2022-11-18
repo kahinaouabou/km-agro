@@ -16,7 +16,8 @@ class Room extends Model
         return $this->hasMany('App\Models\Bill');
     }
     
-    protected $fillable  = ['code','name','length','width','height','volume','stored_quantity','block_id'];
+    protected $fillable  = ['code','name','length','width','height','volume','block_id',
+                    'stored_quantity','unstocked_quantity','damaged_quantity','weightloss_value','loss_value','loss_percentage'];
     protected $table = 'rooms';
     
     use HasFactory;
@@ -29,6 +30,7 @@ class Room extends Model
         $nbRooms = Room::where('block_id','=',$blockId)->count();
         return $nbRooms;
     }
+   
      /**
      * @param  int  $blockId
      *

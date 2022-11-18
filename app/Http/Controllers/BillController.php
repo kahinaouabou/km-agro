@@ -79,11 +79,11 @@ class BillController extends Controller
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-                ->orderBy("bill_date","desc") ; 
+                ->orderBy("bill_date","desc")
+                ->offset($start)->limit($limit) ; 
                 $columns = $request['columns'];
                     
-                $count = $data->count();    
-                $data = $data->offset($start)->limit($limit);
+                $count = $data->count(); 
                 return Datatables::of($data)
                 
                 ->setTotalRecords($count)

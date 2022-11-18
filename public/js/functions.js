@@ -75,6 +75,31 @@ jQuery(document ).ready(function(){
         e.stopImmediatePropagation();
         calculateNetPayableValueWithDiscountValue();
       })
+
+      $("#input-stored-quantity").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
+
+      $("#input-stored-quantity").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateWeightlossValue();
+      })
+      $("#input-unstocked-quantity").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
+
+      $("#input-unstocked-quantity").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateWeightlossValue();
+      })
+      $("#input-damaged-quantity").focusout(function(e) {
+        e.stopImmediatePropagation();
+      })
+
+      $("#input-damaged-quantity").change(function(e) {
+        e.stopImmediatePropagation();
+        calculateWeightlossValue();
+      })
   });
   function getParcelsByThirdPartyId(){
       
@@ -156,9 +181,26 @@ jQuery(document ).ready(function(){
     }
   }
 
-  function checkIfNameThirdPartyExist(){
-
+function calculateWeightlossValue(){
+  if(jQuery('#input-stored-quantity').val() != '' && 
+  jQuery('#input-unstocked-quantity').val() != '' && 
+  jQuery('#input-damaged-quantity').val() != ''){
+  let storedQuantity = jQuery('#input-stored-quantity').val();
+  let unstockedQuantity = jQuery('#input-unstocked-quantity').val();
+  let damagedQuantity =  jQuery('#input-damaged-quantity').val();
+  console.log(storedQuantity);
+  console.log(unstockedQuantity);
+  console.log(damagedQuantity);
+  let weightlossValue = parseInt(storedQuantity) - (parseInt(unstockedQuantity) + parseInt(damagedQuantity)) ;
+    console.log(weightlossValue);
+  jQuery("#input-weightloss-value").val(weightlossValue.toFixed(2));  
+  let lossValue = parseInt(weightlossValue) + parseInt(damagedQuantity);
+  jQuery("#input-loss-value").val(lossValue.toFixed(2));
+  let lossPercentage = (parseInt(lossValue) * 100)/storedQuantity;
+  jQuery("#input-loss-percentage").val(lossPercentage.toFixed(2));
 }
+}
+
 
 function getRoomsByBlock(){
   let blockId= jQuery('#input-block-search').val();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNetWeightDiscountToBillsTable extends Migration
+class AddLossValueToRoomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddNetWeightDiscountToBillsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bills', function (Blueprint $table) {
+        Schema::table('rooms', function (Blueprint $table) {
             //
-            $table->decimal('net_weight_discount',10,2)->default(0)->after('weight_discount_percentage');
+            $table->decimal('loss_value',10,2)->default(0)->after('weightloss_value');
         });
     }
 
@@ -26,7 +26,7 @@ class AddNetWeightDiscountToBillsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bills', function (Blueprint $table) {
+        Schema::table('rooms', function (Blueprint $table) {
             //
         });
     }
