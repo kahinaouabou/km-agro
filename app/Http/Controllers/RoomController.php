@@ -53,7 +53,11 @@ if(!empty($request->room_id)){
         $rooms = Room::where( function($query) use($request){
             return $request->block_id ?
                    $query->from('rooms')->where('block_id',$request->block_id) : '';
+                   
         })
+        ->where( function($query) use($request){
+            return $request->get('room_id') ?
+                    $query->from('rooms')->whereIn('id',$request->room_id) : '';}) 
        ->get();
         $roomName = __('Rooms');
         $company = Company::first();
