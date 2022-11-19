@@ -19,10 +19,15 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
+        
         $rooms = Room::where( function($query) use($request){
             return $request->block_id ?
                    $query->from('rooms')->where('block_id',$request->block_id) : '';
         })
+        ->where( function($query) use($request){
+            return $request->get('room_id') ?
+                    $query->from('rooms')->whereIn('id',$request->room_id) : '';})           
+       
        ->get();
 
 $selected_id = [];
@@ -31,6 +36,11 @@ $selected_id['block_id'] = $request->block_id;
 }else {
 $selected_id['block_id'] = '';
 }
+if(!empty($request->room_id)){
+    $selected_id['room_id'] = $request->room_id;
+    }else {
+    $selected_id['room_id'] = '';
+    }
 
 
         return view('rooms.index',compact('rooms','selected_id')); 

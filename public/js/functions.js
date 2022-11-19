@@ -203,6 +203,7 @@ function calculateWeightlossValue(){
 
 
 function getRoomsByBlock(){
+ 
   let blockId= jQuery('#input-block-search').val();
   let url = base_path +"rooms/getRoomsByBlock/"+blockId;
   $.ajax({

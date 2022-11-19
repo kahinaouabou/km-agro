@@ -52,13 +52,13 @@
             border: 1px solid black;
             padding: 10px 5px 15px 5px;
             text-align: center;
-            font-size: 14px
+            font-size: 12px
         }
 
         .main-table td {
             text-align: center;
             padding: 3px 5px;
-            font-size: 12px;
+            font-size: 10px;
             padding: 10px 5px ;
         }
 </style>
@@ -90,17 +90,14 @@
 </header>  
 <body>
     
-    <h1 style=' width: 500px; margin-left : 180px; margin-bottom :50px; display:inline-block' >{{__('Rooms')}}</h1>
+    <h1 style=' width: 500px; margin-left : 100px; margin-bottom :50px; display:inline-block' >{{__('Déstockage PDT consommation saison 21/22')}}</h1>
     
 
     <div style="width: 600px; margin-left : 380px; margin-bottom :20px">
          </div>
  
   <br/>
-  <?php 
-  $countTakenBoxes =0;
-  $countReturnedBoxes =0;
-   ?>
+ <p style ="text-align:right">unité:Kg</p>
   <table width="100%" class='main-table'>
     <thead style="background-color: lightgray;">
                     <tr>
@@ -112,7 +109,7 @@
                     {{__('Name')}} 
                     </th>
                     <th>
-                    {{__('Stored quantity')}} 
+                    {{__('Stored quantity') }} 
                     </th>
                     <th>
                     {{__('Unstocked quantity')}} 
@@ -146,22 +143,22 @@
                    </td>
                   
                    <td>
-                   {{ $room->stored_quantity }}
+                   {{ number_format($room->stored_quantity, 0, ',', ' ') }}
                    </td>
                    <td>
-                   {{ $room->unstocked_quantity }}
+                   {{ number_format($room->unstocked_quantity, 0, ',', ' ') }}
                    </td>
                    <td>
-                   {{ $room->damaged_quantity }}
+                   {{ number_format($room->damaged_quantity, 0, ',', ' ') }}
                    </td>
                    <td>
-                   {{ $room->weightloss_value }}
+                   {{ number_format($room->weightloss_value, 0, ',', ' ') }}
                    </td>
                    <td>
-                   {{ $room->loss_value }}
+                   {{ number_format($room->loss_value, 0, ',', ' ') }}
                    </td>
                    <td>
-                   {{ $room->loss_percentage }}
+                   {{ number_format($room->loss_percentage, 2, ',', ' ') }}
                    </td>
                   
                 
