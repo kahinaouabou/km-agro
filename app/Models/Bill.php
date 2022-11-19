@@ -167,7 +167,7 @@ class Bill extends Model
                   $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
-                    $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
         ->where(function($query) use($request){
             return $request->get('date_from') ?
                   $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
@@ -188,7 +188,7 @@ class Bill extends Model
                   $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
-                    $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
         ->where(function($query) use($request){
             return $request->get('date_from') ?
                   $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
@@ -209,7 +209,7 @@ class Bill extends Model
                   $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
-                    $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
         ->where(function($query) use($request){
             return $request->get('date_from') ?
                   $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
