@@ -90,7 +90,7 @@
 				    <div class="card-body">
               <div class="row">
                 <div class="col-12 text-right">
-                <a target="_blanck" href="{{ route('transactionBoxes.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
+                  <a target="_blanck" href="{{ route('transactionBoxes.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
                 
                   <a href="{{ route('transactionBoxes.create') }}" class="btn btn-sm btn-primary">{{__('Add returned boxes')}}</a>
                 </div>

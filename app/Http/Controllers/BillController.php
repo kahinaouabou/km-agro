@@ -45,7 +45,12 @@ class BillController extends Controller
                 $dbBillType = BillTypeEnum::ExitBill;
             break ;    
         }  
+        
         if ($request->ajax()) {
+            $sumNet = Bill::getSumNet( $request );
+            $sumNetPayable = Bill::getSumNetPayable( $request );
+            $sumNetRemaining = Bill::getSumNetRemaining( $request );
+            $sumNetPaid = $sumNetPayable - $sumNetRemaining;
             $limit = request('length');
             $start = request('start');
             $data = DB::table('bills')
@@ -72,7 +77,7 @@ class BillController extends Controller
                           $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('room_id') ?
-                            $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
                 ->where(function($query) use($request){
                     return $request->get('date_from') ?
                           $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
@@ -109,6 +114,21 @@ class BillController extends Controller
                     ->editColumn('net_paid', function($row) {
                         return number_format($row->net_paid, 2, ',', ' ');
                     })
+                    ->addColumn('sumNet', function() use ($sumNet){
+                        return  number_format($sumNet, 2, ',', ' ');
+                    })
+                    ->addColumn('inputSumNet', function() use ($sumNet){
+                        return  $sumNet;
+                    })
+                    ->addColumn('sumNetPayable', function() use ($sumNetPayable){
+                        return number_format($sumNetPayable, 2, ',', ' ') ;
+                    })
+                    ->addColumn('sumNetRemaining', function() use ($sumNetRemaining){
+                        return number_format($sumNetRemaining, 2, ',', ' ')  ;
+                    })
+                    ->addColumn('sumNetPaid', function() use ($sumNetPaid){
+                        return number_format($sumNetPaid, 2, ',', ' ')  ;
+                    })
                     ->addColumn('action', function($row) use ($type){
                         $routeEdit =  route("bills.edit", [$row->id,$type]) ;
                         $routeDelete = route("bills.destroy", $row->id);
@@ -137,7 +157,8 @@ class BillController extends Controller
                     })
                     ->rawColumns(['action'])
                     ->make(true);
-        }
+        
+            }
         $page = Bill::getTitleActivePageByTypeBill($type);
         $selected_id = [];
         $selected_id['third_party_id'] = $request->third_party_id;
@@ -145,8 +166,12 @@ class BillController extends Controller
         $selected_id['room_id'] = $request->room_id;
         $selected_id['date_from'] = $request->date_from;
         $selected_id['date_to'] = $request->date_to;
-      
-        return view('bills.index',compact('bills','type','page','selected_id','dbBillType'));
+
+        $sumNet = Bill::getSumNet( $request );
+        $sumNetPayable = Bill::getSumNetPayable( $request );
+        $sumNetRemaining = Bill::getSumNetRemaining( $request );
+        return view('bills.index',compact('bills','type','page',
+        'selected_id','dbBillType','sumNet','sumNetPayable','sumNetRemaining'));
    
     }
     public function filterApplied($request) {

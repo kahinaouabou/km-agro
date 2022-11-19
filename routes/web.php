@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::resource('rooms', 'App\Http\Controllers\RoomController')->middleware('auth');
 Route::get('rooms/getRoomsByBlock/{blockId}', 'App\Http\Controllers\RoomController@getRoomsByBlock')->name('rooms.getRoomsByBlock')->middleware('auth');
+Route::get('room/print', 'App\Http\Controllers\RoomController@print')->name('rooms.print')->middleware('auth');
 
 Route::resource('products', 'App\Http\Controllers\ProductController')->middleware('auth');
 Route::resource('parcelCategories', 'App\Http\Controllers\ParcelCategoryController')->middleware('auth');

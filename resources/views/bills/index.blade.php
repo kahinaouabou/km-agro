@@ -64,7 +64,7 @@
                                 'id'=>'input-total-net'
                                   ]) !!}
                   
-                  <label class="col-sm-2 col-form-label" style="color: #000;">{{ __('Unit price') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Unit price') }}</label>
                       {!! Form::number('unit_price', null, [
                                                   'step' => '0.01',
                                                   'id' =>'input-unit-price',

@@ -157,5 +157,69 @@ class Bill extends Model
         return $sumUnstockedQuantity;
     }
 
+    public static function getSumNet($request){
+        $sumNet = Bill::
+        where( function($query) use($request){
+            return $request->get('third_party_id') ?
+                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('block_id') ?
+                  $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('room_id') ?
+                    $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+        ->where(function($query) use($request){
+            return $request->get('date_from') ?
+                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+        ->where(function($query) use($request){
+            return $request->get('date_to') ?
+                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+        ->sum("net","net_payable","net_remaining");
+        return $sumNet ;
+
+    }
+    public static function getSumNetPayable($request){
+        $sumNetPayable = Bill::
+        where( function($query) use($request){
+            return $request->get('third_party_id') ?
+                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('block_id') ?
+                  $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('room_id') ?
+                    $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+        ->where(function($query) use($request){
+            return $request->get('date_from') ?
+                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+        ->where(function($query) use($request){
+            return $request->get('date_to') ?
+                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+        ->sum("net_payable","net_remaining");
+        return $sumNetPayable ;
+
+    }
+    public static function getSumNetRemaining($request){
+        $sumNetRemaining = Bill::
+        where( function($query) use($request){
+            return $request->get('third_party_id') ?
+                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('block_id') ?
+                  $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('room_id') ?
+                    $query->from('bills')->where('room_id',$request->get('room_id')) : '';})           
+        ->where(function($query) use($request){
+            return $request->get('date_from') ?
+                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+        ->where(function($query) use($request){
+            return $request->get('date_to') ?
+                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+        ->sum("net_remaining");
+        return $sumNetRemaining ;
+
+    }
+
    
 }

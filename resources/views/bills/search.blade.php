@@ -51,7 +51,7 @@
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
-                                <select name="room_id" id="input-room-search" class="form-control">
+                                <select name="room_id" id="input-room-search" class="form-control" multiple>
                                   <option value="0">{{ __('Select room') }}</option>
                                   <!-- @foreach (\App\Models\Room::select('id','name')->get() as $room)
                                     <option value="{{ $room->id }}" {{ $room->id == $selected_id['room_id'] ? 'selected' : '' }}>

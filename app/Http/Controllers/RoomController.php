@@ -8,6 +8,8 @@ use App\Http\Requests\RoomRequest;
 use App\Models\Room;
 use App\Models\Block;
 use App\Models\Bill;
+use App\Models\Company;
+use PDF;
 class RoomController extends Controller
 {
     /**
@@ -15,12 +17,44 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $model
      * @return \Illuminate\Http\Response
      */
-    public function index(Room $model)
+    public function index(Request $request)
     {
-        $rooms = Room::all();
-        return view('rooms.index',compact('rooms')); 
+        $rooms = Room::where( function($query) use($request){
+            return $request->block_id ?
+                   $query->from('rooms')->where('block_id',$request->block_id) : '';
+        })
+       ->get();
+
+$selected_id = [];
+if(!empty($request->block_id)){
+$selected_id['block_id'] = $request->block_id;
+}else {
+$selected_id['block_id'] = '';
+}
+
+
+        return view('rooms.index',compact('rooms','selected_id')); 
         //
     }
+
+    function print (Request $request) {
+        
+       
+        $rooms = Room::where( function($query) use($request){
+            return $request->block_id ?
+                   $query->from('rooms')->where('block_id',$request->block_id) : '';
+        })
+       ->get();
+        $roomName = __('Rooms');
+        $company = Company::first();
+      
+        $pdf = PDF::loadView('rooms.pdf.print', 
+        compact('rooms','company'));
+        
+        return $pdf->download($roomName.'.pdf');
+    }
+   
+
 
     /**
      * Show the form for creating a new resource.

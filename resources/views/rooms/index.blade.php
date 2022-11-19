@@ -11,7 +11,51 @@
               {{ session('message') }}
           </div>
           @endif
-       
+          <div class="panel-group">
+            <div class="panel panel-default">
+            
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" href="#search"><i class="material-icons">search</i>{{ __('Search') }}</a>
+                </h4>
+              </div>
+              <div class="collapse " id="search">
+                <form action="{{ route('rooms.index') }}" method="GET" style="margin-top: 20px;">
+                
+                <div class="card ">
+                  
+                    <div class="card-body ">
+                      
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Blocks') }}</label>
+                        
+                            <div class="col-sm-3" style="display: inline-block;">
+                              <div class="form-group">
+                                <select name="block_id" id="input-block" class="form-control">
+                                  <option value="0">{{ __('Select block') }}</option>
+                                  @foreach (\App\Models\Block::select('id','name')->get() as $block)
+                                    <option value="{{ $block->id }}" {{ $block->id == $selected_id['block_id'] ? 'selected' : '' }}>
+                                    {{ $block['name'] }}
+                                    </option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>	
+                            
+                          </div>	
+                        		   
+                          
+                    </div>
+                    <div class="card-footer ml-auto mr-auto">
+                      <input type="submit" class="btn btn-danger btn-sm" value="{{ __('Filter') }}"> 
+                    </div>
+                    
+                  
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
           <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title ">{{__('Rooms')}}</h4>
@@ -20,13 +64,16 @@
             <div class="card-body">
                               <div class="row">
                 <div class="col-12 text-right">
+                <a target="_blanck" href="{{ route('rooms.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
+                
                   <a href="{{ route('rooms.create') }}" class="btn btn-sm btn-primary">{{__('Add room')}}</a>
                 </div>
               </div>
               <div class="table-responsive">
                 <table class="table">
                   <thead class=" text-primary">
-                    <tr><th>
+                    <tr>
+                      <th>
                        {{ __('Code')}}
                     </th>
                     <th>
@@ -59,7 +106,8 @@
                     <th class="text-right">
                     {{ __('Actions')}}
                     </th>
-                  </tr></thead>
+                  </tr>
+                </thead>
                   <tbody>
                   @foreach($rooms as $room)
                

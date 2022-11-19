@@ -149,23 +149,10 @@
                 }
             }],
         "createdRow": function ( row, data, index ) {
-            if(index==0){
-                sumNetPayable=  parseFloat(data.net_payable.replace(/ /g, ''));
-                sumNetRemaining =  parseFloat(data.net_remaining.replace(/ /g, ''));
-                sumNetPaid =  parseFloat(data.net_paid.replace(/ /g, ''));
-            }else {
-                sumNetPayable= parseFloat(sumNetPayable) + parseFloat(data.net_payable.replace(/ /g, ''));
-                sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(data.net_remaining.replace(/ /g, ''));
-                sumNetPaid =  parseFloat(sumNetPaid)+parseFloat(data.net_paid.replace(/ /g, ''));
-            
-            }
-            sumNetPayable = sumNetPayable.toFixed(2);
-            sumNetRemaining = sumNetRemaining.toFixed(2);
-            sumNetPaid = sumNetPaid.toFixed(2);
-            console.log(sumNetPayable);
-            $('#total-net-payable').html(new Intl.NumberFormat().format(sumNetPayable));
-            $('#total-net-remaining').html(new Intl.NumberFormat().format(sumNetRemaining));
-            $('#total-net-paid').html(new Intl.NumberFormat().format(sumNetPaid));
+           
+            $('#total-net-payable').html(data.sumNetPayable);
+            $('#total-net-remaining').html(data.sumNetRemaining);
+            $('#total-net-paid').html(data.sumNetPaid);
         },
        
     });
