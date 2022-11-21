@@ -73,7 +73,7 @@ class Bill extends Model
    
     /**
      * 
-     * @param tinyint $type
+     * @param int $type
      * @return array
      */
     public static function getTitleActivePageByTypeBill($type=null){
@@ -85,24 +85,35 @@ class Bill extends Model
                 $titlePage = 'Add entry bill';
                 $namePage = 'Entry bill';
                 $titleCard ='Entry bills';
+                $fieldParam = 'entry_bill';
                 break;
             case BillTypeEnum::ExitBill :
                 $activePage= 'bill/'.BillTypeEnum::ExitBill;
                 $titlePage = 'Add weigh bill';
                 $namePage = 'Weigh bill';
                 $titleCard = 'Weigh bills';
+                $fieldParam = 'weigh_bill';
                 break; 
             case BillTypeEnum::WeighBill :
                 $activePage= 'bill/'.BillTypeEnum::WeighBill;
                 $titlePage = 'Add weigh bill';
                 $namePage = 'Weigh bill';
                 $titleCard = 'Weigh bills';
-                break;     
+                $fieldParam = 'weigh_bill';
+                break; 
+            case BillTypeEnum::DamageBill :
+                    $activePage= 'bill/'.BillTypeEnum::DamageBill;
+                    $titlePage = 'Add damage bill';
+                    $namePage = 'Damage bill';
+                    $titleCard = 'Damage bills';
+                    $fieldParam = 'damage_bill';
+                    break;          
         }
         $page['active']=$activePage;
         $page['title']=$titlePage;
         $page['name']=$namePage;
         $page['titleCard']=$titleCard;
+        $page['fieldParam']=$fieldParam;
         return $page;
     }
     public static function getValidateDataByType($request){
@@ -145,6 +156,22 @@ class Bill extends Model
                     'net_weight_discount' => 'nullable',
                 ]);
                 break;
+                case BillTypeEnum::DamageBill :
+                    $validatedData = $request->validate([
+                        'reference' => 'required|min:3',
+                        'bill_date' => 'required|min:3',
+                        'bill_type'=> 'required',
+                        'product_id' => 'required',
+                        'block_id'=> 'required',
+                        'room_id'=> 'required',
+                        'origin'=> 'required',
+                        'number_boxes'=> 'required',
+                        'raw'=> 'required',
+                        'net'=> 'required',
+                        'tare'=> 'required',   
+                    ]);
+                    break;
+                
             default :
                 $validatedData = [];
         }

@@ -17,7 +17,7 @@
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
-                                <select name="third_party_id" id="input-third-party-search" class="form-control">
+                                <select name="third_party_id" id="input-third-party-search" class="third-party-select2 form-control">
                                   <option value="0">{{ __('Select customer') }}</option>
                                   @foreach (\App\Models\ThirdParty::select('id','name')->where('is_supplier','=',App\Enums\ThirdPartyEnum::Customer)->get() as $thirdParty)
                                     <option value="{{ $thirdParty->id }}" {{ $thirdParty->id == $selected_id['third_party_id'] ? 'selected' : '' }}>
@@ -51,7 +51,7 @@
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
-                                <select name="room_id" id="input-room-search" class="form-control" multiple>
+                                <select name="room_id" id="input-room-search" class="room-select2 form-control" multiple>
                                   <option value="0">{{ __('Select room') }}</option>
                                   <!-- @foreach (\App\Models\Room::select('id','name')->get() as $room)
                                     <option value="{{ $room->id }}" {{ $room->id == $selected_id['room_id'] ? 'selected' : '' }}>

@@ -36,7 +36,9 @@ class ThirdParty extends Model
                     case BillTypeEnum::ExitBill :
                     case BillTypeEnum::WeighBill:
                         $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Customer); 
-                        break;    
+                        break;
+                    default    :
+                    $thirdParties = [];    
                 }
             break;
             case 'edit':
@@ -47,7 +49,9 @@ class ThirdParty extends Model
                     case BillTypeEnum::ExitBill :
                     case BillTypeEnum::WeighBill:    
                         $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Customer); 
-                        break;    
+                        break;  
+                        default    :
+                        $thirdParties = [];      
                 }
             break ;   
 
@@ -58,6 +62,7 @@ class ThirdParty extends Model
     }
     public static function getThirdPartyTypeByBillType($billType){
         
+        $isSupplier =null;
         switch ($billType) {
                 case BillTypeEnum::EntryBill :
                     $isSupplier = ThirdPartyEnum::Supplier;

@@ -102,8 +102,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-       
-
+    
             $validatedData = $request->validate([
                 
                'reference' => 'required|min:3',
@@ -122,7 +121,7 @@ class PaymentController extends Controller
                         ->orderBy('reference', 'asc')
                         ->get();
                     
-                       
+                    
         $totalAmount = $request->amount;
             if($totalAmount>0){
                 foreach($bills as $bill){
@@ -146,8 +145,7 @@ class PaymentController extends Controller
                     Payment::where('id', $payment->id)->update(['amount_remaining'=> $totalAmount]);
                    }
                 } 
-            }
-                       
+            }      
             return response()->json(['success'=>$bills]);
           
           

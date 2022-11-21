@@ -128,21 +128,14 @@
                   <div class="col-sm-7">
                     <div class="form-group">
                     
-                    @if(($room->unstocked_quantity!=0))
-                    {!! Form::number('unstocked_quantity', $room->unstocked_quantity, [
-                                                    'class' => 'form-control',
-                                                    'required'=> true,
-                                                    'id' => 'input-unstocked-quantity',
-                                                    'step' => '0.1',
-                                                    ]) !!}
-                    @else
+                   
                     {!! Form::number('unstocked_quantity', $sumUnstockedQuantity, [
                                                     'class' => 'form-control',
                                                     'required'=> true,
                                                     'id' => 'input-unstocked-quantity',
                                                     'step' => '0.1',
                                                     ]) !!}
-                    @endif                                
+                                                   
 
                     </div>
                   </div>

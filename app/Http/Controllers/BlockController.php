@@ -51,7 +51,7 @@ class BlockController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\BlockRequest  $request
+     * @param  BlockRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(BlockRequest $request)

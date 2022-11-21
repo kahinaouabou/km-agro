@@ -18,7 +18,6 @@ use App\Http\Requests\TransactionBoxRequest;
 use App\Models\TransactionBox;
 use App\Models\Setting;
 use PDF;
-use Illuminate\Support\Facades\Date;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 use  Illuminate\Support\Facades\DB;
@@ -27,7 +26,7 @@ class BillController extends Controller
     /**
      * Display a listing of the resource.
      *
-         * @param tinyint $type
+         * @param int $type
      * @return \Illuminate\Http\Response
      */
     public function index($type, Request $request)
@@ -43,7 +42,10 @@ class BillController extends Controller
             case BillTypeEnum::ExitBill : 
             case BillTypeEnum::WeighBill:
                 $dbBillType = BillTypeEnum::ExitBill;
-            break ;    
+            break ;
+            case BillTypeEnum::DamageBill:
+                $dbBillType = BillTypeEnum::DamageBill;
+            break;    
         }  
         
         if ($request->ajax()) {
@@ -159,7 +161,7 @@ class BillController extends Controller
                     ->make(true);
         
             }
-        $page = Bill::getTitleActivePageByTypeBill($type);
+        $page = Bill::getTitleActivePageByTypeBill( $type);
         $selected_id = [];
         $selected_id['third_party_id'] = $request->third_party_id;
         $selected_id['block_id'] = $request->block_id;
@@ -170,7 +172,8 @@ class BillController extends Controller
         $sumNet = Bill::getSumNet( $request );
         $sumNetPayable = Bill::getSumNetPayable( $request );
         $sumNetRemaining = Bill::getSumNetRemaining( $request );
-        return view('bills.index',compact('bills','type','page',
+        return view('bills.index',
+        compact('bills','type','page',
         'selected_id','dbBillType','sumNet','sumNetPayable','sumNetRemaining'));
    
     }
@@ -207,13 +210,18 @@ class BillController extends Controller
         switch ($type){
             case BillTypeEnum::EntryBill:
                 $dbBillType = BillTypeEnum::EntryBill;
+                
             break;
             case BillTypeEnum::ExitBill : 
             case BillTypeEnum::WeighBill:
                 $dbBillType = BillTypeEnum::ExitBill;
-            break ;    
+            break ;
+            case BillTypeEnum::DamageBill:
+                $dbBillType = BillTypeEnum::DamageBill;
+            break;    
         } 
-        $nextReference = Setting::getNextReferenceByFieldName('weigh_bill');
+        $nextReference = Setting::getNextReferenceByFieldName($page['fieldParam']);
+       
         return view('bills.create', compact('products','trucks','blocks','isSupplier','dbBillType',
                                     'page','type','parcels','rooms','thirdParties','nextReference'));
     }
@@ -221,7 +229,7 @@ class BillController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-      * @param  \Illuminate\Http\BillRequest  $request
+      * @param  BillRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(BillRequest $request)
@@ -270,13 +278,13 @@ class BillController extends Controller
             switch ($displayType){
                 case BillTypeEnum::EntryBill :
                     return redirect('/bill/'.BillTypeEnum::EntryBill)->with('message',__('Entry bill successfully created.'));
-                    break;
+                    
                 case BillTypeEnum::ExitBill :
                     return redirect('/bill/'.BillTypeEnum::ExitBill)->with('message',__('Exit bill successfully created.'));
-                    break; 
+                    
                 case BillTypeEnum::WeighBill :
                     return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully created.'));
-                    break;     
+                         
             }
         }
     
@@ -295,6 +303,7 @@ class BillController extends Controller
     public function show($id)
     {
         //
+        return response('bills.shaw');
     }
 
     /**
@@ -381,13 +390,13 @@ class BillController extends Controller
             switch ($displayType){
                 case BillTypeEnum::EntryBill :
                     return redirect('/bill/'.BillTypeEnum::EntryBill)->with('message',__('Entry bill successfully updated.'));
-                    break;
+                   
                 case BillTypeEnum::ExitBill :
                     return redirect('/bill/'.BillTypeEnum::ExitBill)->with('message',__('Exit bill successfully updated.'));
-                    break; 
+                    
                 case BillTypeEnum::WeighBill :
                     return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully updated.'));
-                    break;     
+                         
             }
         }
 
@@ -416,11 +425,11 @@ class BillController extends Controller
             case 'internal':
                 $parcels = Parcel::where('parcel_category_id',1)->pluck('name', 'id');
                 return view('bills.getSelectByOrigin', compact('origin','parcels'));
-                break;
+                
             case 'external' :
                 $thirdParties = ThirdParty::where('is_supplier',ThirdPartyEnum::Supplier)->pluck('name', 'id');
                 return view('bills.getSelectByOrigin', compact('origin','thirdParties'));
-                break; 
+                 
              default:
              return view('bills.getSelectByOrigin', compact('origin'));      
         }

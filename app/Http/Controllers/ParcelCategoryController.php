@@ -36,7 +36,7 @@ class ParcelCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\ParcelCategoryRequest  $request
+     * @param  ParcelCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ParcelCategoryRequest $request)

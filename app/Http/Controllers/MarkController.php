@@ -35,7 +35,7 @@ class MarkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\MarkRequest  $request
+     * @param  MarkRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(MarkRequest $request)

@@ -56,12 +56,21 @@
                                   'hidden' => true
                                   ]) !!}                  
                                   
-
+           
+            </div>
+        
 <script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
-<script type="text/javascript">
 
+    
+<script type="text/javascript">
+//   $(document).ready(function() {
+//             // Select2 Multiple
+//             $('.third-party-select2').select2();
+
+//         });
   $(function () {
+
     let billIds = [];
     $.ajaxSetup({
     headers: {

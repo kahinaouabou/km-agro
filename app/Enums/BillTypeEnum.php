@@ -1,7 +1,5 @@
 <?php
 
-  
-
 namespace App\Enums;
 
 
@@ -12,5 +10,6 @@ class BillTypeEnum
     const ExitBill = 2;
 
     const WeighBill = 3;
+    const DamageBill = 4;
 
 }

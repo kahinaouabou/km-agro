@@ -12,7 +12,7 @@ class Setting extends Model
     'payment_size','payment_next_ref','payment_prefix'];
     protected $table = 'settings';
     use HasFactory;
-    public function getReferenceInfos($dbRefAutoFieldName)
+    static public function getReferenceInfos($dbRefAutoFieldName)
 	{
 		$referenceParameterFields =Setting::where([
                                 [$dbRefAutoFieldName,'=',1],

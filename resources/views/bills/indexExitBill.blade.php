@@ -177,6 +177,7 @@ let reference = $('#input-reference').val();
 let amount = $('#input-amount').val();
 let payment_date = $('#input-payment-date').val();
 let third_party_id = $('#input-third-party').val();
+console.log(third_party_id);
 let payment_type = $('#input-payment-type').val();
 $.ajax({
   url : "{{ route('payments.store') }}",
@@ -236,16 +237,17 @@ $.ajax({
       
 
     jQuery(document).on('click', '#addPaymentButton', function() {
-     
+        let thirdPartyIds= [];
       if(table.rows('.selected').data().length==0){
         $('#alertMessage').addClass('show'); 
         $('#alertMessage').css("display","block");
         $('#alertMessage .modal-body').html("<p><?php echo __('Select one row of table at least') ?></p>");
         
       } else {
-        let thirdPartyIds = [table.rows('.selected').data()[0].third_party_id];
+         thirdPartyIds = [table.rows('.selected').data()[0].third_party_id];
         for(i=0;i<= table.rows('.selected').data().length-1;i++){
             let thirdPartyId = table.rows('.selected').data()[i].third_party_id;
+            console.log(thirdPartyId);
             if ($.inArray(thirdPartyId, thirdPartyIds) == -1)
             {
                 thirdPartyIds.push(table.rows('.selected').data()[i].third_party_id);
@@ -264,8 +266,10 @@ $.ajax({
             let sumNetPayable = 0;
             let sumNetRemaining = 0;
             let sumNetPaid = 0;
+            billIds = [];
             for(i=0;i<= table.rows('.selected').data().length-1;i++){
                 billIds.push(table.rows('.selected').data()[i].id);
+                console.log(billIds);
                 let netPayable = table.rows('.selected').data()[i].net_payable.replace(/ /g, '');
                 console.log(parseFloat(netPayable));
                 sumNetPayable =  parseFloat(sumNetPayable)+parseFloat(netPayable);
@@ -277,7 +281,8 @@ $.ajax({
                 console.log(sumNetPaid);
             }
                 $('#input-amount').val(sumNetRemaining);
-                $('#input-amount-payable').val(sumNetRemaining);     
+                $('#input-amount-payable').val(sumNetRemaining);  
+                console.log(thirdPartyIds) ;  
                 $('#input-third-party').val(parseInt(thirdPartyIds[0])); 
         } 
       }

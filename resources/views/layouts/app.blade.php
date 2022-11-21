@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="{{ asset('/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
-   
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- CSS Files -->
     <link href="{{ asset('material') }}/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -29,7 +30,7 @@
     <script src="{{ asset('/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('/js/jquery-3.2.1.slim.min.js')}}"  crossorigin="anonymous"></script>
 	<script src="{{ asset('/js/popper.min.js')}}"   crossorigin="anonymous"></script>
-   
+    <script src="{{ asset('/js/select2.min.js')}}"  defer></script>
 
 
   </head>

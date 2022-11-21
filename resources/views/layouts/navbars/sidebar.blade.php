@@ -92,10 +92,16 @@
                 <span class="sidebar-normal">{{ __('Weigh bill for payment') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'bill/3' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'bill/' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::WeighBill ) }}">
               <i class="material-icons icon-sidebar"> Bp </i>
                 <span class="sidebar-normal">{{ __('Weigh bill') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'bill/4' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::DamageBill ) }}">
+              <i class="material-icons icon-sidebar"> Bd </i>
+                <span class="sidebar-normal">{{ __('Damage bill') }} </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'transactionBox' ? ' active' : '' }}">
