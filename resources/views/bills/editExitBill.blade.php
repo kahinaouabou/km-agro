@@ -1,5 +1,6 @@
 @include('bills.modals.addThirdParty')
 @include('bills.modals.addTruck') 
+
 <div class="card-body ">
                 @if (session('status'))
                   <div class="row">
@@ -81,32 +82,41 @@
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
+                  
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
-                      {!! Form::select('third_party_id', $thirdParties, $bill->thirdParty->id,
-                      [
-                        'class' => 'form-control',
-                        'id'=>'input-third-party',
-                        'placeholder'=> __('Select customer') ,
-                        'label'=>__('Customers'),
-      
-                        ]) !!}
+                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
+                        <option value="">{{ __('Select customer') }}</option>
+                        @foreach($thirdParties  as $key => $value)
+                        
+                        @if($key == $bill->thirdParty->id)
+                          <option selected value="{{ $key }}" >{{ $value }}</option>
+                        @else
+                        <option value="{{ $key }}" >{{ $value }}</option>
+                        @endif
+                        @endforeach
+                      </select>
                     </div>
                   </div>
+             
                   <button type="button" data-toggle="modal" data-target="#addThirdParty" class="btn btn-sm btn-primary" id="addThirdPartyButton"><i class="material-icons">edit</i></button>
                  
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
+                
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('truck_id') ? ' has-danger' : '' }}">
-                      {!! Form::select('truck_id', $trucks, $bill->truck->id,
-                      [
-                        'class' => 'form-control',
-                        'id' => 'input-truck',
-                        'placeholder'=> __('Select registration') ,
-      
-                        ]) !!}
+                      <select class="truck-select2 form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('Registration') }}" required >
+                      <option value="">{{ __('Select registration') }}</option>
+                        @foreach($trucks as $key => $value)
+                        @if($key == $bill->truck->id)
+                          <option selected value="{{ $key }}" >{{ $value }}</option>
+                        @else
+                        <option value="{{ $key }}" >{{ $value }}</option>
+                        @endif
+                        @endforeach
+                    </select>
                     </div>
                   </div>
                   <button type="button" data-toggle="modal" data-target="#addTruck" class="btn btn-sm btn-primary" id="addTruckButton"><i class="material-icons">edit</i></button>

@@ -81,7 +81,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
+                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
                         <option value="">{{ __('Select customer') }}</option>
                         @foreach($thirdParties as $thirdParty)
                         <option value="{{ $thirdParty->id }}" >{{ $thirdParty->name }}</option>
@@ -96,7 +96,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('truck_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('Registration') }}" required >
+                      <select class="truck-select2 form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('Registration') }}" required >
                       <option value="">{{ __('Select registration') }}</option>
                         @foreach($trucks as $truck)
                         <option value="{{ $truck->id }}" >{{ $truck->registration }}</option>
