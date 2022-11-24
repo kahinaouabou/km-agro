@@ -81,7 +81,7 @@ class BillController extends Controller
             }else {
                 $selected_id['date_to'] = '';
             }
-            $sumNet = Bill::getSumNet( $request );
+            $sumNet = Bill::getSumNet( $request, $dbBillType );
             $sumNetPayable = Bill::getSumNetPayable( $request );
             $sumNetRemaining = Bill::getSumNetRemaining( $request );
             $sumNetPaid = $sumNetPayable - $sumNetRemaining;
@@ -89,10 +89,10 @@ class BillController extends Controller
             $start = request('start');
             $data = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
-                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')     
+                ->leftjoin('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')     
                 ->join('blocks as Block', 'Block.id', '=', 'bills.block_id')     
                 ->join('rooms as Room', 'Room.id', '=', 'bills.room_id')     
-                ->join('trucks as Truck', 'Truck.id', '=', 'bills.truck_id')     
+                ->leftjoin('trucks as Truck', 'Truck.id', '=', 'bills.truck_id')     
                 ->select(
                 DB::raw('bills.net_payable - bills.net_remaining as net_paid')  , 
                 'bills.*', 
@@ -172,11 +172,21 @@ class BillController extends Controller
                     })
                     
                     ->addColumn('action', function($row) use ($type){
+                        $routeShow = route("bills.show", [$row->id,$type]) ;
                         $routeEdit =  route("bills.edit", [$row->id,$type]) ;
                         $routeDelete = route("bills.destroy", $row->id);
                         $routePrint = route("bills.printBill", [$row->id,$type ]);
                         $idDestroy = "destroy".$row->id;
-                        $btn ='<a rel="tooltip" class="btn btn-action btn-success btn-link edit-bill-button" 
+                        if($type ==BillTypeEnum::ExitBill){
+                            $btn ='<a rel="tooltip" class="btn btn-action btn-primary btn-link" 
+                        href='.$routeShow.' data-original-title="" title="">
+                        <i class="material-icons">visibility</i>
+                        <div class="ripple-container"></div>
+                            </a>';
+                        }else {
+                            $btn=''; 
+                        }
+                        $btn =$btn.'<a rel="tooltip" class="btn btn-action btn-success btn-link edit-bill-button" 
                         href='.$routeEdit.' data-original-title="" title="">
                         <i class="material-icons">edit</i>
                         <div class="ripple-container"></div>
@@ -236,7 +246,7 @@ class BillController extends Controller
         }
         
 
-        $sumNet = Bill::getSumNet( $request );
+        $sumNet = Bill::getSumNet( $request, $dbBillType );
         $sumNetPayable = Bill::getSumNetPayable( $request );
         $sumNetRemaining = Bill::getSumNetRemaining( $request );
         return view('bills.index',
@@ -301,9 +311,13 @@ class BillController extends Controller
      */
     public function store(BillRequest $request)
     {
-        $request->net_remaining = $request->net_payable;
+        
+        $type = (int)$request->bill_type ;
         $validatedData = Bill::getValidateDataByType($request);
+        if($type==BillTypeEnum::ExitBill){
         $validatedData['net_remaining']=  $validatedData['net_payable'];
+        
+        
         if($validatedData['number_boxes_returned']==Null){
             $validatedData['number_boxes_returned']=0; 
         }
@@ -316,11 +330,11 @@ class BillController extends Controller
         if($validatedData['net_weight_discount']==Null){
             $validatedData['net_weight_discount']=0; 
         }
+    }
         
-        //dd($request);
-        $type = (int)$request->bill_type ;
         if($bill= Bill::create($validatedData)){
-            Setting::setNextReferenceNumber('weigh_bill');
+            $page = Bill::getTitleActivePageByTypeBill($type);
+            Setting::setNextReferenceNumber($page['fieldParam']);
             if($type==BillTypeEnum::ExitBill){
                 $transactionBoxesRequest = new TransactionBoxRequest();
                 $params = [
@@ -351,7 +365,9 @@ class BillController extends Controller
                     
                 case BillTypeEnum::WeighBill :
                     return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully created.'));
-                         
+               case BillTypeEnum::DamageBill :
+                    return redirect('/bill/'.BillTypeEnum::DamageBill)->with('message',__('Damage bill successfully created.'));
+                               
             }
         }
     
@@ -367,10 +383,14 @@ class BillController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $type)
     {
         //
-        return response('bills.shaw');
+        $bill = Bill::findOrFail($id);
+
+        $billPayments = BillPayment::where('bill_id',$id)->get();
+        $page = Bill::getTitleActivePageByTypeBill( $type);
+        return view('bills.show',compact('bill','billPayments','page'));
     }
 
     /**
@@ -398,7 +418,11 @@ class BillController extends Controller
             case BillTypeEnum::ExitBill : 
             case BillTypeEnum::WeighBill:
                 $dbBillType = BillTypeEnum::ExitBill;
-            break ;    
+                break ;    
+                case BillTypeEnum::DamageBill:
+                    $dbBillType = BillTypeEnum::DamageBill;
+                break;    
+                
         }
        
         return view('bills.edit', compact('products','trucks','blocks','bill','isSupplier',
@@ -416,13 +440,13 @@ class BillController extends Controller
     {
         //
         $precedentBill = Bill::findOrFail($id);
-        $request->net_remaining = $request->net_payable;
         $validatedData = Bill::getValidateDataByType($request);
+     
         //$validatedData['net_remaining']=  $validatedData['net_payable'];
         
         
         $type = (int)$request->bill_type ;
-        if($bill=Bill::whereId($id)->update($validatedData)){
+        if(Bill::whereId($id)->update($validatedData)){
             if($type==BillTypeEnum::ExitBill){
                 $transactionBox = TransactionBox::where('bill_id','=',$id)->get();
                 if(!empty($transactionBox[0])){
@@ -454,6 +478,7 @@ class BillController extends Controller
                 
             }
             $displayType = (int)$request->display_type ;
+            
             switch ($displayType){
                 case BillTypeEnum::EntryBill :
                     return redirect('/bill/'.BillTypeEnum::EntryBill)->with('message',__('Entry bill successfully updated.'));
@@ -463,8 +488,12 @@ class BillController extends Controller
                     
                 case BillTypeEnum::WeighBill :
                     return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully updated.'));
-                         
+                
+                case BillTypeEnum::DamageBill :
+                        return redirect('/bill/'.BillTypeEnum::DamageBill)->with('message',__('Damage bill successfully updated.'));
+                     
             }
+         
         }
 
     }
@@ -516,7 +545,7 @@ class BillController extends Controller
         $pdf = PDF::loadView('bills.pdf.printBill', 
         compact('bill','page','billName','type','company','billPayments'));
         
-        return $pdf->download($billName.'.pdf');
+        return $pdf->stream($billName.'.pdf');
     }
     public function print($id){
         return view('bills.getSelectByOrigin'); 
@@ -562,7 +591,7 @@ class BillController extends Controller
         $pdf = PDF::loadView('bills.pdf.printSituation', 
         compact('bills','company','thirdParty'));
         
-        return $pdf->download($billsName.'.pdf');
+        return $pdf->stream($billsName.'.pdf');
     }
     
     public function addPaymentContent(){

@@ -22,6 +22,9 @@
                 @case (\App\Enums\BillTypeEnum::WeighBill)
                   @include('bills.editExitBill')
                 @break
+                @case (\App\Enums\BillTypeEnum::DamageBill)
+                  @include('bills.editDamageBill')
+                @break
               @endswitch
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>

@@ -106,6 +106,9 @@
                 @break 
                 @case (\App\Enums\BillTypeEnum::ExitBill)
                   @include('bills.pdf.printExitBill')
+                @break
+                @case (\App\Enums\BillTypeEnum::DamageBill)
+                  @include('bills.pdf.printWeighBill')
                 @break 
             @endswitch
 

@@ -26,7 +26,6 @@ class BillRequest extends FormRequest
         return [
             'reference' => ['required', 'min:3'],
             'product_id' => ['required'],
-            'truck_id' => ['required'],
             'bill_date' => ['required'],
             'number_boxes'=> ['required'],
             'raw'=> ['required'],

@@ -21,6 +21,15 @@ class AddDamageBillReferenceFieldsToSettingsTable extends Migration
             $table->integer('damage_bill_size');
             $table->integer('damage_bill_next_ref');
         });
+        DB::table('settings')->update([
+            'id'=>1,
+            'damage_bill_ref_auto'=>'1', 
+            'damage_bill_date_position'=>'1', 
+            'damage_bill_prefix'=>'BV', 
+            'damage_bill_size'=>3, 
+            'damage_bill_next_ref'=>1
+    
+        ]);
     }
 
     /**

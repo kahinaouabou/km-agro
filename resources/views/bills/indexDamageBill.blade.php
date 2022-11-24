@@ -10,9 +10,6 @@
                     </th>
                       <th>
                         {{__('Product')}} 
-                    </th>
-                    <th>
-                        {{__('Customer')}} 
                     </th> 
                    
                      <th>
@@ -22,9 +19,6 @@
                         {{__('Ch')}} 
                     </th>
                     
-                    <th>
-                        {{__('Truck')}} 
-                    </th>
                     <th>
                         {{__('Nb boxes')}} 
                     </th>
@@ -57,7 +51,7 @@
                                   ]) !!}                  
                                   
            
-         
+          
         
 <script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
@@ -98,10 +92,8 @@
             {data: 'reference', name: 'reference'},
             {data: 'bill_date', name: 'bill_date' ,stype:'eu_date'},
             {data: 'productName', name: 'Product.name', searchable: true},
-            {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'blockName', name: 'Block.name'},
             {data: 'roomName', name: 'Room.name'},
-            {data: 'truckName', name: 'Truck.registration'},
             {data: 'number_boxes', name: 'number_boxes'},
             {data: 'raw', name: 'raw'},
             {data: 'tare', name: 'tare'},
@@ -129,17 +121,7 @@
       
     });
 
-    jQuery(document).on('click', '.edit-bill-button', function(e) {
-     
-        e.preventDefault();
-        let href = $(this).attr('href');
-        $('#input-href').val(href);
-        $('#alertMessage').addClass('show'); 
-        $('#alertMessage').css("display","block");
-        $('#alertMessage .modal-body').html("<p><?php echo __('Do you accepte that the association with the payment will be deleted ?') ?></p>");
-        $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
-      
-     } )
+ 
 
     $("#btn-search").click(function(e){
         e.preventDefault();
@@ -148,17 +130,5 @@
     });
 
   });
-  function calculateNetPayable(){
-    let netTotal = jQuery('#input-total-net').val();
-    let unitPrice = jQuery('#input-unit-price').val(); 
-    if(jQuery('#input-unit-price').val() == '' ){
-        unitPrice =0;
-    }
-    if (jQuery('#input-net-total').val() != ''){
-    let totalNetPayable = parseFloat(netTotal)*parseFloat(unitPrice);
-    jQuery("#input-total-net-payable").val(totalNetPayable.toFixed(2));
-    $('#total-net-payable').html(new Intl.NumberFormat().format(totalNetPayable));
 
-    }
-  }
 </script>

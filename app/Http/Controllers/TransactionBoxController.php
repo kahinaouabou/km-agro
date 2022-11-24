@@ -96,7 +96,7 @@ class TransactionBoxController extends Controller
         $pdf = PDF::loadView('transactionBoxes.pdf.print', 
         compact('transactionBoxes','company','thirdParty'));
         
-        return $pdf->download($transactionBoxName.'.pdf');
+        return $pdf->stream($transactionBoxName.'.pdf');
     }
    
 

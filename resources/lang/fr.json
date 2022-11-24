@@ -139,6 +139,10 @@
 "Discount" :"Remise",
 "Exit bill successfully created.":"Le bon de sortie a été créé avec succès.",
 "Entry bill successfully created.":"Le bon d'entrée a été créé avec succès.",
+"Damage bill successfully created.":"Le bon avarié a été créé avec succès.",
+"Exit bill successfully updated." :"Le bon de sortie a été mofidié avec succès.",
+"Enty bill successfully updated." :"Le bon d'entrée a été mofidié avec succès.",
+"Damage bill successfully updated." :"Le bon avarié a été mofidié avec succès.",
 "Number boxes returned":"Nombre de caisses retournées",
 "Number boxes not returned":"Nombre de caisses non retournées",
 "Number boxes taken":"Nombre de caisses prises",
@@ -197,5 +201,9 @@
 "Damaged quantity":"Quantité avariée",
 "Weightloss":"Perte de poids",
 "Loss":"Perte",
-"Bills Situation":"Situation Net bons"
+"Bills Situation":"Situation Net bons",
+"Damage bill" :"Bon avarié",
+"damage bill" :"bon avarié",
+"Damage bills" :"Bons avarié",
+"Add damage bill" : "Ajouter bon avarié"
 }

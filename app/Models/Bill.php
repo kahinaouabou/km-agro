@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\BillTypeEnum;
 use Carbon\Carbon;
+use  Illuminate\Support\Facades\DB;
 
 class Bill extends Model
 {
@@ -117,6 +118,7 @@ class Bill extends Model
         return $page;
     }
     public static function getValidateDataByType($request){
+        
         switch ($request->bill_type){
             case BillTypeEnum::EntryBill :
                 $validatedData = $request->validate([
@@ -164,11 +166,17 @@ class Bill extends Model
                         'product_id' => 'required',
                         'block_id'=> 'required',
                         'room_id'=> 'required',
-                        'origin'=> 'required',
                         'number_boxes'=> 'required',
                         'raw'=> 'required',
                         'net'=> 'required',
-                        'tare'=> 'required',   
+                        'tare'=> 'required',  
+                        
+                        'unit_price'=> 'nullable',
+                    'net_payable'=> 'nullable',
+                    'number_boxes_returned' => 'nullable',           
+                    'weight_discount_percentage' => 'nullable',
+                    'discount_value' => 'nullable',
+                    'net_weight_discount' => 'nullable', 
                     ]);
                     break;
                 
@@ -184,9 +192,10 @@ class Bill extends Model
         return $sumUnstockedQuantity;
     }
 
-    public static function getSumNet($request){
+    public static function getSumNet($request, $dbBillType){
         $sumNet = Bill::
-        where( function($query) use($request){
+        where('bill_type', '=', $dbBillType)
+        ->where( function($query) use($request){
             return $request->get('third_party_id') ?
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
         ->where( function($query) use($request){
@@ -259,6 +268,7 @@ class Bill extends Model
         return $sumNetRemaining ;
 
     }
+  
 
    
 }

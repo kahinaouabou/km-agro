@@ -46,6 +46,9 @@
                 @case (\App\Enums\BillTypeEnum::WeighBill)
                   @include('bills.indexWeighBill')
                 @break
+                @case (\App\Enums\BillTypeEnum::DamageBill)
+                  @include('bills.indexDamageBill')
+                @break
               @endswitch
                
               </div>
@@ -79,6 +82,14 @@
                                 'id'=>'input-total-net-payable'
                                   ]) !!}  
                 <h4 class="card-title">{{__('Total net payable')}} : <strong id="total-net-payable"></strong><strong> DA</strong></h4>                                      
+              </div> 
+            @break
+            @case ( \App\Enums\BillTypeEnum::DamageBill)
+              <div class="card-header card-header-primary card-footer-primary">
+                <h4 class="card-title">{{__('Total quantity removed')}} : <strong id="total-net"></strong><strong> Kg</strong></h4>
+              
+                  
+                 
               </div> 
             @break
           @endswitch

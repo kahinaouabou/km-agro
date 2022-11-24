@@ -41,7 +41,7 @@ class PDFController extends Controller
 
     
 
-        return $pdf->download('itsolutionstuff.pdf');
+        return $pdf->stream('itsolutionstuff.pdf');
 
     }
 

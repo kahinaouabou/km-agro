@@ -22,7 +22,9 @@
   <table width="100%">
     <tr>
         <td><p style="font-size:18px"><strong >{{__('Product')}} :</strong> {{$bill->product->name}}</p></td>
+        @if($type == \App\Enums\BillTypeEnum::WeighBill)
         <td><p style="font-size:18px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </td>
+        @endif
     </tr>
   </table>
   <br/>

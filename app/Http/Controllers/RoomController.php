@@ -65,7 +65,7 @@ if(!empty($request->room_id)){
         $pdf = PDF::loadView('rooms.pdf.print', 
         compact('rooms','company'));
         
-        return $pdf->download($roomName.'.pdf');
+        return $pdf->stream($roomName.'.pdf');
     }
    
 

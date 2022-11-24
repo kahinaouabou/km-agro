@@ -88,6 +88,8 @@ Route::resource('bills', 'App\Http\Controllers\BillController')->middleware('aut
 Route::get('bill/{type}', 'App\Http\Controllers\BillController@index')->name('bills')->middleware('auth');
 Route::get('bills/{type}/create', 'App\Http\Controllers\BillController@create')->name('bills.create')->middleware('auth');
 Route::get('bills/{bill}/{type}/edit', 'App\Http\Controllers\BillController@edit')->name('bills.edit')->middleware('auth');
+Route::get('bills/{bill}/{type}/show', 'App\Http\Controllers\BillController@show')->name('bills.show')->middleware('auth');
+
 Route::get('bills/{blockId}/getRoomsByBlockId', 'App\Http\Controllers\BillController@getRoomsByBlockId')->name('bills.getRoomsByBlockId')->middleware('auth');
 Route::get('bills/{origin}/getSelectByOrigin', 'App\Http\Controllers\BillController@getSelectByOrigin')->name('bills.getSelectByOrigin')->middleware('auth');
 Route::get('bills/{thirdPartyId}/getParcelsByThirdPartyId', 'App\Http\Controllers\BillController@getParcelsByThirdPartyId')->name('bills.getParcelsByThirdPartyId')->middleware('auth');

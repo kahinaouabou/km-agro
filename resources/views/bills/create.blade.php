@@ -16,11 +16,14 @@
               </div>
               @switch($type)
                 @case (\App\Enums\BillTypeEnum::EntryBill)
-                  @include('bills.createEntryBill');
+                  @include('bills.createEntryBill')
                 @break
                 @case (\App\Enums\BillTypeEnum::ExitBill)
                 @case (\App\Enums\BillTypeEnum::WeighBill)
-                  @include('bills.createExitBill');
+                  @include('bills.createExitBill')
+                @break
+                @case (\App\Enums\BillTypeEnum::DamageBill)
+                  @include('bills.createDamageBill')
                 @break
               @endswitch
               <div class="card-footer ml-auto mr-auto">
