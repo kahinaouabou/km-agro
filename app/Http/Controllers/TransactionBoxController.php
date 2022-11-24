@@ -170,7 +170,6 @@ class TransactionBoxController extends Controller
             'third_party_id' => 'required',
             'number_boxes_returned'=>'required',
             'number_boxes_taken'=>'required',
-            'bill_id'=>'required',
         ]);
         TransactionBox::whereId($id)->update($validatedData);
         if(!empty($request->bill_id)){

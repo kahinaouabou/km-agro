@@ -2,7 +2,7 @@ jQuery(document ).ready(function(){
 
   $('.third-party-select2').select2();
   $('.truck-select2').select2();
-
+  $('.block-select2').select2();
   $('.room-select2').select2();
   let ids =[];
   jQuery(document).on('click', '.row-table', function() {

@@ -74,7 +74,6 @@
                 
                                   {!! Form::number('bill_id',$transactionBox->bill_id, [
                                   'class' => 'form-control',
-                                  'required' => true,
                                   'hidden'=>true
                                   ]) !!}                                    
               </div>

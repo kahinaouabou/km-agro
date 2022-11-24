@@ -200,7 +200,7 @@ class Bill extends Model
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('block_id') ?
-                  $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
                     $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
@@ -225,7 +225,7 @@ class Bill extends Model
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('block_id') ?
-                  $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
                     $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
@@ -250,7 +250,7 @@ class Bill extends Model
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('block_id') ?
-                  $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
                     $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
