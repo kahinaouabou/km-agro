@@ -37,15 +37,20 @@
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
+                 
                   <div class="col-sm-7">
-                    <div class="form-group">
-                   
-                    {!! Form::select('third_party_id', $thirdParties, $transactionBox->thirdParty->id,
-                      [
-                        'class' => 'form-control',
-                        'placeholder'=> __('Select customer') ,
-      
-                        ]) !!}
+                    <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
+                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
+                        <option value="">{{ __('Select customer') }}</option>
+                        @foreach($thirdParties  as $key => $value)
+                        
+                        @if($key == $transactionBox->thirdParty->id)
+                          <option selected value="{{ $key }}" >{{ $value }}</option>
+                        @else
+                        <option value="{{ $key }}" >{{ $value }}</option>
+                        @endif
+                        @endforeach
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -85,3 +90,5 @@
     </div>
   </div>
 @endsection
+<script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
+<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>

@@ -95,6 +95,9 @@ Route::get('generate-pdf', 'App\Http\Controllers\PDFController@generatePDF')->na
 Route::get('bills/{thirdParty}/{type}/printBill', 'App\Http\Controllers\BillController@printBill')->name('bills.printBill')->middleware('auth');
 Route::get('bills/{thirdParty}/print', 'App\Http\Controllers\BillController@print')->name('bills.print')->middleware('auth');
 Route::get('bill/addPaymentContent', 'App\Http\Controllers\BillController@addPaymentContent')->name('bills.addPaymentContent')->middleware('auth');
+Route::get('billSituation/printSituation', 'App\Http\Controllers\BillController@printSituation')->name('bills.printSituation')->middleware('auth');
+
+
 Route::resource('transactionBoxes', 'App\Http\Controllers\TransactionBoxController')->middleware('auth');
 Route::get('transactionBox', 'App\Http\Controllers\TransactionBoxController@filter')->name('transactionBoxes.filter')->middleware('auth');
 Route::get('transactionBox/print', 'App\Http\Controllers\TransactionBoxController@print')->name('transactionBoxes.print')->middleware('auth');

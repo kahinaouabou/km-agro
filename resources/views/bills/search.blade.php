@@ -27,9 +27,7 @@
                                 </select>
                               </div>
                             </div>
-                            
-                            
-                          </div>	
+                     </div>	
                       
                         <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Blocks') }}</label>
@@ -62,7 +60,26 @@
                               </div>
                             </div>
                             
-                        </div>	
+                        </div>
+                        @if($type == \App\Enums\BillTypeEnum::ExitBill)	
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Net remaining') }}</label>
+                            <?php $netRemainingConditions = ['='=>' = 0 ', '>'=>' > 0 ']; ?>
+                           
+                            <div class="col-sm-3" style="display: inline-block;">
+                              <div class="form-group">
+                                <select name="net_remaining" id="input-net-remaining-search" class=" form-control">
+                                  <option value="0">{{ __('Select Net') }}</option>
+                                  @foreach ($netRemainingConditions as $key=>$value)
+                                    <option value="{{ $key }}" {{ $key == $selected_id['net_remaining'] ? 'selected' : '' }}>
+                                    {{ $value }}
+                                    </option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          @endif
                           
                           <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Date from') }}</label>

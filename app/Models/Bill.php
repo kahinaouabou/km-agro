@@ -194,7 +194,11 @@ class Bill extends Model
                   $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                                           
         ->where(function($query) use($request){
             return $request->get('date_from') ?
                   $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
@@ -215,7 +219,11 @@ class Bill extends Model
                   $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                                           
         ->where(function($query) use($request){
             return $request->get('date_from') ?
                   $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
@@ -236,7 +244,11 @@ class Bill extends Model
                   $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
         ->where( function($query) use($request){
             return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
+       ->where( function($query) use($request){
+            return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                                           
         ->where(function($query) use($request){
             return $request->get('date_from') ?
                   $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})

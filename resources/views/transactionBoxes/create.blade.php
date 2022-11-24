@@ -41,7 +41,7 @@
                   <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select" placeholder="{{ __('Customer') }}" required >
+                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select" placeholder="{{ __('Customer') }}" required >
                       <option value="">{{ __('Select customer') }}</option>
                         @foreach($thirdParties as $thirdParty)
                         <option value="{{ $thirdParty->id }}" >{{ $thirdParty->name }}</option>
@@ -82,3 +82,5 @@
     </div>
   </div>
 @endsection
+<script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
+<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>

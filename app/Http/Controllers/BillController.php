@@ -49,6 +49,38 @@ class BillController extends Controller
         }  
         
         if ($request->ajax()) {
+            $selected_id = [];
+            if(!empty($request->third_party_id)){
+                $selected_id['third_party_id'] = $request->third_party_id;
+            }else {
+                $selected_id['third_party_id'] = '';
+            }
+            if(!empty($request->block_id)){
+                $selected_id['block_id'] = $request->block_id;
+            }else {
+                $selected_id['block_id'] = '';
+            }
+            if(!empty($request->room_id)){
+                $selected_id['room_id'] = $request->room_id;
+            }else {
+                $selected_id['room_id'] = '';
+            }
+    
+            if(!empty($request->net_remaining)){
+                $selected_id['net_remaining'] = $request->net_remaining;
+            }else {
+                $selected_id['net_remaining'] = '';
+            }
+            if(!empty($request->date_from)){
+                $selected_id['date_from'] = $request->date_from;
+            }else {
+                $selected_id['date_from'] = '';
+            }
+            if(!empty($request->date_to)){
+                $selected_id['date_to'] = $request->date_to;
+            }else {
+                $selected_id['date_to'] = '';
+            }
             $sumNet = Bill::getSumNet( $request );
             $sumNetPayable = Bill::getSumNetPayable( $request );
             $sumNetRemaining = Bill::getSumNetRemaining( $request );
@@ -79,8 +111,12 @@ class BillController extends Controller
                           $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('room_id') ?
-                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})           
-                ->where(function($query) use($request){
+                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';}) 
+                ->where( function($query) use($request){
+                    return $request->get('net_remaining') ?
+                            $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                
+                            ->where(function($query) use($request){
                     return $request->get('date_from') ?
                           $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
                 ->where(function($query) use($request){
@@ -131,6 +167,10 @@ class BillController extends Controller
                     ->addColumn('sumNetPaid', function() use ($sumNetPaid){
                         return number_format($sumNetPaid, 2, ',', ' ')  ;
                     })
+                    ->addColumn('selected_id', function() use ($selected_id){
+                        return $selected_id  ;
+                    })
+                    
                     ->addColumn('action', function($row) use ($type){
                         $routeEdit =  route("bills.edit", [$row->id,$type]) ;
                         $routeDelete = route("bills.destroy", $row->id);
@@ -163,11 +203,38 @@ class BillController extends Controller
             }
         $page = Bill::getTitleActivePageByTypeBill( $type);
         $selected_id = [];
-        $selected_id['third_party_id'] = $request->third_party_id;
-        $selected_id['block_id'] = $request->block_id;
-        $selected_id['room_id'] = $request->room_id;
-        $selected_id['date_from'] = $request->date_from;
-        $selected_id['date_to'] = $request->date_to;
+        if(!empty($request->third_party_id)){
+            $selected_id['third_party_id'] = $request->third_party_id;
+        }else {
+            $selected_id['third_party_id'] = '';
+        }
+        if(!empty($request->block_id)){
+            $selected_id['block_id'] = $request->block_id;
+        }else {
+            $selected_id['block_id'] = '';
+        }
+        if(!empty($request->room_id)){
+            $selected_id['room_id'] = $request->room_id;
+        }else {
+            $selected_id['room_id'] = '';
+        }
+
+        if(!empty($request->net_remaining)){
+            $selected_id['net_remaining'] = $request->net_remaining;
+        }else {
+            $selected_id['net_remaining'] = '';
+        }
+        if(!empty($request->date_from)){
+            $selected_id['date_from'] = $request->date_from;
+        }else {
+            $selected_id['date_from'] = '';
+        }
+        if(!empty($request->date_to)){
+            $selected_id['date_to'] = $request->date_to;
+        }else {
+            $selected_id['date_to'] = '';
+        }
+        
 
         $sumNet = Bill::getSumNet( $request );
         $sumNetPayable = Bill::getSumNetPayable( $request );
@@ -454,6 +521,50 @@ class BillController extends Controller
     public function print($id){
         return view('bills.getSelectByOrigin'); 
     }
+    public function printSituation(Request $request){
+       
+        $bills = DB::table('bills')
+                ->join('products as Product', 'Product.id', '=', 'bills.product_id')
+                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')   
+                ->select(
+                DB::raw('bills.net_payable - bills.net_remaining as net_paid')  , 
+                'bills.*', 
+                'Product.name as productName',
+                'ThirdParty.name as thirdPartyName',
+                DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date") )
+                ->where('bill_type', '=', BillTypeEnum::ExitBill)
+                ->where( function($query) use($request){
+                    return $request->get('third_party_id') ?
+                           $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('block_id') ?
+                          $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('room_id') ?
+                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';}) 
+                ->where( function($query) use($request){
+                    return $request->get('net_remaining') ?
+                            $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                
+                            ->where(function($query) use($request){
+                    return $request->get('date_from') ?
+                          $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+                ->where(function($query) use($request){
+                    return $request->get('date_to') ?
+                        $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+                ->orderBy("bill_date","desc")->get();
+              
+           
+        $billsName = __('Bills situation');
+        $company = Company::first();
+        $thirdParty = ThirdParty::find($request->third_party_id);
+        
+        $pdf = PDF::loadView('bills.pdf.printSituation', 
+        compact('bills','company','thirdParty'));
+        
+        return $pdf->download($billsName.'.pdf');
+    }
+    
     public function addPaymentContent(){
 
     }
