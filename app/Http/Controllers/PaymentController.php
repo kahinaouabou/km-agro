@@ -302,8 +302,6 @@ class PaymentController extends Controller
             
             $billIds = JSON_decode($request->billIds);
             $paymentIds = JSON_decode($request->paymentIds);
-            $billIds = [172];
-            $paymentIds = [177,178];
            
             $bills = Bill::whereIn('id', $billIds)
             ->where('net_remaining','>',0)
