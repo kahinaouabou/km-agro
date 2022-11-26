@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Enums\PaymentTypeEnum;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Payment;
 use App\Models\Bill;
+use App\Models\ThirdParty;
 use App\Models\Setting;
 use App\Models\Company;
 use App\Models\BillPayment;
@@ -88,10 +90,13 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        //
-        return view('payments.create');
+        $nextReference = Setting::getNextReferenceByFieldName('payment');
+        $page = Payment::getTitleActivePageByPaymentType($type);
+        $thirdParties = ThirdParty:: getThirdPartiesByType($type);
+
+        return view('payments.create',compact('nextReference','page','thirdParties','type'));
     }
 
     /**
@@ -113,40 +118,12 @@ class PaymentController extends Controller
             ]);
         $payment = Payment::create($validatedData);
         Setting::setNextReferenceNumber('payment');
-           $billIds = JSON_decode($request->billIds);
-           
-            $bills = Bill::whereIn('id', $billIds)
-                        ->where('net_remaining','>',0)
-                        ->orderBy('bill_date', 'asc')
-                        ->orderBy('reference', 'asc')
-                        ->get();
-                    
-                    
-        $totalAmount = $request->amount;
-            if($totalAmount>0){
-                foreach($bills as $bill){
-                    $netRemainingBill = $bill->net_remaining;
-                    if($totalAmount>=$netRemainingBill){
-                        $amountPaid = $netRemainingBill;
-                        $netRemaining = 0;
-                        $totalAmount = $totalAmount - $netRemainingBill; 
-                    }else {
-                        $amountPaid = $totalAmount;
-                        $netRemaining = $netRemainingBill - $totalAmount;
-                        $totalAmount =0;
-                    }
-                        $params = [
-                            'bill_id' => $bill->id,
-                            'payment_id' => $payment->id,
-                            'amount_paid'=>$amountPaid ,
-                        ];
-                   if(BillPayment:: insertBillPayment($params)) {
-                    Bill::where('id', $bill->id)->update(['net_remaining'=> $netRemaining]);
-                    Payment::where('id', $payment->id)->update(['amount_remaining'=> $totalAmount]);
-                   }
-                } 
-            }      
-            return response()->json(['success'=>$bills]);
+        if ($request->ajax()) {
+            $this->addAssociationPaymentBills($request, $payment);
+        }
+        return redirect('/payments')->with('message',__('Payment successfully created.'));
+               
+            
           
           
         //  
@@ -218,6 +195,175 @@ class PaymentController extends Controller
         compact('payment','paymentName','company','paymentBills'));
         return $pdf->stream($paymentName.'.pdf');
     }
+    public function addAssociationPaymentBills($request, $payment){
+        $billIds = JSON_decode($request->billIds);
+           
+        $bills = Bill::whereIn('id', $billIds)
+                    ->where('net_remaining','>',0)
+                    ->orderBy('bill_date', 'asc')
+                    ->orderBy('reference', 'asc')
+                    ->get();
+                
+    $totalAmount = $request->amount;
+        if($totalAmount>0){
+            foreach($bills as $bill){
+                $netRemainingBill = $bill->net_remaining;
+                if($totalAmount>=$netRemainingBill){
+                    $amountPaid = $netRemainingBill;
+                    $netRemaining = 0;
+                    $totalAmount = $totalAmount - $netRemainingBill; 
+                }else {
+                    $amountPaid = $totalAmount;
+                    $netRemaining = $netRemainingBill - $totalAmount;
+                    $totalAmount =0;
+                }
+                    $params = [
+                        'bill_id' => $bill->id,
+                        'payment_id' => $payment->id,
+                        'amount_paid'=>$amountPaid ,
+                    ];
+               if(BillPayment:: insertBillPayment($params)) {
+                Bill::where('id', $bill->id)->update(['net_remaining'=> $netRemaining]);
+                Payment::where('id', $payment->id)->update(['amount_remaining'=> $totalAmount]);
+               }
+            } 
+        } 
+        return response()->json(['success'=>$bills]);
+    }
+
+    public function getReceiptsByThirdPartyId($thirdPartyId){
+     
+        
+        // $payments = DB::table('payments')
+        // ->leftjoin('bill_payment as BillPayment', 'BillPayment.payment_id', '=', 'payments.id')   
+        // ->select(
+        // //DB::raw('amount-SUM(amount_paid) as rest')  , 
+        // 'payments.*','BillPayment.*')
+        // ->where('third_party_id', $thirdPartyId)
+        // ->where('payment_type',PaymentTypeEnum::Receipt)
+        // //->having('rest', '=',null)
+        // //->groupBy('payments.id')
+        // ->orderBy('payment_date', 'asc')
+        // ->orderBy('reference', 'asc')
+        // ->get();
+        $payments = DB::table('payments')
+        ->select('payments.*',DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date") )
+        ->where('third_party_id', $thirdPartyId)
+        ->where('payment_type',PaymentTypeEnum::Receipt)
+        ->orderBy('payment_date', 'asc')
+        ->orderBy('reference', 'asc')
+        ->get();
+        
+        $receipts = [];
+        if(!empty($payments)){
+            
+        foreach($payments as $payment){
+            $sumAmountPaid = BillPayment::where('payment_id',$payment->id)->sum('amount_paid');
+            if($payment->amount>$sumAmountPaid){
+                $rest = $payment->amount-$sumAmountPaid;
+                $payment->rest = $rest;
+                $receipts[]=$payment;
+            }
+        }
+        }
+        return view('payments.getReceiptsByThirdPartyId', compact('receipts'));
+        
+    }
+
+    public function getReceiptsByPaymentIds($paymentIds){
+     
+    
+        $payments = DB::table('payments')
+        ->select('payments.*',DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date") )
+        ->whereIn('id', $paymentIds)
+        ->where('payment_type',PaymentTypeEnum::Receipt)
+        ->orderBy('payment_date', 'asc')
+        ->orderBy('reference', 'asc')
+        ->get();
+        $receipts = [];
+        if(!empty($payments)){
+            
+        foreach($payments as $payment){
+            $sumAmountPaid = BillPayment::where('payment_id',$payment->id)->sum('amount_paid');
+            if($payment->amount>$sumAmountPaid){
+                $rest = $payment->amount-$sumAmountPaid;
+                $payment->rest = $rest;
+                $receipts[]=$payment;
+            }
+        }
+        }
+        return $receipts;
+        
+    }
+
+    public function associatePaymentsBills(Request $request){
+       
+        if ($request->ajax()) {
+            $billIds = JSON_decode($request->billIds);
+            $paymentIds = JSON_decode($request->paymentIds);
+            $bills = Bill::whereIn('id', $billIds)
+            ->where('net_remaining','>',0)
+            ->orderBy('bill_date', 'asc')
+            ->orderBy('reference', 'asc')
+            ->get();
+            
+            
+                $j = 0;
+                $nbBills = count($bills);
+                $payments = $this->getReceiptsByPaymentIds($paymentIds);
+                
+                foreach ($payments as $payment) {
+                   
+                  
+
+                    $payrollAmount = $payment->rest;
+                    while ($payrollAmount > 0 && $j < $nbBills) {
+
+                        $bill = $bills[$j];
+                       
+                        $amountRemainingInvoice = $bill->net_remaining;
+                        
+                        if ($payrollAmount >= $amountRemainingInvoice) {
+                            $amountPaid = $amountRemainingInvoice;
+                            $amountRemaining = 0;
+                            $payrollAmount = $payrollAmount - $amountRemainingInvoice;
+                        } else {
+                            $amountPaid = $payrollAmount;
+                            $amountRemaining = $amountRemainingInvoice - $payrollAmount;
+                            $payrollAmount = 0;
+                        }
+                        $params = [
+                            'bill_id' => $bill->id,
+                            'payment_id' => $payment->id,
+                            'amount_paid'=>$amountPaid ,
+                        ];
+                            if(BillPayment:: insertBillPayment($params)) {
+                                Bill::where('id', $bill->id)->update(['net_remaining'=> $amountRemaining]);
+                                Payment::where('id', $payment->id)->update(['amount_remaining'=> $payrollAmount]);
+                            }
+                       
+                        if ($amountRemaining == 0) {
+                            $j++;
+                        }
+
+                    }
+                  
+                }
+               
+
+
+                return response()->json(['success'=>$bills]);
+
+
+        }
+
+
+    }
+
+    
+
+
+    
 
 
 }

@@ -71,6 +71,7 @@
                                                 'step' => '0.01',
                                                 'id' =>'input-remaining',
                                                 'required' => true,
+                                                'readonly'=>true
                                                 ]) !!}
                     </div>
                   </div>

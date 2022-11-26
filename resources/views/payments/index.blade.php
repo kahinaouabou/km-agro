@@ -25,7 +25,8 @@
             <div class="card-body">
                               <div class="row">
                 <div class="col-12 text-right">
-                  <a href="{{ route('payments.create') }}" class="btn btn-sm btn-primary">{{ __('Add payment')}}</a>
+                  <a href="{{ route('payments.create', \App\Enums\PaymentTypeEnum::Receipt) }}" class="btn btn-sm btn-primary">{{ __('Add receipt')}}</a>
+                  <a href="{{ route('payments.create',\App\Enums\PaymentTypeEnum::Disbursement) }}" class="btn btn-sm btn-primary">{{ __('Add disbursement')}}</a>
                 
                 </div>
               </div>

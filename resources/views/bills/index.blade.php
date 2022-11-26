@@ -26,8 +26,11 @@
                               <div class="row">
                 <div class="col-12 text-right">
                   @if($type==\App\Enums\BillTypeEnum::ExitBill)
+                  <button type="button" data-toggle="modal" data-target="#associatePayments" class="btn btn-sm btn-primary" id="associatePaymentButton">{{__('Associate payment')}}</button>
                   
                   <button type="button" data-toggle="modal" data-target="#addPayments" class="btn btn-sm btn-primary" id="addPaymentButton">{{__('Payment')}}</button>
+                  
+                  
                   <a target="_blanck" id='print-situation' href="{{ route('bills.printSituation', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
                   
                   @endif

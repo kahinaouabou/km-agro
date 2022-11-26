@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'product', 'titlePage' => __('Add product')])
+@extends('layouts.app', ['activePage' => $page['active'], 'titlePage' => __($page['title'])])
 
 @section('content')
 <div class="content">
@@ -9,12 +9,29 @@
       <form id="add-payment-form" method="post" action="{{ route('payments.store') }}" autocomplete="off" class="form-horizontal">
             @csrf
             @method('post')
-        <div class="modal-body">
+            <div class="card ">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title ">{{__($page['titleCard'])}}</h4>
+              <p class="card-category"> {{__($page['name']).' '.__('information')}}</p>
+              </div>
+              <div class="card-body ">
+                @if (session('status'))
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <i class="material-icons">close</i>
+                        </button>
+                        <span>{{ session('status') }}</span>
+                      </div>
+                    </div>
+                  </div>
+                @endif
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Reference') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
-                      {!! Form::input('text','reference',null,[
+                      {!! Form::input('text','reference',$nextReference,[
                         'class' => 'form-control',
                         'id'=>'input-reference'
                         ]) !!}
@@ -33,34 +50,47 @@
                   </div>
                 </div>
                 <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Third party') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
+                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
+                        <option value="">{{ __('Select third') }}</option>
+                        @foreach($thirdParties as $thirdParty)
+                        <option value="{{ $thirdParty->id }}" >{{ $thirdParty->name }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                </div> 
+                <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Amount') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
                     {!! Form::number('amount', null, [
                                                 'class' => 'form-control',
-                                                'step' => '0.1',
+                                                'step' => '0.01',
                                                 'id' =>'input-amount',
                                                 'required' => true,
                                                 ]) !!}
-                                                {!! Form::number('payment_type', 1, [
-                                                'class' => 'form-control',
-                                                'step' => '0.1',
-                                                'required' => true,
-                                                ]) !!} 
-                                                {!! Form::number('third_party_id', 1, [
-                                                'class' => 'form-control',
-                                                'step' => '0.1',
-                                                'required' => true,
-                                                ]) !!}                             
+                                                                            
                     </div>
                   </div>
-                </div>  
-        
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-        <button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __('Close') }}</button>
-      </div>
+                </div> 
+               
+                {!! Form::number('payment_type', $type, [
+                                                'class' => 'form-control',
+                                                'step' => '0.1',
+                                                'required' => true,
+                                                'hidden'=>true
+                                                ]) !!} 
+                                            
+             </div>
+              <div class="card-footer ml-auto mr-auto">
+                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                <a class="btn btn-default btn-close" href="{{ route('payments.index') }}">{{ __('Cancel') }}</a>
+             
+              </div>
+            </div>
       </form>
  
 </div>
@@ -69,53 +99,9 @@
     </div>
   </div>
 @endsection
+
 <script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
+
+<script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
 <script type="text/javascript">
-  jQuery(document).on('click', '.quick-close', function() {
-        $('#addPayment').removeClass('show'); 
-        $('#addPayment').css("display","none");
-  });
- 
-  $("#add-payment-form").submit(function(e){
-  e.preventDefault(); //empêcher une action par défaut
-  let url = $(this).attr("action"); //récupérer l'URL du formulaire
-
-  let method = $(this).attr("method"); //récupérer la méthode GET/POST du formulaire
-    // let data = $(this).serialize(); //Encoder les éléments du formulaire pour la soumission
-  let _token   = $('meta[name="csrf-token"]').attr('content');
-  let reference = $('#input-reference').val();
-  let amount = $('#input-amount').val();
-  let payment_date = $('#input-payment-date').val();
-  console.log(_token);
-
-  $.ajax({
-    url : url,
-    type: method,
-    headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-    data :{
-        "reference":reference,
-        "payment_date":payment_date,
-        "amount":amount,
-    },
-    dataType: "json",
-    contentType: 'application/json; charset=utf-8',
-    success:function(response){
-          console.log(response);
-          if(response) {
-            $('.success').text(response.success);
-            $("#add-payment-form")[0].reset();
-          }
-        },
-        error: function(error) {
-        //  console.log(error);
-        //   $('#nameError').text(response.responseJSON.errors.name);
-        //   $('#emailError').text(response.responseJSON.errors.email);
-        //   $('#mobileError').text(response.responseJSON.errors.mobile);
-        //   $('#messageError').text(response.responseJSON.errors.message);
-        }
-  });
-});
-
 </script> 

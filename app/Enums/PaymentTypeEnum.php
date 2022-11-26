@@ -8,9 +8,9 @@ namespace App\Enums;
 class PaymentTypeEnum
 {
 
-    const Receipt = 1;
+    const Receipt = 0;
 
-    const Disbursement = 0;
+    const Disbursement = 1;
 
    
 }

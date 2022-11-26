@@ -108,6 +108,9 @@ Route::get('transactionBoxes/test', 'App\Http\Controllers\TransactionBoxControll
 Route::resource('payments', 'App\Http\Controllers\PaymentController')->middleware('auth');
 Route::get('payments/{payment}/print', 'App\Http\Controllers\PaymentController@print')->name('payments.print')->middleware('auth');
 Route::get('payment/getReference', 'App\Http\Controllers\PaymentController@getReference')->name('payments.getReference')->middleware('auth');
+Route::get('payments/{type}/create', 'App\Http\Controllers\PaymentController@create')->name('payments.create')->middleware('auth');
+Route::get('payments/getReceiptsByThirdPartyId/{thirdParty}', 'App\Http\Controllers\PaymentController@getReceiptsByThirdPartyId')->name('payments.getReceiptsByThirdPartyId')->middleware('auth');
+Route::post('payment/associatePaymentsBills', 'App\Http\Controllers\PaymentController@associatePaymentsBills')->name('payments.associatePaymentsBills')->middleware('auth');
 
 
 Route::resource('companies', 'App\Http\Controllers\CompanyController')->middleware('auth');

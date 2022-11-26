@@ -171,6 +171,7 @@ jQuery(document ).ready(function(){
   }
   }
 
+
   function calculateVolumeValue(){
     if(jQuery('#length-id').val() != '' && 
       jQuery('#width-id').val() != '' && 

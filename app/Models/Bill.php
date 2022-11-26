@@ -214,7 +214,7 @@ class Bill extends Model
         ->where(function($query) use($request){
             return $request->get('date_to') ?
                 $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-        ->sum("net","net_payable","net_remaining");
+        ->sum("net");
         return $sumNet ;
 
     }
@@ -239,7 +239,7 @@ class Bill extends Model
         ->where(function($query) use($request){
             return $request->get('date_to') ?
                 $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-        ->sum("net_payable","net_remaining");
+        ->sum("net_payable");
         return $sumNetPayable ;
 
     }

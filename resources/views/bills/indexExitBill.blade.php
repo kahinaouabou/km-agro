@@ -1,4 +1,5 @@
 @include('bills.modals.addPayment')
+@include('bills.modals.associatePayment')
 @include('bills.modals.alertMessage')
 @include('bills.modals.ajax-modal')
 <table  class="table table-bordered data-table">
@@ -86,7 +87,7 @@
 <script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
 <script type="text/javascript">
-
+ let paymentIds =[];
   $(function () {
     let billIds = [];
     let sumNetPayable = jQuery('#input-sum-net-payable').val();
@@ -223,6 +224,40 @@ $.ajax({
 });
 });
 
+
+$("#associate-payment-button").click(function(e){
+
+e.preventDefault(); //empêcher une action par défaut
+
+let _token   = $('meta[name="csrf-token"]').attr('content');
+console.log(paymentIds);
+console.log(billIds);
+$.ajax({
+  url : "{{ route('payments.associatePaymentsBills') }}",
+  type: 'post',
+  headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+  data :{
+      billIds:JSON.stringify(billIds),
+      paymentIds:JSON.stringify(paymentIds),
+  },
+  success:function(response){
+        console.log(response);
+        if(response) {
+            console.log(response);
+          $('#associatePayment').modal('hide');
+          $('#associatePayment').css("display","none");
+          table.draw(false);
+         // window.location.reload();
+        }
+      },
+      error: function(error) {
+        console.log(error);
+      }
+});
+});
+
     let ids =[];
     $('.data-table tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -303,7 +338,58 @@ $.ajax({
   });
 
 
+  jQuery(document).on('click', '#associatePaymentButton', function() {
+        let thirdPartyIds= [];
+      if(table.rows('.selected').data().length==0){
+        $('#alertMessage').addClass('show'); 
+        $('#alertMessage').css("display","block");
+        $('#alertMessage .modal-body').html("<p><?php echo __('Select one row of table at least') ?></p>");
+        
+      } else {
+         thirdPartyIds = [table.rows('.selected').data()[0].third_party_id];
+        for(i=0;i<= table.rows('.selected').data().length-1;i++){
+            let thirdPartyId = table.rows('.selected').data()[i].third_party_id;
+            console.log(thirdPartyId);
+            if ($.inArray(thirdPartyId, thirdPartyIds) == -1)
+            {
+                thirdPartyIds.push(table.rows('.selected').data()[i].third_party_id);
+            }
+        }
+        if(thirdPartyIds.length > 1){
+            $('#alertMessage').addClass('show'); 
+            $('#alertMessage').css("display","block");
+            $('#alertMessage .modal-body').html("<p><?php echo __('Select one customer') ?></p>");
+        
+        }else {
+            $('#add-payment-form').trigger("reset");
+            $('#associatePayment').addClass('show'); 
+            $('#associatePayment').css("display","block");
+            billIds = [];
+            let sumNetRemaining = 0;
+            let url = "{{ route('payments.getReceiptsByThirdPartyId' , ':thirdPartyId') }}";
+            url = url.replace(':thirdPartyId', thirdPartyIds[0]);
+              jQuery('#receipt-tab').load(url , function(){
+                    
+                  });
+                  
+            for(i=0;i<= table.rows('.selected').data().length-1;i++){
+                billIds.push(table.rows('.selected').data()[i].id);
+                let netRemaining = table.rows('.selected').data()[i].net_remaining.replace(/ /g, '');
+                sumNetRemaining =  parseFloat(sumNetRemaining)+parseFloat(netRemaining);
+                console.log(sumNetRemaining);
+            }
+                //$('#input-amount-associate').val('');
+                $('#input-amount-payable-associate').val(sumNetRemaining);    
+                $('#input-third-party').val(parseInt(thirdPartyIds[0])); 
+        } 
+      }
   });
+
+
+  });
+
+ 
+
 
   function getPaymentReference(){
     $.ajax({
