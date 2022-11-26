@@ -298,9 +298,13 @@ class PaymentController extends Controller
 
     public function associatePaymentsBills(Request $request){
        
-        if ($request->ajax()) {
+       // if ($request->ajax()) {
+            
             $billIds = JSON_decode($request->billIds);
             $paymentIds = JSON_decode($request->paymentIds);
+            $billIds = [172];
+            $paymentIds = [177,178];
+           
             $bills = Bill::whereIn('id', $billIds)
             ->where('net_remaining','>',0)
             ->orderBy('bill_date', 'asc')
@@ -311,6 +315,7 @@ class PaymentController extends Controller
                 $j = 0;
                 $nbBills = count($bills);
                 $payments = $this->getReceiptsByPaymentIds($paymentIds);
+                $amountPaid = 0;
                 
                 foreach ($payments as $payment) {
                    
@@ -320,16 +325,16 @@ class PaymentController extends Controller
                     while ($payrollAmount > 0 && $j < $nbBills) {
 
                         $bill = $bills[$j];
-                       
-                        $amountRemainingInvoice = $bill->net_remaining;
+                        $amountRemainingBill = $bill->net_remaining- $amountPaid;
                         
-                        if ($payrollAmount >= $amountRemainingInvoice) {
-                            $amountPaid = $amountRemainingInvoice;
+                        if ($payrollAmount >= $amountRemainingBill) {
+                            $amountPaid = $amountRemainingBill;
                             $amountRemaining = 0;
-                            $payrollAmount = $payrollAmount - $amountRemainingInvoice;
+                            
+                            $payrollAmount = $payrollAmount - $amountRemainingBill;
                         } else {
                             $amountPaid = $payrollAmount;
-                            $amountRemaining = $amountRemainingInvoice - $payrollAmount;
+                            $amountRemaining = $amountRemainingBill - $payrollAmount;
                             $payrollAmount = 0;
                         }
                         $params = [
@@ -337,9 +342,12 @@ class PaymentController extends Controller
                             'payment_id' => $payment->id,
                             'amount_paid'=>$amountPaid ,
                         ];
+                        
                             if(BillPayment:: insertBillPayment($params)) {
+                               
                                 Bill::where('id', $bill->id)->update(['net_remaining'=> $amountRemaining]);
                                 Payment::where('id', $payment->id)->update(['amount_remaining'=> $payrollAmount]);
+                              
                             }
                        
                         if ($amountRemaining == 0) {
@@ -351,11 +359,10 @@ class PaymentController extends Controller
                 }
                
 
-
                 return response()->json(['success'=>$bills]);
 
 
-        }
+        //}
 
 
     }
