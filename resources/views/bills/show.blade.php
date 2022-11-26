@@ -16,6 +16,13 @@
                 <table class="table">
                   <thead class=" text-primary">
         <tr>
+          
+                    <th>
+                       {{ __('Reference')}}
+                      </th>
+                      <th>
+                        {{__('Date')}} 
+                      </th>
                     <th>
                     {{__('Product')}} 
                     </th>
@@ -32,6 +39,8 @@
     <tbody>
        
             <tr>
+            <td align="center" width="100px">{{ $bill->reference }}</td>
+            <td align="center" width="100px">{{ $bill->bill_date->format('d/m/Y') }}</td>
                 <td align="center" width="100px">{{$bill->product->name}}</td>
                 <td align="center" width="120px">{{number_format($bill->net, 0, ',', ' ')}}</td>
                 <td align="center" width="120px">{{number_format($bill->unit_price, 2, ',', ' ')}}</td>
