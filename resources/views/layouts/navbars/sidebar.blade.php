@@ -122,6 +122,12 @@
                 <span class="sidebar-normal">{{ __('Company') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'discharge' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('discharges.index') }}">
+              <i class="material-icons icon-sidebar"> Ds </i>
+                <span class="sidebar-normal">{{ __('Discharges') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('user.index') }}">
               <i class="material-icons icon-sidebar"> UM </i>

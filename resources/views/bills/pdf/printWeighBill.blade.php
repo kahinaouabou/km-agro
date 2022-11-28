@@ -24,7 +24,11 @@
         <td><p style="font-size:18px"><strong >{{__('Product')}} :</strong> {{$bill->product->name}}</p></td>
         @if($type == \App\Enums\BillTypeEnum::WeighBill)
         <td><p style="font-size:18px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </td>
+        @elseif($type == \App\Enums\BillTypeEnum::DamageBill)
+        <td><p style="font-size:18px"><strong >{{__('Room')}} :</strong>{{$bill->room->name}}</p> </td>
+       
         @endif
+
     </tr>
   </table>
   <br/>
