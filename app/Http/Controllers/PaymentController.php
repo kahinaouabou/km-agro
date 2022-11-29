@@ -350,6 +350,7 @@ class PaymentController extends Controller
                        
                         if ($amountRemaining == 0) {
                             $j++;
+                            $amountPaid = 0;
                         }
 
                     }
