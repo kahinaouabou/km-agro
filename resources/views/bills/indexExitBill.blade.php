@@ -248,6 +248,10 @@ $.ajax({
             console.log(response);
           $('#associatePayment').modal('hide');
           $('#associatePayment').css("display","none");
+          $('#input-amount-associate').val('');
+          $('#input-remaining-associate').val('');
+          
+          
           table.draw(false);
          // window.location.reload();
         }
