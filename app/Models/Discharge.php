@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Discharge extends Model
 {
     use HasFactory;
-    protected $fillable  = ['name','dischage_date','amount'];
-    protected $casts  = [
-        'discharge_date' => 'date:d/m/Y',
-
-    ];
+    protected $fillable  = ['name','discharge_date','amount','quantity'];
+   
     protected $table = 'discharges';
 }

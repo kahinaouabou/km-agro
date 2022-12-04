@@ -3,9 +3,27 @@
 namespace App\Http\Controllers;
 use App\Models\Discharge;
 use Illuminate\Http\Request;
+use App\Models\Company;
+use PDF;
+
 
 class DischargeController extends Controller
 {
+    // function __construct()
+
+    // {
+
+    //      $this->middleware('permission:discharge-list|discharge-create|discharge-edit|
+    //      discharge-delete', ['only' => ['index','show']]);
+
+    //      $this->middleware('permission:discharge-create', ['only' => ['create','store']]);
+
+    //      $this->middleware('permission:discharge-edit', ['only' => ['edit','update']]);
+
+    //      $this->middleware('permission:discharge-delete', ['only' => ['destroy']]);
+
+    // }
+    
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +60,9 @@ class DischargeController extends Controller
             'name' => 'required|min:3',
             'discharge_date' => 'required',
             'amount' => 'required',
+            'quantity' => 'required',
         ]);
+        //dd($validatedData);
         
         Discharge::create($validatedData);
         return redirect('/discharges')->with('message',__('Discharge successfully created.'));
@@ -86,6 +106,7 @@ class DischargeController extends Controller
             'name' => 'required|min:3',
             'discharge_date' => 'required',
             'amount' => 'required',
+            'quantity' => 'required',
         ]);
         Discharge::whereId($id)->update($validatedData);
         return redirect('/discharges')->with('message',__('Discharge successfully updated.'));
@@ -100,5 +121,16 @@ class DischargeController extends Controller
     public function destroy($id)
     {
         //
+        $discharge = Discharge::findOrFail($id);
+        $discharge->delete();
+        return redirect('/discharges')->with('message',__('Discharge successfully deleted.'));
+        
+    }
+    public function print($id){
+        $discharge = Discharge::findOrFail($id);
+        $company = Company::first();
+        $pdf = PDF::loadView('discharges.pdf.print', 
+        compact('discharge','company'));
+        return $pdf->stream('decharge'.date('d-m-Y').'.pdf');
     }
 }

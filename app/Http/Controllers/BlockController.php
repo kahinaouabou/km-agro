@@ -11,10 +11,22 @@ use App\Models\Warehouse;
 use  Illuminate\Support\Facades\DB;
 class BlockController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except('editBloc','all');
-    }
+ 
+
+    // function __construct()
+
+    // {
+
+    //     $this->middleware('auth')->except('editBloc','all');
+    //     $this->middleware('permission:block-list|block-create|block-edit|block-delete', ['only' => ['index','show']]);
+
+    //      $this->middleware('permission:block-create', ['only' => ['create','store']]);
+
+    //      $this->middleware('permission:block-edit', ['only' => ['edit','update']]);
+
+    //      $this->middleware('permission:block-delete', ['only' => ['destroy']]);
+
+    // }
     
     /**
      * Display a listing of the resource.
@@ -137,6 +149,7 @@ class BlockController extends Controller
             $block = Block::findOrFail($id);
             $block->delete();
             return redirect('/blocks')->with('message',__('Block successfully deleted.'));
+        
         }else {
             return redirect('/blocks')->with('error',__("Block can't be deleted. Remove dependencies"));
         }

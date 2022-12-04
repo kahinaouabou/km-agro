@@ -61,7 +61,17 @@
                     </div>
                   </div>
                 </div>
-
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Quantity') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('quantity') ? ' is-invalid' : '' }}" name="quantity" id="input-quantity" type="number" placeholder="{{ __('Quantity') }}" required />
+                      @if ($errors->has('quantity'))
+                        <span id="quantity-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                      </div>
 
               </div>
               <div class="card-footer ml-auto mr-auto">

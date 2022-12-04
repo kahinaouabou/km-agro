@@ -1,18 +1,18 @@
-@extends('layouts.app', ['activePage' => 'block', 'titlePage' => __('Edit block')])
+@extends('layouts.app', ['activePage' => 'discharge', 'titlePage' => __('Edit discharge')])
 
 @section('content')
   <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('blocks.update', $block->id) }}" class="form-horizontal">
+          <form method="post" action="{{ route('discharges.update', $discharge->id) }}" class="form-horizontal">
             @csrf
             @method('PUT')
             
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Edit block') }}</h4>
-                <p class="card-category">{{ __('Block information') }}</p>
+                <h4 class="card-title">{{ __('Edit discharge') }}</h4>
+                <p class="card-category">{{ __('Discharge information') }}</p>
               </div>
               <div class="card-body ">
                 @if (session('status'))
@@ -28,21 +28,12 @@
                   </div>
                 @endif
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Code') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('code') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code" id="input-code" type="text" placeholder="{{ __('Code') }}"  value="{{ $block->code }}" required="true" aria-required="true"/>
-                      @if ($errors->has('code'))
-                        <span id="code-error" class="error text-danger" for="input-code">{{ $errors->first('code') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ $block->name }}"  required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" 
+                      name="name" id="input-name" type="text" value="{{ $discharge->name }}"
+                      placeholder="{{ __('Name') }}"  required="true" aria-required="true"/>
                       @if ($errors->has('name'))
                         <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
                       @endif
@@ -50,35 +41,46 @@
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Rooms number') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Date') }}</label>
                   <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('number_rooms') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('number_rooms') ? ' is-invalid' : '' }}" name="number_rooms" id="input-number_rooms" type="number" placeholder="{{ __('number rooms') }}" value="{{ $block->number_rooms }}" required />
-                      @if ($errors->has('number_rooms'))
-                        <span id="number_rooms-error" class="error text-danger" for="input-number_rooms">{{ $errors->first('number_rooms') }}</span>
+                    <div class="form-group">
+                      {!! Form::input('date','discharge_date',$discharge->discharge_date,[
+                        'class' => 'form-control',
+                        'id'=>'input-discharge-date'
+                        ]) !!}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Amount') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('amount') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}" 
+                      name="amount" id="input-amount" type="number" value="{{ $discharge->amount }}"
+                      placeholder="{{ __('Amount') }}" required />
+                      @if ($errors->has('amount'))
+                        <span id="amount-error" class="error text-danger" for="input-amount">{{ $errors->first('amount') }}</span>
                       @endif
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Warehouses') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Quantity') }}</label>
                   <div class="col-sm-7">
-                    <div class="form-group">
-                   
-                    {!! Form::select('warehouse_id', $warehouses, $block->warehouse->id,
-                      [
-                        'class' => 'form-control',
-                        'placeholder'=> __('Select warehouse') ,
-                        'label'=>__('Warehouses'),
-      
-                        ]) !!}
+                    <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('quantity') ? ' is-invalid' : '' }}" 
+                      name="quantity" id="input-quantity" type="number" value="{{ $discharge->quantity }}"
+                      placeholder="{{ __('Quantity') }}" required />
+                      @if ($errors->has('quantity'))
+                        <span id="quantity-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
+                      @endif
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a class="btn btn-default btn-close" href="{{ route('blocks.index') }}">{{ __('Cancel') }}</a>
+                <a class="btn btn-default btn-close" href="{{ route('discharges.index') }}">{{ __('Cancel') }}</a>
              
               </div>
             </div>

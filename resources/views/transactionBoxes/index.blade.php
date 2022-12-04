@@ -90,8 +90,20 @@
 				    <div class="card-body">
               <div class="row">
                 <div class="col-12 text-right">
-                  <a target="_blanck" href="{{ route('transactionBoxes.print', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
-                
+                <div class="dropdown">
+  <button class="btn  btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{__('Print')}}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div style="text-align: center;display: block;">
+    <a target="_blanck" href="{{ route('transactionBoxes.print', $selected_id) }}"  >{{__('Print detail')}}</a>
+  </div>
+  <div style="text-align: center;display: block;">
+    <a target="_blanck" href="{{ route('transactionBoxes.printGlobal', $selected_id) }}"  >{{__('Print global')}}</a>
+  </div>            
+  </div>
+</div>
+                  
                   <a href="{{ route('transactionBoxes.create') }}" class="btn btn-sm btn-primary">{{__('Add returned boxes')}}</a>
                 </div>
               </div>
@@ -145,7 +157,8 @@
                               <i class="material-icons">edit</i>
                               <div class="ripple-container"></div>
                             </a>
-                            
+                           
+                            @if (auth()->user()->hasPermissionTo('transaction-box-delete'))
                             <a rel="tooltip" class="btn btn-danger btn-link"
                                 onclick="event.preventDefault(); document.getElementById('destroy{{ $transactionBox->id }}').submit();" data-original-title="" title="">
                                 <i class="material-icons">delete</i>
@@ -157,6 +170,7 @@
                                 @csrf
                                 @method('DELETE')
                             </form>
+                            @endif
                         </td>
                       </tr>
 					        @empty
@@ -186,6 +200,7 @@
 
 <script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
+
 <script type="text/javascript">
 
 

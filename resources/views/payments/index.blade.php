@@ -58,6 +58,10 @@
                 
 				      </tbody>
                 </table>
+                {!! Form::text('href', null, [
+                'id'=>'input-href',
+                'hidden' => true
+                ]) !!} 
                
               </div>
             </div>
@@ -70,6 +74,7 @@
     </div>
   </div>
 </div>
+@include('payments.modals.alertMessage')
 @endsection
 <script src="{{ asset('/js/jquery-3.4.1.min.js')}}" ></script>
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
@@ -119,6 +124,20 @@
         $('#total-amount').html(sumAmount.toFixed(2));   
         table.draw(false);
     });
+
+
+    jQuery(document).on('click', '.edit-payment-button', function(e) {
+     
+     e.preventDefault();
+     let href = $(this).attr('href');
+     $('#input-href').val(href);
+     console.log(href);
+     $('#alertMessage').addClass('show'); 
+     $('#alertMessage').css("display","block");
+     $('#alertMessage .modal-body').html("<p><?php echo __('Do you accepte that the association with the payment will be deleted ?') ?></p>");
+     $('#modal-footer').html('<button type="button" class="btn btn-default " id="accept-button" data-dismiss="modal">{{ __("Yes") }}</button><button type="button" class="btn btn-default btn-close quick-close" data-dismiss="modal">{{ __("No") }}</button>')
+  })
+
     }); 
 </script>
    

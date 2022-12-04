@@ -51,7 +51,7 @@ class PaymentController extends Controller
                         <i class="material-icons">visibility</i>
                         <div class="ripple-container"></div>
                             </a>
-                        <a rel="tooltip" class="btn btn-success btn-link" href='.$routeEdit.' data-original-title="" title="">
+                        <a rel="tooltip" class="btn btn-success btn-link edit-payment-button" href='.$routeEdit.' data-original-title="" title="">
                         <i class="material-icons">edit</i>
                         <div class="ripple-container"></div>
                             </a>
@@ -161,6 +161,11 @@ class PaymentController extends Controller
     public function edit($id)
     {
         //
+        $payment = Payment::findOrFail($id);
+        
+        $thirdParties = ThirdParty:: getThirdPartiesByType($payment->payment_type);
+        return view('payments.edit', compact('payment','thirdParties'));
+    
     }
 
     /**
@@ -172,7 +177,29 @@ class PaymentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 
+        $precedentPayment = Payment::findOrFail($id);
+        
+        $validatedData = $request->validate([
+                
+            'reference' => 'required|min:3',
+            'third_party_id' => 'required',
+            'amount' => 'required',
+            'payment_type' => 'required',
+            'payment_date' => 'required',
+         ]);
+        Payment::whereId($id)->update($validatedData);
+
+        $actualPayment = Payment::findOrFail($id);
+        if(($actualPayment->amount != $precedentPayment->amount) ||
+        ($actualPayment->third_party_id != $precedentPayment->third_party_id)
+            ){
+                BillPayment::where('payment_id', $id)->delete();
+            }
+    
+     return redirect('/payments')->with('message',__('Payment successfully updated.'));
+            
+       
     }
 
     /**

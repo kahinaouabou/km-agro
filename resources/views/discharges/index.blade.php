@@ -41,6 +41,10 @@
                         {{ __('Amount') }}
 
                         </th>
+                        <th>
+                        {{ __('Quantity') }}
+
+                        </th>    
                     <th class="text-right">
                     {{ __('Actions')}}
                     </th>
@@ -54,11 +58,15 @@
 
                         </td>
                         <td>
-                        {{ $discharge->discharge_date }}
+                        {{ Carbon\Carbon::parse($discharge->discharge_date)->format('d/m/Y') }}
 
                         </td>
                         <td>
                         {{ $discharge->amount }}
+
+                        </td>
+                        <td>
+                        {{ $discharge->quantity }}
 
                         </td>
                         <td class="td-actions text-right">
@@ -66,6 +74,10 @@
                               <i class="material-icons">edit</i>
                               <div class="ripple-container"></div>
                             </a>
+                            <a rel="tooltip" class="btn btn-warning btn-link" href="{{ route('discharges.print', $discharge->id) }}" data-original-title="" title="" target="_blank">
+                            <i class="material-icons">print</i>
+                            <div class="ripple-container"></div>
+                        </a> 
                             <a rel="tooltip" class="btn btn-danger btn-link"
                                 onclick="event.preventDefault(); document.getElementById('destroy{{ $discharge->id }}').submit();" data-original-title="" title="">
                                 <i class="material-icons">delete</i>
@@ -73,7 +85,7 @@
                               </a>
 
                             
-                            <form id="destroy{{ $discharge->id }}" action="{{ route('discharge.destroy', $discharge->id) }}" method="POST" style="display: none;">
+                            <form id="destroy{{ $discharge->id }}" action="{{ route('discharges.destroy', $discharge->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('DELETE')
                             </form>

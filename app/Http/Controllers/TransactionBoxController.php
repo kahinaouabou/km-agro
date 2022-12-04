@@ -9,6 +9,7 @@ use App\Models\TransactionBox;
 use App\Models\Bill;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use  Illuminate\Support\Facades\DB;
 use PDF;
 class TransactionBoxController extends Controller
 {
@@ -18,7 +19,19 @@ class TransactionBoxController extends Controller
      * @return \Illuminate\Http\Response
      */
   
-   
+    function __construct()
+
+    {
+
+         $this->middleware('permission:transaction-box-list', ['only' => ['index','show']]);
+
+         $this->middleware('permission:transaction-box-create', ['only' => ['create','store']]);
+
+         $this->middleware('permission:transaction-box-edit', ['only' => ['edit','update']]);
+
+         $this->middleware('permission:transaction-box-delete', ['only' => ['destroy']]);
+
+    }
 
     function index (Request $request) {
     
@@ -99,7 +112,37 @@ class TransactionBoxController extends Controller
         return $pdf->stream($transactionBoxName.'.pdf');
     }
    
-
+    function printGlobal (Request $request) {
+        
+       
+        $transactionBoxes = TransactionBox::where( function($query) use($request){
+            return $request->third_party_id ?
+                   $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
+       })->where(function($query) use($request){
+           return $request->date_from ?
+                  $query->from('transactionBoxes')->where('transaction_date','>=',$request->date_from) : '';
+      })->where(function($query) use($request){
+       return $request->date_to ?
+              $query->from('transactionBoxes')->where('transaction_date','<=',$request->date_to) : '';
+        })
+        ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'transaction_boxes.third_party_id')          
+        ->select([
+            'ThirdParty.name','ThirdParty.phone',
+            DB::raw("SUM(number_boxes_returned) as sum_number_boxes_returned"), 
+            DB::raw("SUM(number_boxes_taken) as sum_number_boxes_taken")
+            ])        
+        ->groupBy('third_party_id')
+        ->orderBy('third_party_id')
+        ->get();
+        $transactionBoxName = __('Transaction boxes');
+        $company = Company::first();
+        $thirdParty = ThirdParty::find($request->third_party_id);
+      
+        $pdf = PDF::loadView('transactionBoxes.pdf.printGlobal', 
+        compact('transactionBoxes','company','thirdParty'));
+        
+        return $pdf->stream($transactionBoxName.'.pdf');
+    }
     /**
      * Show the form for creating a new resource.
      *

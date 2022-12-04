@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    // function __construct()
+
+    // {
+
+
+    //      $this->middleware('permission:company-edit', ['only' => ['edit','update']]);
+
+    // }
+    
     /**
      * Display a listing of the resource.
      *

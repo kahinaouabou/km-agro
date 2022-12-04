@@ -79,6 +79,7 @@ class ParcelController extends Controller
         $parcelCategries = ParcelCategory::pluck('name', 'id');
         $thirdParties = ThirdParty::pluck('name', 'id');
         return view('parcels.edit', compact('parcel','parcelCategries','thirdParties'));
+    
     }
 
     /**

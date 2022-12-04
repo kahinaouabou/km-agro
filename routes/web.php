@@ -103,6 +103,8 @@ Route::get('billSituation/printSituation', 'App\Http\Controllers\BillController@
 Route::resource('transactionBoxes', 'App\Http\Controllers\TransactionBoxController')->middleware('auth');
 Route::get('transactionBox', 'App\Http\Controllers\TransactionBoxController@filter')->name('transactionBoxes.filter')->middleware('auth');
 Route::get('transactionBox/print', 'App\Http\Controllers\TransactionBoxController@print')->name('transactionBoxes.print')->middleware('auth');
+Route::get('transactionBox/printGlobal', 'App\Http\Controllers\TransactionBoxController@printGlobal')->name('transactionBoxes.printGlobal')->middleware('auth');
+
 
 Route::get('transactionBoxes/test', 'App\Http\Controllers\TransactionBoxController@test')->name('transactionBoxes.test')->middleware('auth');
 Route::resource('payments', 'App\Http\Controllers\PaymentController')->middleware('auth');
@@ -113,6 +115,7 @@ Route::get('payments/getReceiptsByThirdPartyId/{thirdParty}', 'App\Http\Controll
 Route::post('payment/associatePaymentsBills', 'App\Http\Controllers\PaymentController@associatePaymentsBills')->name('payments.associatePaymentsBills')->middleware('auth');
 
 Route::resource('discharges', 'App\Http\Controllers\DischargeController')->middleware('auth');
+Route::get('discharges/{discharge}/print', 'App\Http\Controllers\DischargeController@print')->name('discharges.print')->middleware('auth');
 
 
 Route::resource('companies', 'App\Http\Controllers\CompanyController')->middleware('auth');

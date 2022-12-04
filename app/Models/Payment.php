@@ -43,14 +43,14 @@ class Payment extends Model
         $page = [];
          switch ($type){
              case PaymentTypeEnum::Receipt :
-                 $activePage= 'bill/'.PaymentTypeEnum::Receipt;
+                 $activePage= 'payment/'.PaymentTypeEnum::Receipt;
                  $titlePage = 'Add receipt';
                  $namePage = 'Receipt';
                  $titleCard ='Receipts';
                  $fieldParam = 'receipt';
                  break;
              case PaymentTypeEnum::Disbursement :
-                 $activePage= 'bill/'.PaymentTypeEnum::Disbursement;
+                 $activePage= 'payment/'.PaymentTypeEnum::Disbursement;
                  $titlePage = 'Add disbursement';
                  $namePage = 'Disbursement';
                  $titleCard = 'Disbursements';

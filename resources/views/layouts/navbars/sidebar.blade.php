@@ -17,19 +17,23 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-   
+            @if(auth()->user()->hasRole('Admin'))
             <li class="nav-item{{ $activePage == 'warehouse' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('warehouses.index') }}">
               <i class="material-icons icon-sidebar">Et</i>
                 <span class="sidebar-normal">{{ __('Warehouses') }} </span>
               </a>
             </li>
+            
+            
             <li class="nav-item{{ $activePage == 'block' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('blocks.index') }}">
               <i class="material-icons icon-sidebar"> Bk </i>
                 <span class="sidebar-normal">{{ __('Blocks') }} </span>
               </a>
             </li>
+            
+
             <li class="nav-item{{ $activePage == 'room' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('rooms.index') }}">
                 <i class="material-icons icon-sidebar"> Rm </i>
@@ -104,12 +108,16 @@
                 <span class="sidebar-normal">{{ __('Damage bill') }} </span>
               </a>
             </li>
+            @endif
+            @if (auth()->user()->can('transaction-box-list'))
             <li class="nav-item{{ $activePage == 'transactionBox' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('transactionBoxes.index') }}">
               <i class="material-icons icon-sidebar"> Tb </i>
                 <span class="sidebar-normal">{{ __('Transaction boxes') }} </span>
               </a>
             </li>
+            @endif
+            @if(auth()->user()->hasRole('Admin'))
             <li class="nav-item{{ $activePage == 'payment' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('payments.index') }}">
               <i class="material-icons icon-sidebar"> Pt </i>
@@ -134,6 +142,7 @@
                 <span class="sidebar-normal"> {{ __('User Management') }} </span>
               </a>
             </li>
+            @endif
            
     </ul>
   </div>

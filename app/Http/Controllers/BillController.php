@@ -23,6 +23,21 @@ use Illuminate\Support\Facades\Validator;
 use  Illuminate\Support\Facades\DB;
 class BillController extends Controller
 {
+    
+    // function __construct()
+
+    // {
+
+    //      $this->middleware('permission:bill-list|bill-create|bill-edit|bill-delete', ['only' => ['index','show']]);
+
+    //      $this->middleware('permission:bill-create', ['only' => ['create','store']]);
+
+    //      $this->middleware('permission:bill-edit', ['only' => ['edit','update']]);
+
+    //      $this->middleware('permission:bill-delete', ['only' => ['destroy']]);
+
+    // }
+    
     /**
      * Display a listing of the resource.
      *

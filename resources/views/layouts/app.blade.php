@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
+    
     <link href="{{ asset('/css/select2.min.css') }}" rel="stylesheet" />
 
     <!-- CSS Files -->
@@ -27,6 +28,7 @@
     <script src="{{ asset('/js/jquery.dataTables.min.js') }}"></script> 
     <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('/js/jquery-3.2.1.slim.min.js')}}"  crossorigin="anonymous"></script>
 	<script src="{{ asset('/js/popper.min.js')}}"   crossorigin="anonymous"></script>
