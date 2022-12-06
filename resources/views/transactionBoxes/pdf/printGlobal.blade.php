@@ -134,6 +134,9 @@
                       <th>
                       {{__('Nb boxes returned')}} 
                       </th>
+                      <th>
+                      {{__('Nb boxes not returned')}} 
+                      </th>
                     </tr>
     </thead>
     <tbody>
@@ -154,6 +157,12 @@
                         </td>
                         <td>
                         {{ number_format($transactionBox->sum_number_boxes_returned, 0, ',', ' ') }}
+                        </td>
+                        <td>
+                          <?php 
+                           $sumNumberBoxesNotReturned = $transactionBox->sum_number_boxes_taken - $transactionBox->sum_number_boxes_returned
+                          ?>
+                        {{ number_format($sumNumberBoxesNotReturned, 0, ',', ' ') }}
                         </td>
                       </tr>
 					        @endforeach
