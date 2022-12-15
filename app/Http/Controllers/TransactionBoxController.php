@@ -48,7 +48,8 @@ class TransactionBoxController extends Controller
                     return $request->date_to ?
                            $query->from('transactionBoxes')->where('transaction_date','<=',$request->date_to) : '';
                })
-                    ->get();
+               ->orderBy('transaction_date','asc')
+                ->get();
          
         $selected_id = [];
         if(!empty($request->third_party_id)){

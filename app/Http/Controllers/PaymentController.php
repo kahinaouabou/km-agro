@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\ThirdParty;
 use App\Models\Setting;
 use App\Models\Company;
+use App\Models\Program;
 use App\Models\BillPayment;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -140,6 +141,8 @@ class PaymentController extends Controller
                'payment_type' => 'required',
                'payment_date' => 'required',
             ]);
+            $currentProgramId = Program::getCurrentProgram();
+            $validatedData['program_id']=$currentProgramId;
         $payment = Payment::create($validatedData);
         Setting::setNextReferenceNumber('payment');
         if ($request->ajax()) {
