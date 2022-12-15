@@ -36,7 +36,9 @@ class TransactionBoxController extends Controller
 
     function index (Request $request) {
     
-        $transactionBoxes = TransactionBox::where( function($query) use($request){
+        $transactionBoxes = TransactionBox::
+                    where('third_party_id','!=',24)
+                    ->where( function($query) use($request){
                          return $request->third_party_id ?
                                 $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
                     })->where(function($query) use($request){
@@ -65,7 +67,10 @@ class TransactionBoxController extends Controller
             $selected_id['date_to'] = '';
         }
         
-        $countReturnedBoxes = TransactionBox::where( function($query) use($request){
+        $countReturnedBoxes = TransactionBox::
+        where('third_party_id','!=',24)
+        ->
+        where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
         })->where(function($query) use($request){
@@ -75,7 +80,10 @@ class TransactionBoxController extends Controller
        return $request->date_to ?
               $query->from('transactionBoxes')->where('transaction_date','<=',$request->date_to) : '';
         })->sum('number_boxes_returned');
-        $countTakenBoxes = TransactionBox::where( function($query) use($request){
+        $countTakenBoxes = TransactionBox::
+        where('third_party_id','!=',24)
+        ->
+        where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
         })->where(function($query) use($request){
@@ -93,7 +101,10 @@ class TransactionBoxController extends Controller
     function print (Request $request) {
         
        
-        $transactionBoxes = TransactionBox::where( function($query) use($request){
+        $transactionBoxes = TransactionBox::
+        where('third_party_id','!=',24)
+        ->
+        where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
        })->where(function($query) use($request){
@@ -116,7 +127,10 @@ class TransactionBoxController extends Controller
     function printGlobal (Request $request) {
         
        
-        $transactionBoxes = TransactionBox::where( function($query) use($request){
+        $transactionBoxes = TransactionBox::
+        where('third_party_id','!=',24)
+        ->
+        where( function($query) use($request){
             return $request->third_party_id ?
                    $query->from('transactionBoxes')->where('third_party_id',$request->third_party_id) : '';
        })->where(function($query) use($request){
