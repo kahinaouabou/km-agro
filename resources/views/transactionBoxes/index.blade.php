@@ -115,6 +115,9 @@
                         {{ __('Reference').' '.__('Bill')}}
                       </th>
                       <th>
+                        {{ __('Program')}}
+                      </th>
+                      <th>
                         {{ __('Date')}}
                       </th>
                       <th>
@@ -139,6 +142,9 @@
                         @if(!empty($transactionBox->bill->reference))
                         {{  $transactionBox->bill->reference }}
                         @endif
+                        </td>
+                        <td>
+                        {{ $transactionBox->program->name }}
                         </td>
                         <td>
                         {{  $transactionBox->transaction_date->format('d/m/Y') }}

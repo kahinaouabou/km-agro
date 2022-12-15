@@ -17,6 +17,7 @@ use App\Enums\ThirdPartyEnum;
 use App\Http\Requests\TransactionBoxRequest;
 use App\Models\TransactionBox;
 use App\Models\Setting;
+use App\Models\Program;
 use PDF;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -102,6 +103,7 @@ class BillController extends Controller
             $sumNetPaid = $sumNetPayable - $sumNetRemaining;
             $limit = request('length');
             $start = request('start');
+            $currentProgramId = Program::getCurrentProgram();
             $data = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
                 ->leftjoin('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')     
@@ -118,6 +120,7 @@ class BillController extends Controller
                 'ThirdParty.name as thirdPartyName')
                // DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date") )
                 ->where('bill_type', '=', $dbBillType)
+                ->where('program_id', '=', $currentProgramId)
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
                            $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
@@ -346,6 +349,9 @@ class BillController extends Controller
             $validatedData['net_weight_discount']=0; 
         }
     }
+
+        $currentProgramId = Program::getCurrentProgram();
+        $validatedData['program_id']=$currentProgramId;
         
         if($bill= Bill::create($validatedData)){
             $page = Bill::getTitleActivePageByTypeBill($type);
@@ -358,6 +364,7 @@ class BillController extends Controller
                     'transaction_date' => $request->bill_date,
                     'bill_id' => $bill->id,
                     'third_party_id' => $request->third_party_id,
+                    'program_id' => $currentProgramId,
                 ];
                 $transactionBoxesRequest->request->add($params); 
                 $rules = [
@@ -575,7 +582,8 @@ class BillController extends Controller
                 'bills.*', 
                 'Product.name as productName',
                 'ThirdParty.name as thirdPartyName',
-                DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date") )
+                //DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date")
+                 )
                 ->where('bill_type', '=', BillTypeEnum::ExitBill)
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?

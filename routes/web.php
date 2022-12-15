@@ -120,6 +120,8 @@ Route::get('discharges/{discharge}/print', 'App\Http\Controllers\DischargeContro
 
 Route::resource('companies', 'App\Http\Controllers\CompanyController')->middleware('auth');
 
+Route::resource('programs', 'App\Http\Controllers\ProgramController')->middleware('auth');
+Route::post('program/makeProgramCurrent', 'App\Http\Controllers\ProgramController@makeProgramCurrent')->name('programs.isCurrent')->middleware('auth');
 
 
 Route::get('articles/filter', 'App\Http\Controllers\ArticleController@filter')->name('articles.filter')->middleware('auth');

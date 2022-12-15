@@ -46,7 +46,7 @@ class Bill extends Model
                             'origin','parcel_id','third_party_id','block_id','room_id',
                             'number_boxes','raw','tare','net','net_weight_discount',
                             'weight_discount_percentage','unit_price','discount_value',
-                            'net_payable','net_remaining','number_boxes_returned'];
+                            'net_payable','net_remaining','number_boxes_returned','program_id'];
     protected $table = 'bills';
 
     protected $casts  = [
@@ -267,6 +267,22 @@ class Bill extends Model
         ->sum("net_remaining");
         return $sumNetRemaining ;
 
+    }
+
+    public static  function checkIfBillExist($programId){
+        $nbBills =Bill::getCountBillsByProgramId($programId);
+        
+        if($nbBills>0){
+            return true;
+        }else {
+            return false ;
+        }
+    }
+
+    public static  function getCountBillsByProgramId($programId){
+        
+        $nbBills = Bill::where('program_id','=',$programId)->count();
+        return $nbBills;
     }
   
 

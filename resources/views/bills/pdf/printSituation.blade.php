@@ -137,6 +137,12 @@
                         {{__('Customer')}} 
                         </th>
                       @endif 
+                      <th>
+                        {{__('Net')}} 
+                    </th> 
+                    <th>
+                        {{__('PU')}} 
+                    </th> 
                     <th>
                         {{__('Net payable')}} 
                     </th> 
@@ -162,7 +168,7 @@
                         {{  $bill->reference }}
                         </td>
                         <td>
-                        {{  $bill->bill_date}}
+                        {{  Carbon\Carbon::parse($bill->bill_date)->format('d/m/Y')}}
                         </td>
                         <td>
                         {{  $bill->productName }}
@@ -172,6 +178,12 @@
                           {{ $bill->thirdPartyName }}
                           </td>
                         @endif
+                        <td>
+                        {{ number_format( $bill->net, 0, ',', ' ') }}
+                        </td>
+                        <td>
+                        {{ number_format( $bill->unit_price, 2, ',', ' ') }}
+                        </td>
                         <td>
                         {{ number_format( $bill->net_payable, 2, ',', ' ') }}
                         </td>

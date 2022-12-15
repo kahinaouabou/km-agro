@@ -15,8 +15,14 @@ class TransactionBox extends Model
     {
         return $this->belongsTo('App\Models\Bill');
     }
+
+    public function Program()
+    {
+        return $this->belongsTo('App\Models\Program');
+    }
     
-    protected $fillable  = ['transaction_date','number_boxes_returned','number_boxes_taken','bill_id','third_party_id'];
+    protected $fillable  = ['transaction_date','number_boxes_returned',
+    'number_boxes_taken','bill_id','third_party_id','program_id'];
     protected $table = 'transaction_boxes';
     protected $casts  = [
         'transaction_date' => 'datetime',

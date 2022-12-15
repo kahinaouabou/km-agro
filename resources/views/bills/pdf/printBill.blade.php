@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html >
 <head>
 <meta charset="UTF-8">
 <title>{{$billName}}</title>
@@ -8,6 +8,7 @@
     * {
         font-family: Verdana, Arial, sans-serif;
     }
+    
     tfoot tr td{
         font-weight: bold;
     }
@@ -73,6 +74,7 @@
             font-size: 12px;
             padding:  5px ;
         }
+        
 </style>
 
 </head>
@@ -83,9 +85,11 @@
        <td valign="top" width="300px"></td>
         
         <td align="left">
-            <h1>{{$company->name}} </h1>
+          
+            <h2>{{ $company->name }}</h2>
+            <!-- <p><strong>Agrément ministériel n°: 053</p>  -->
             <p>{{$company->address}}</p>  
-            <p>Email: {{$company->email}}</p> 
+            <p>{{$company->email}}</p>  
             @if(!empty($company->fax))  
             <p >Tel: {{$company->phone}} / Fax: {{$company->fax}}</p>
             @else 

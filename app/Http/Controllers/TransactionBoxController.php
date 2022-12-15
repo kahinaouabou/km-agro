@@ -8,6 +8,7 @@ use App\Models\ThirdParty;
 use App\Models\TransactionBox;
 use App\Models\Bill;
 use App\Models\Company;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use  Illuminate\Support\Facades\DB;
 use PDF;
@@ -169,6 +170,8 @@ class TransactionBoxController extends Controller
             'third_party_id' => 'required',
             'number_boxes_returned'=>'required',
         ]);
+        $currentProgramId = Program::getCurrentProgram();
+        $validatedData['program_id']=$currentProgramId;
         TransactionBox::create($validatedData);
         return redirect('/transactionBoxes')->with('message',__('Returned boxes successfully created.'));
     }

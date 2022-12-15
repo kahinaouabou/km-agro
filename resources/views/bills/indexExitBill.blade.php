@@ -161,7 +161,6 @@
 
     $("#btn-search").click(function(e){
         e.preventDefault();
-        alert(jQuery('#input-net-remaining-search').val());
             let selected_id ='';
             selected_id = selected_id +'third_party_id='+ jQuery('#input-third-party-search').val();
             selected_id = selected_id +'&block_id='+ jQuery('#input-block-search').val();

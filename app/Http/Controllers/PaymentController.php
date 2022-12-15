@@ -23,8 +23,29 @@ class PaymentController extends Controller
     public function index( Request $request)
     {
         //and create a view which we return - note dot syntax to go into folder   
-        if ($request->ajax()) {
+        //if ($request->ajax()) {
 
+            $selected_id = [];
+            if(!empty($request->third_party_id)){
+                $selected_id['third_party_id'] = $request->third_party_id;
+            }else {
+                $selected_id['third_party_id'] = '';
+            }
+          
+            if(!empty($request->date_from)){
+                $selected_id['date_from'] = $request->date_from;
+            }else {
+                $selected_id['date_from'] = '';
+            }
+            if(!empty($request->date_to)){
+                $selected_id['date_to'] = $request->date_to;
+            }else {
+                $selected_id['date_to'] = '';
+            }
+
+            $sumReceipts = Payment::getSumReceipts( $request );
+            $sumDisbursements = Payment::getSumDisbursements( $request );
+            
             $data = DB::table('payments')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
                 ->select('payments.*', 'ThirdParty.name as thirdPartyName',
@@ -40,6 +61,9 @@ class PaymentController extends Controller
                         $query->from('payments')->where('payment_date','<=',$request->get('date_to')) : '';}); 
                 return Datatables::of($data)
                     ->addIndexColumn()
+                    ->addColumn('sumAmount', function() use ($sumAmount){
+                        return  number_format($sumAmount, 2, ',', ' ');
+                    })
                     ->addColumn('action', function($row){
                         $routeView =  route("payments.show", $row->id) ;
                         $routeEdit =  route("payments.edit", $row->id) ;
@@ -74,7 +98,7 @@ class PaymentController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
 
-        }
+        //}
         $selected_id = [];
         $selected_id['third_party_id'] = $request->third_party_id;
         $selected_id['date_from'] = $request->date_from;
