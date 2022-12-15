@@ -192,9 +192,10 @@ class Bill extends Model
         return $sumUnstockedQuantity;
     }
 
-    public static function getSumNet($request, $dbBillType){
+    public static function getSumNet($request, $dbBillType, $currentProgramId){
         $sumNet = Bill::
         where('bill_type', '=', $dbBillType)
+        ->where('program_id', '=', $currentProgramId)
         ->where( function($query) use($request){
             return $request->get('third_party_id') ?
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
@@ -218,9 +219,11 @@ class Bill extends Model
         return $sumNet ;
 
     }
-    public static function getSumNetPayable($request){
+    public static function getSumNetPayable($request, $dbBillType, $currentProgramId){
         $sumNetPayable = Bill::
-        where( function($query) use($request){
+        where('bill_type', '=', $dbBillType)
+        ->where('program_id', '=', $currentProgramId)
+        ->where( function($query) use($request){
             return $request->get('third_party_id') ?
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
         ->where( function($query) use($request){
@@ -243,9 +246,11 @@ class Bill extends Model
         return $sumNetPayable ;
 
     }
-    public static function getSumNetRemaining($request){
+    public static function getSumNetRemaining($request,$dbBillType, $currentProgramId){
         $sumNetRemaining = Bill::
-        where( function($query) use($request){
+        where('bill_type', '=', $dbBillType)
+        ->where('program_id', '=', $currentProgramId)
+        ->where( function($query) use($request){
             return $request->get('third_party_id') ?
                    $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
         ->where( function($query) use($request){

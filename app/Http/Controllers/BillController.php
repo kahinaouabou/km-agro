@@ -97,13 +97,14 @@ class BillController extends Controller
             }else {
                 $selected_id['date_to'] = '';
             }
-            $sumNet = Bill::getSumNet( $request, $dbBillType );
-            $sumNetPayable = Bill::getSumNetPayable( $request );
-            $sumNetRemaining = Bill::getSumNetRemaining( $request );
+            $currentProgramId = Program::getCurrentProgram();
+            $sumNet = Bill::getSumNet( $request, $dbBillType , $currentProgramId);
+            $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
+            $sumNetRemaining = Bill::getSumNetRemaining( $request , $dbBillType , $currentProgramId );
             $sumNetPaid = $sumNetPayable - $sumNetRemaining;
             $limit = request('length');
             $start = request('start');
-            $currentProgramId = Program::getCurrentProgram();
+            
             $data = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
                 ->leftjoin('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')     
@@ -262,11 +263,11 @@ class BillController extends Controller
         }else {
             $selected_id['date_to'] = '';
         }
-        
+        $currentProgramId = Program::getCurrentProgram();
 
-        $sumNet = Bill::getSumNet( $request, $dbBillType );
-        $sumNetPayable = Bill::getSumNetPayable( $request );
-        $sumNetRemaining = Bill::getSumNetRemaining( $request );
+        $sumNet = Bill::getSumNet( $request,  $dbBillType , $currentProgramId );
+        $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
+        $sumNetRemaining = Bill::getSumNetRemaining( $request  , $dbBillType , $currentProgramId);
         return view('bills.index',
         compact('bills','type','page',
         'selected_id','dbBillType','sumNet','sumNetPayable','sumNetRemaining'));
