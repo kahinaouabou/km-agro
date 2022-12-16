@@ -46,11 +46,12 @@ class PaymentController extends Controller
 
             // $sumReceipts = Payment::getSumReceipts( $request );
             // $sumDisbursements = Payment::getSumDisbursements( $request );
-            
+            $currentProgramId = Program::getCurrentProgram();
             $data = DB::table('payments')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
                 ->select('payments.*', 'ThirdParty.name as thirdPartyName',
                 DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date"))
+                ->where('program_id', '=', $currentProgramId)
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
                            $query->from('payments')->where('third_party_id',$request->get('third_party_id')) : '';})
