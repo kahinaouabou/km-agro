@@ -98,6 +98,15 @@
                  
               </div> 
             @break
+            @case ( \App\Enums\BillTypeEnum::DeliveryBill)
+              <div class="card-header card-header-primary card-footer-primary">
+                <h4 class="card-title">{{__('Total quantity')}} : <strong id="total-net"></strong><strong> Kg</strong></h4>
+                <h4 class="card-title">{{__('Total boxes')}} : <strong id="total-boxes"></strong><strong> Kg</strong></h4>
+              
+                  
+                 
+              </div> 
+            @break
           @endswitch
          
       </div>

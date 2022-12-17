@@ -224,6 +224,33 @@ class Bill extends Model
         return $sumUnstockedQuantity;
     }
 
+    public static function getSumNbBoxes($request, $dbBillType, $currentProgramId){
+        $sumNbBoxes = Bill::
+        where('bill_type', '=', $dbBillType)
+        ->where('program_id', '=', $currentProgramId)
+        ->where( function($query) use($request){
+            return $request->get('third_party_id') ?
+                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('block_id') ?
+                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('room_id') ?
+                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
+        ->where( function($query) use($request){
+            return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                                           
+        ->where(function($query) use($request){
+            return $request->get('date_from') ?
+                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+        ->where(function($query) use($request){
+            return $request->get('date_to') ?
+                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+        ->sum("number_boxes");
+        return $sumNbBoxes ;
+
+    }
     public static function getSumNet($request, $dbBillType, $currentProgramId){
         $sumNet = Bill::
         where('bill_type', '=', $dbBillType)

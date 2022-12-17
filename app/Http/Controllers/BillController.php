@@ -105,6 +105,7 @@ class BillController extends Controller
             $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
             $sumNetRemaining = Bill::getSumNetRemaining( $request , $dbBillType , $currentProgramId );
             $sumNetPaid = $sumNetPayable - $sumNetRemaining;
+            $sumNbBoxes = Bill::getSumNbBoxes( $request, $dbBillType , $currentProgramId);
             $limit = request('length');
             $start = request('start');
             
@@ -187,6 +188,11 @@ class BillController extends Controller
                     ->addColumn('sumNetPaid', function() use ($sumNetPaid){
                         return number_format($sumNetPaid, 2, ',', ' ')  ;
                     })
+                    ->addColumn('sumNbBoxes', function() use ($sumNbBoxes){
+                        return number_format($sumNbBoxes, 0, ',', ' ')  ;
+                    })
+                    
+
                     ->addColumn('selected_id', function() use ($selected_id){
                         return $selected_id  ;
                     })
