@@ -54,16 +54,18 @@ class ThirdParty extends Model
             case 'edit':
                 switch ($billType) {
                     case BillTypeEnum::EntryBill :
-                        $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Supplier);
+                        $thirdParties = ThirdParty::where('is_supplier','=',ThirdPartyEnum::Supplier)->pluck('name', 'id');
                         break;
                     case BillTypeEnum::ExitBill :
                     case BillTypeEnum::WeighBill:    
-                        $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Customer); 
+                        $thirdParties = ThirdParty::where('is_supplier','=',ThirdPartyEnum::Customer)->pluck('name', 'id'); 
                         break;  
                     case BillTypeEnum::DeliveryBill :
-                            $thirdParties = ThirdParty::pluck('name', 'id')
-                            ->where('is_supplier','=',ThirdPartyEnum::Supplier)
-                            ->where('is_subcontractor','=',SubcontractorEnum::Subcontractor);
+                            $thirdParties = ThirdParty::
+                            where('is_supplier','=',ThirdPartyEnum::Supplier)
+                            ->where('is_subcontractor','=',SubcontractorEnum::Subcontractor)
+                            ->pluck('name', 'id')
+                           ;
                             break;    
                         default    :
                         $thirdParties = [];      

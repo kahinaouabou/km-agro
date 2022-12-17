@@ -438,15 +438,25 @@ class BillController extends Controller
     {
         $products = Product::pluck('name', 'id');
         $trucks = Truck::pluck('registration', 'id');
-        $blocks = Block::pluck('name', 'id');
+        
         $parcels = Parcel::pluck('name', 'id')->where('parcel_category_id','=',1);
         $page = Bill::getTitleActivePageByTypeBill($type);
         
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type, 'edit');
+        
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
         $isSubcontractor =  ThirdParty:: getSubcontractorByBillType($type);
         $bill = Bill::findOrFail($id);
-        $rooms =Room::where('block_id','=',$bill->block->id)->pluck('name', 'id');
+        
+        $rooms = [];
+        $blocks = [];
+        $drivers = [];
+        if($type != BillTypeEnum::DeliveryBill){
+           $rooms =Room::where('block_id','=',$bill->block->id)->pluck('name', 'id');
+           $blocks = Block::pluck('name', 'id');
+        }else {
+            $drivers = Driver::pluck('name', 'id');
+        }
         switch ($type){
             case BillTypeEnum::EntryBill:
                 $dbBillType = BillTypeEnum::EntryBill;
@@ -457,10 +467,13 @@ class BillController extends Controller
                 break ;    
                 case BillTypeEnum::DamageBill:
                     $dbBillType = BillTypeEnum::DamageBill;
-                break;            
+                break;  
+            case BillTypeEnum::DeliveryBill:
+                    $dbBillType = BillTypeEnum::DeliveryBill;
+                break;               
         }
        
-        return view('bills.edit', compact('products','trucks','blocks','bill',
+        return view('bills.edit', compact('products','trucks','blocks','bill','drivers',
                                     'isSupplier','page','type','isSubcontractor',
                                     'parcels','rooms','thirdParties','dbBillType'));
     }
@@ -527,8 +540,14 @@ class BillController extends Controller
                 
                 case BillTypeEnum::DamageBill :
                         return redirect('/bill/'.BillTypeEnum::DamageBill)->with('message',__('Damage bill successfully updated.'));
-                     
-            }
+                 
+                case BillTypeEnum::DeliveryBill :
+                        return redirect('/bill/'.BillTypeEnum::DeliveryBill)->with('message',__('Delivery bill successfully updated.'));
+                         
+                      
+            
+            
+           }
          
         }
 
