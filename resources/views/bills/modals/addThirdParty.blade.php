@@ -2,10 +2,14 @@
   <div class="modal-dialog">
         <div class="modal-content" >
             <div class="modal-header">
-                @if($isSupplier==1)  { 
-                <h4 class="modal-title">{{__("Add supplier")}}</h4>
+                @if($isSupplier==App\Enums\ThirdPartyEnum::Supplier)   
+                  @if($isSubcontractor==1)
+                    <h4 class="modal-title">{{__("Add subcontractor")}}</h4>
+                  @else
+                    <h4 class="modal-title">{{__("Add supplier")}}</h4>
+                  @endif
                 @else 
-                <h4 class="modal-title">{{__("Add customer")}}</h4>
+                  <h4 class="modal-title">{{__("Add customer")}}</h4>
                 @endif
                 <button type="button" class="close quick-close" data-dismiss="modal">
                 <span>&times;</span>
@@ -57,6 +61,11 @@
                                   'hidden' => true,
                                   'id'=>'input-is-supplier'
                                   ]) !!}
+
+                                  {!! Form::number('is_subcontractor', $isSubcontractor, [
+                                  'hidden' => true,
+                                  'id'=>'input-is-subcontractor'
+                                  ]) !!}              
             
                 </div>
                 <div class="modal-footer">

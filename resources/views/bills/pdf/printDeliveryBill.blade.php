@@ -1,12 +1,12 @@
 <div style="width: 500px; margin-left : 130px; margin-bottom :60px; margin-top:30px">
-    <h1 >{{__('Bon de livraison')}} N° : </h1>
+    <h1 >{{__($page['name'])}} N° :  {{$bill->reference}}</h1>
     </div>
     <div style ="width:700px" >
         <table >
             <tr>
                 <td style=" font-weight:bold; font-size:22px">{{__('Date')}}: </td>
                 <td style=" font-size:20px">
-                   </td>
+                {{$bill->bill_date->format('d/m/Y')}}</td>
                 <td style=" width:350px;text-align:right;
                 display: block; position: relative; top:0px; font-weight:bold; font-size:20px"></span>
                 </td>
@@ -28,7 +28,7 @@
          $text = $obj->utf8Glyphs($text);
          
       ?>
-        <td><p style="font-size:18px;"><strong >{{__('Product')}} :</strong ><span style="font-family: DejaVu Sans, sans-serif; !important;"><?php echo $text ?></span> (PDT Semence)</p></td>
+        <td><p style="font-size:18px;"><strong >{{__('Product')}} :</strong ><span style="font-family: DejaVu Sans, sans-serif; !important;"><?php echo $text ?></span> ({{$bill->product->name}})</p></td>
     
     </tr>
   </table>
@@ -61,11 +61,11 @@
     </thead>
     <tbody>
        
-            <tr>
-                <td align="right" width="100px"></td>
-                <td align="right" width="120px"></td>
-                <td align="right" width="120px"></td>
-                <td align="right" width="160px"></td>
+    <tr>
+                <td align="right" width="100px">{{number_format($bill->number_boxes, 0, ',', ' ')}}</td>
+                <td align="right" width="120px">{{number_format($bill->raw, 0, ',', ' ')}}</td>
+                <td align="right" width="120px">{{number_format($bill->tare, 0, ',', ' ')}}</td>
+                <td align="right" width="160px">{{number_format($bill->net, 0, ',', ' ')}}</td>
             </tr>
         
      

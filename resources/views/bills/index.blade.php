@@ -52,6 +52,9 @@
                 @case (\App\Enums\BillTypeEnum::DamageBill)
                   @include('bills.indexDamageBill')
                 @break
+                @case (\App\Enums\BillTypeEnum::DeliveryBill)
+                  @include('bills.indexDeliveryBill')
+                @break
               @endswitch
                
               </div>

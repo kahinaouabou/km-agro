@@ -4,19 +4,24 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('thirdParties.store',$isSupplier) }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ route('thirdParties.store') }}" autocomplete="off" class="form-horizontal">
             @csrf
             @method('post')
 
             <div class="card ">
               <div class="card-header card-header-primary">
-              @if($isSupplier==0)         
-                  <h4 class="card-title">{{ __('Add customer') }}</h4>
-                  <p class="card-category">{{ __('Customer information') }}</p>
-              @else
-                  <h4 class="card-title">{{ __('Add supplier') }}</h4>
-                  <p class="card-category">{{ __('Supplier information') }}</p>
-              @endif
+                  @if($isSupplier==0)         
+                      <h4 class="card-title">{{ __('Add customer') }}</h4>
+                      <p class="card-category">{{ __('Customer information') }}</p>
+                  @else
+                    @if($isSubcontractor==0)
+                      <h4 class="card-title">{{ __('Add supplier') }}</h4>
+                      <p class="card-category">{{ __('Supplier information') }}</p>
+                    @else
+                      <h4 class="card-title">{{ __('Add subcontractor') }}</h4>
+                      <p class="card-category">{{ __('Subcontractor information') }}</p>
+                    @endif
+                  @endif
                 
               </div>
               <div class="card-body ">
@@ -80,10 +85,14 @@
                                   'hidden' => true
                                   ]) !!}
                 
+                 {!! Form::number('is_subcontractor', $isSubcontractor, [
+                                  'hidden' => true
+                                  ]) !!}                  
+                
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a class="btn btn-default btn-close" href="{{ route('thirdParties' ,  $isSupplier) }}">{{ __('Cancel') }}</a>
+                <a class="btn btn-default btn-close" href="{{ route('thirdParties' , [ $isSupplier ,  $isSubcontractor]) }}">{{ __('Cancel') }}</a>
              
               </div>
             </div>

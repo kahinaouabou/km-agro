@@ -12,4 +12,6 @@ class BillTypeEnum
     const WeighBill = 3;
     const DamageBill = 4;
 
+    const DeliveryBill = 5;
+
 }

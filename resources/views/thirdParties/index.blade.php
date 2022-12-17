@@ -21,9 +21,15 @@
           @endif
           <div class="card">
             <div class="card-header card-header-primary">
-            @if($isSupplier==1)         
-              <h4 class="card-title ">{{__('Suppliers')}}</h4>
-              <p class="card-category"> {{__('Here you can manage supplier')}}</p>        
+              
+            @if($isSupplier==1) 
+              @if($isSubcontractor==1) 
+                <h4 class="card-title ">{{__('Subcontractors')}}</h4>
+                <p class="card-category"> {{__('Here you can manage subcontractor')}}</p> 
+              @else
+                <h4 class="card-title ">{{__('Suppliers')}}</h4>
+                <p class="card-category"> {{__('Here you can manage supplier')}}</p> 
+              @endif             
             @else
               <h4 class="card-title ">{{__('Customers')}}</h4>
               <p class="card-category"> {{__('Here you can manage customer')}}</p>         
@@ -33,10 +39,17 @@
             <div class="card-body">
                               <div class="row">
                 <div class="col-12 text-right">
-                @if($isSupplier==1)   
-                    <a href="{{ route('thirdParties.create',(int)$isSupplier) }}" class="btn btn-sm btn-primary">{{__('Add supplier')}}</a>              
+                @if($isSupplier==1 )   
+                    @if($isSubcontractor==1)
+                        <a href="{{ route('thirdParties.create',[(int)$isSupplier ,(int)$isSubcontractor]) }}" 
+                        class="btn btn-sm btn-primary">{{__('Add subcontractor')}}</a>              
+                    @else 
+                        <a href="{{ route('thirdParties.create',[(int)$isSupplier ,(int)$isSubcontractor]) }}" 
+                        class="btn btn-sm btn-primary">{{__('Add supplier')}}</a>              
+                    @endif            
                 @else 
-                    <a href="{{ route('thirdParties.create',(int)$isSupplier) }}" class="btn btn-sm btn-primary">{{__('Add customer')}}</a>       
+                    <a href="{{ route('thirdParties.create',[(int)$isSupplier ,(int)$isSubcontractor]) }}" 
+                    class="btn btn-sm btn-primary">{{__('Add customer')}}</a>       
                 @endif
                    </div>
               </div>
@@ -79,7 +92,7 @@
                         
                         </td>
                         <td class="td-actions text-right">
-                             <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('thirdParties.edit', [$thirdParty->id , (int)$isSupplier] ) }}" data-original-title="" title="">
+                             <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('thirdParties.edit', [$thirdParty->id , (int)$isSupplier ,(int)$isSubcontractor] ) }}" data-original-title="" title="">
                               <i class="material-icons">edit</i>
                               <div class="ripple-container"></div>
                             </a>

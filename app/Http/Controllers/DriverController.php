@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Truck;
+use App\Models\Driver;
+use App\Models\ThirdParty;
+use App\Enums\BillTypeEnum;
 use Illuminate\Http\Request;
-use App\Http\Requests\TruckRequest;
-use App\Models\Mark;
 
-class TruckController extends Controller
+class DriverController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Models\Truck  $model
      * @return \Illuminate\Http\Response
      */
-    public function index(Truck $model)
+    public function index()
     {
         //
-        $trucks = $model->all();
-        return view('trucks.index',compact('trucks')); 
+        $drivers = Driver:: orderBy("name","asc")->get(); 
+        return view('drivers.index',compact('drivers'));
     }
 
     /**
@@ -29,39 +28,35 @@ class TruckController extends Controller
      */
     public function create()
     {
-        //
-        $marks = Mark::all();
-        return view('trucks.create',compact('marks'));
+        $subcontractors = ThirdParty:: getThirdPartiesByBillType(BillTypeEnum::DeliveryBill,'create');
+        return view('drivers.create', compact('subcontractors'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\TruckRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TruckRequest $request)
+    public function store(Request $request)
     {
         //
         $validatedData = $request->validate([
-            'registration' => 'required|min:3',
-            'model' => 'nullable',
-            'mark_id' => 'nullable',
-            'tare' => 'nullable',
+            'name' => 'required|min:3',
+            'third_party_id' => 'required',
         ]);
         
-        $truck=Truck::create($validatedData);
+        $driver = Driver::create($validatedData);
         if ($request->ajax()) {
-            $trucks = Truck::all()->pluck('registration', 'id');
+            $drivers = Driver::all()->pluck('name', 'id');
 
             return response()->json([
-                'selectedId'=>$truck->id,
-                'trucks'=>$trucks
+                'selectedId'=>$driver->id,
+                'drivers'=>$drivers
                  ]);
         } else {
-            return redirect('/trucks')->with('message',__('Truck successfully created.'));
+            return redirect('/drivers')->with('message', __('Driver successfully created.'));
         }
-        
     }
 
     /**
@@ -84,9 +79,9 @@ class TruckController extends Controller
     public function edit($id)
     {
         //
-        $truck = Truck::findOrFail($id);
-        $marks = Mark::pluck('name', 'id');
-        return view('trucks.edit', compact('truck','marks'));
+        $driver = Driver::findOrFail($id);
+        $subcontractors = ThirdParty:: getThirdPartiesByBillType(BillTypeEnum::DeliveryBill,'edit');;
+        return view('subcontractors.edit', compact('block','subcontractors'));
     }
 
     /**
@@ -98,15 +93,15 @@ class TruckController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $validatedData = $request->validate([
-            'registration' => 'required|min:3',
-            'model' => 'nullable',
-            'mark_id' => 'nullable',
-            'tare' => 'nullable',
+            'name' => 'required|min:3',
+            'third_party_id' => 'required',
         ]);
-        Truck::whereId($id)->update($validatedData);
-        return redirect('/trucks')->with('message',__('Truck successfully updated.'));
+       Driver::whereId($id)->update($validatedData);
+       
+            return redirect('/drivers')->with('message',__('Driver successfully updated.'));
+        
+        
     }
 
     /**
@@ -118,8 +113,5 @@ class TruckController extends Controller
     public function destroy($id)
     {
         //
-        $truck = Truck::findOrFail($id);
-        $truck->delete();
-        return redirect('/trucks')->with('message',__('Truck successfully deleted.'));
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Truck;
 use App\Models\Block;
 use App\Models\Room;
+use App\Models\Driver;
 use App\Models\Parcel;
 use App\Models\ThirdParty;
 use App\Models\BillPayment;
@@ -61,6 +62,8 @@ class BillController extends Controller
             break ;
             case BillTypeEnum::DamageBill:
                 $dbBillType = BillTypeEnum::DamageBill;
+            case BillTypeEnum::DeliveryBill:
+                    $dbBillType = BillTypeEnum::DeliveryBill;    
             break;    
         }  
         
@@ -108,9 +111,10 @@ class BillController extends Controller
             $data = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
                 ->leftjoin('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')     
-                ->join('blocks as Block', 'Block.id', '=', 'bills.block_id')     
-                ->join('rooms as Room', 'Room.id', '=', 'bills.room_id')     
-                ->leftjoin('trucks as Truck', 'Truck.id', '=', 'bills.truck_id')     
+                ->leftjoin('blocks as Block', 'Block.id', '=', 'bills.block_id')     
+                ->leftjoin('rooms as Room', 'Room.id', '=', 'bills.room_id')     
+                ->leftjoin('trucks as Truck', 'Truck.id', '=', 'bills.truck_id')  
+                ->leftjoin('drivers as Driver', 'Driver.id', '=', 'bills.driver_id')   
                 ->select(
                 DB::raw('bills.net_payable - bills.net_remaining as net_paid')  , 
                 'bills.*', 
@@ -118,6 +122,7 @@ class BillController extends Controller
                 'Block.name as blockName',
                 'Room.name as roomName',
                 'Truck.registration as truckName',
+                'Driver.name as driverName',
                 'ThirdParty.name as thirdPartyName')
                // DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date") )
                 ->where('bill_type', '=', $dbBillType)
@@ -141,14 +146,10 @@ class BillController extends Controller
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-                ->orderBy("bill_date","desc")
-                ->offset($start)->limit($limit) ; 
-                $columns = $request['columns'];
-                    
-                $count = $data->count(); 
+                ->orderBy("bill_date","desc") ;
+        
                 return Datatables::of($data)
                 
-                ->setTotalRecords($count)
                     ->addIndexColumn()
                     ->editColumn('raw', function($row) {
                         return number_format($row->raw, 0, ',', ' ');
@@ -303,10 +304,10 @@ class BillController extends Controller
         $rooms =[];
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type,'create');
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
+        $isSubcontractor =  ThirdParty:: getSubcontractorByBillType($type);
         switch ($type){
             case BillTypeEnum::EntryBill:
-                $dbBillType = BillTypeEnum::EntryBill;
-                
+                $dbBillType = BillTypeEnum::EntryBill; 
             break;
             case BillTypeEnum::ExitBill : 
             case BillTypeEnum::WeighBill:
@@ -314,12 +315,21 @@ class BillController extends Controller
             break ;
             case BillTypeEnum::DamageBill:
                 $dbBillType = BillTypeEnum::DamageBill;
-            break;    
-        } 
+            break;  
+            case BillTypeEnum::DeliveryBill:
+                $dbBillType = BillTypeEnum::DeliveryBill;
+            break;  
+        }
+        $drivers = [];
+        if($type ==BillTypeEnum::DeliveryBill){
+            $drivers = Driver::all();
+        }
         $nextReference = Setting::getNextReferenceByFieldName($page['fieldParam']);
        
-        return view('bills.create', compact('products','trucks','blocks','isSupplier','dbBillType',
-                                    'page','type','parcels','rooms','thirdParties','nextReference'));
+        return view('bills.create', compact('products','trucks','blocks',
+                                        'isSupplier','dbBillType','drivers',
+                                    'page','type','parcels','rooms','isSubcontractor',
+                                    'thirdParties','nextReference'));
     }
 
     /**
@@ -390,7 +400,9 @@ class BillController extends Controller
                     return redirect('/bill/'.BillTypeEnum::WeighBill)->with('message',__('Exit bill successfully created.'));
                case BillTypeEnum::DamageBill :
                     return redirect('/bill/'.BillTypeEnum::DamageBill)->with('message',__('Damage bill successfully created.'));
-                               
+                case BillTypeEnum::DeliveryBill :
+                        return redirect('/bill/'.BillTypeEnum::DeliveryBill)->with('message',__('Delivery bill successfully created.'));
+                                    
             }
         }
     
@@ -444,8 +456,7 @@ class BillController extends Controller
                 break ;    
                 case BillTypeEnum::DamageBill:
                     $dbBillType = BillTypeEnum::DamageBill;
-                break;    
-                
+                break;            
         }
        
         return view('bills.edit', compact('products','trucks','blocks','bill','isSupplier',

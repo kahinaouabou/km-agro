@@ -35,7 +35,7 @@ class BlockController extends Controller
      */
     public function index()
     {
-        $blocks = Block:: orderBy("name","asc")->get(); ;
+        $blocks = Block:: orderBy("name","asc")->get(); 
         return view('blocks.index',compact('blocks'));    
     }
     public function all()

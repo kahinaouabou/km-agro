@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BillRequest extends FormRequest
+class DriverRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,9 @@ class BillRequest extends FormRequest
     public function rules()
     {
         return [
-            'reference' => ['required', 'min:3'],
-            'product_id' => ['required'],
-            'bill_date' => ['required'],
-            'number_boxes'=> ['required'],
-            'raw'=> ['required'],
-            'tare'=> ['required'],
-            'net'=> ['required'],    
+            
+            'name' => ['required', 'min:3'],
+            'third_party_id' => ['required'],
         ];
     }
 }

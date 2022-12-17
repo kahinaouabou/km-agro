@@ -1,5 +1,6 @@
 @include('bills.modals.addThirdParty')
 @include('bills.modals.addTruck')
+@include('bills.modals.addDriver')
 <div class="card-body ">
                 @if (session('status'))
                   <div class="row">
@@ -49,67 +50,56 @@
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Blocks') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('block_id') ? ' has-danger' : '' }}">
-                      <select class="form-control{{ $errors->has('block_id') ? ' is-invalid' : '' }}" name="block_id" id="input-block" type="select" placeholder="{{ __('block') }}" required >
-                      <option value="">{{ __('Select block') }}</option>
-                        @foreach($blocks as $block)
-                        <option value="{{ $block->id }}" >{{ $block->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="col-sm-2 col-form-label">{{ __('Subcontractors') }}</label>
+                    <div class="col-sm-7">
+                      <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
+                        <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
+                          <option value="">{{ __('Select subcontractor') }}</option>
+                          @foreach($thirdParties as $thirdParty)
+                          <option value="{{ $thirdParty->id }}" >{{ $thirdParty->name }}</option>
+                          @endforeach
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div id="div-room">
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Rooms') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
+                    <button type="button" data-toggle="modal" data-target="#addThirdParty" class="btn btn-sm btn-primary" id="addThirdPartyButton"><i class="material-icons">edit</i></button>
                    
-                    {!! Form::select('room_id', $rooms,null,
-                      [
-                        'class' => 'form-control',
-                        'placeholder'=> __('Select room') ,
-      
-                        ]) !!}
-                    </div>
                   </div>
-                </div>
-                </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
-                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
-                        <option value="">{{ __('Select customer') }}</option>
-                        @foreach($thirdParties as $thirdParty)
-                        <option value="{{ $thirdParty->id }}" >{{ $thirdParty->name }}</option>
-                        @endforeach
+                    <label class="col-sm-2 col-form-label">{{ __('Drivers') }}</label>
+                    <div class="col-sm-7">
+                      <div class="form-group{{ $errors->has('driver_id') ? ' has-danger' : '' }}">
+                        <select class="driver-select2 form-control{{ $errors->has('driver_id') ? ' is-invalid' : '' }}" name="driver_id" id="input-driver" type="select"  required >
+                          <option value="">{{ __('Select driver') }}</option>
+                          @foreach($drivers as $driver)
+                          <option value="{{ $driver->id }}" >{{ $driver->name }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#addDriver" class="btn btn-sm btn-primary" id="addDriverButton"><i class="material-icons">edit</i></button>
+                   
+                  </div>
+                  <div class="row">
+                    <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
+                    <div class="col-sm-7">
+                      <div class="form-group{{ $errors->has('truck_id') ? ' has-danger' : '' }}">
+                        <select class="truck-select2 form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('Registration') }}" required >
+                        <option value="">{{ __('Select registration') }}</option>
+                          @foreach($trucks as $truck)
+                          <option value="{{ $truck->id }}" >{{ $truck->registration }}</option>
+                          @endforeach
                       </select>
+                      </div>
                     </div>
+                    <button type="button" data-toggle="modal" data-target="#addTruck" class="btn btn-sm btn-primary" id="addTruckButton"><i class="material-icons">edit</i></button>
+                   
                   </div>
-                  <button type="button" data-toggle="modal" data-target="#addThirdParty" class="btn btn-sm btn-primary" id="addThirdPartyButton"><i class="material-icons">edit</i></button>
-                 
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Registration') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('truck_id') ? ' has-danger' : '' }}">
-                      <select class="truck-select2 form-control{{ $errors->has('truck_id') ? ' is-invalid' : '' }}" name="truck_id" id="input-truck" type="select" placeholder="{{ __('Registration') }}" required >
-                      <option value="">{{ __('Select registration') }}</option>
-                        @foreach($trucks as $truck)
-                        <option value="{{ $truck->id }}" >{{ $truck->registration }}</option>
-                        @endforeach
-                    </select>
-                    </div>
-                  </div>
-                  <button type="button" data-toggle="modal" data-target="#addTruck" class="btn btn-sm btn-primary" id="addTruckButton"><i class="material-icons">edit</i></button>
-                 
-                </div>
+               
+            
+              
                
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Number boxes taken') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Number boxes') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
                     {!! Form::number('number_boxes', null, [
@@ -158,92 +148,12 @@
                                                 'class' => 'form-control',
                                                 'step' => '1',
                                                 'id' =>'input-net',
-                                                //'onchange'=>'calculateNetPayableValue(this.value)',
                                                 'required' => true
                                                 ]) !!}
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('weight discount percentage') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('weight_discount_percentage', 0, [
-                                                'class' => 'form-control',
-                                                'step' => '0.01',
-                                                'id' =>'input-weight-discount-percentage',
-                                                
-                                                ]) !!}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Net with weight discount') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('net_weight_discount', null, [
-                                                'class' => 'form-control',
-                                                'step' => '0.01',
-                                                'id' =>'input-net-weight-discount',
-                                                //'onchange'=>'calculateNetPayableValue(this.value)',
-                                                'required' => true
-                                                ]) !!}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Unit price') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('unit_price', null, [
-                                                'class' => 'form-control',
-                                                'step' => '0.01',
-                                                'id' =>'input-unit-price',
-                                                //'onchange'=>'calculateNetPayableValue(this.value)',
-                                                'required' => true
-                                                ]) !!}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Discount') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('discount_value', 0, [
-                                                'class' => 'form-control',
-                                                'step' => '0.01',
-                                                'id' =>'input-discount-value',
-                                                //'onchange'=>'calculateNetPayableValueWithDiscountValue(this.value)',
-                                                
-                                                ]) !!}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Net payable') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('net_payable', null, [
-                                                'class' => 'form-control',
-                                                'step' => '0.01',
-                                                'id' =>'input-net-payable',
-                                                'required' => true
-                                                ]) !!}
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Number boxes returned') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                    {!! Form::number('number_boxes_returned', 0, [
-                                                'class' => 'form-control',
-                                                'step' => '1',
-                                                'id' =>'input-number-boxes-returned',
-                                                ]) !!}
-                    </div>
-                  </div>
-                </div>
+             
                
                 {!! Form::number('bill_type', $dbBillType, [
                                   'hidden' => true
@@ -262,7 +172,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });
-jQuery(document).on('click', '#addThirdPartyButton', function() {
+
+        jQuery(document).on('click', '#addThirdPartyButton', function() {
           $('#addThirdParty').appendTo("body").modal('show');
           $('#input-name').attr('required',true);
           
@@ -274,6 +185,12 @@ jQuery(document).on('click', '#addTruckButton', function() {
           $('#input-registration').attr('required',true);
 
       }); 
+      jQuery(document).on('click', '#addDriverButton', function() {
+          $('#addDriver').appendTo("body").modal('show');
+          $('#input-name-driver').attr('required',true);
+          $('#input-subcontractor').val($('#input-third-party').val());
+
+      });       
 
 jQuery("#add-third-party-button").click(function(e){
 
@@ -415,5 +332,60 @@ $.ajax({
       }
 });
 });
-      });
+      
+
+jQuery("#add-driver-button").click(function(e){
+
+e.preventDefault(); //empêcher une action par défaut
+
+let name = $('#input-name-driver').val();
+let phone = $('#input-phone-driver').val();
+let third_party_id = $('#input-subcontractor').val();
+
+$.ajax({
+  url : "{{ route('drivers.store') }}",
+  type: 'post',
+  headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+  data :{
+      name:name,
+      phone:phone,
+      third_party_id:third_party_id
+  },
+  success:function(response){
+        if(response) {
+          $('#input-driver').empty();
+                $("#input-driver").append('<option>{{ __("Select driver") }}</option>');
+               
+                    $.each(response.drivers,function(key,value){
+                      // $('#input-third-party').append($("<option/>", {
+                      //      value: key,
+                      //      text: value,
+                      //   }));
+                      if(key ==response.selectedId){
+                        $("#input-driver").append( '<option selected="selected" value="'+key+'">'+value+'</option>' )
+                      }else {
+                        $("#input-driver").append( '<option value="'+key+'">'+value+'</option>' )
+                      }
+                       
+                    });
+                
+            $('#addDriver').appendTo("body").modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            $('#input-driver-name').removeAttr('required');
+        }
+      },
+      error: function(error) {
+        console.log(error);
+      }
+});
+});
+      
+
+
+});     
+
+
   </script>

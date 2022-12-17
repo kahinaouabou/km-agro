@@ -85,11 +85,18 @@
        <td valign="top" width="300px"></td>
         
         <td align="left">
-          
+        @if($type == \App\Enums\BillTypeEnum::DeliveryBill)
+            <h2>Etablissement HAOUCHINE Farid</h2>
+            <p><strong>Agrément ministériel n°: 053</p> 
+        @else 
             <h2>{{ $company->name }}</h2>
             <!-- <p><strong>Agrément ministériel n°: 053</p>  -->
-            <p>{{$company->address}}</p>  
-            <p>{{$company->email}}</p>  
+        @endif
+          
+            <p>{{$company->address}}</p> 
+            @if($type != \App\Enums\BillTypeEnum::DeliveryBill) 
+            <p>{{$company->email}}</p> 
+            @endif 
             @if(!empty($company->fax))  
             <p >Tel: {{$company->phone}} / Fax: {{$company->fax}}</p>
             @else 
@@ -113,6 +120,9 @@
                 @break
                 @case (\App\Enums\BillTypeEnum::DamageBill)
                   @include('bills.pdf.printWeighBill')
+                @break
+                @case (\App\Enums\BillTypeEnum::DeliveryBill)
+                  @include('bills.pdf.printDeliveryBill')
                 @break 
             @endswitch
 

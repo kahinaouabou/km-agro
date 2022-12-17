@@ -34,6 +34,10 @@ class Bill extends Model
     {
         return $this->belongsTo('App\Models\Room');
     }
+    public function Driver()
+    {
+        return $this->belongsTo('App\Models\Driver');
+    }
     public function transactionBoxes()
     {
         return $this->hasMany('App\Models\TransactionBox');
@@ -42,7 +46,7 @@ class Bill extends Model
     {
         return $this->belongsToMany('App\Models\Payment', 'bill_payment');
     }
-    protected $fillable  = ['reference','bill_date','bill_type','product_id','truck_id',
+    protected $fillable  = ['reference','bill_date','bill_type','product_id','truck_id','driver_id',
                             'origin','parcel_id','third_party_id','block_id','room_id',
                             'number_boxes','raw','tare','net','net_weight_discount',
                             'weight_discount_percentage','unit_price','discount_value',
@@ -108,7 +112,14 @@ class Bill extends Model
                     $namePage = 'Damage bill';
                     $titleCard = 'Damage bills';
                     $fieldParam = 'damage_bill';
-                    break;          
+                    break;
+            case BillTypeEnum::DeliveryBill :
+                        $activePage= 'bill/'.BillTypeEnum::DeliveryBill;
+                        $titlePage = 'Add delivery bill';
+                        $namePage = 'Delivery bill';
+                        $titleCard = 'Delivery bills';
+                        $fieldParam = 'delivery_bill';
+                        break;                  
         }
         $page['active']=$activePage;
         $page['title']=$titlePage;
@@ -170,15 +181,36 @@ class Bill extends Model
                         'raw'=> 'required',
                         'net'=> 'required',
                         'tare'=> 'required',  
-                        
                         'unit_price'=> 'nullable',
-                    'net_payable'=> 'nullable',
-                    'number_boxes_returned' => 'nullable',           
-                    'weight_discount_percentage' => 'nullable',
-                    'discount_value' => 'nullable',
-                    'net_weight_discount' => 'nullable', 
+                         'net_payable'=> 'nullable',
+                         'number_boxes_returned' => 'nullable',           
+                        'weight_discount_percentage' => 'nullable',
+                         'discount_value' => 'nullable',
+                         'net_weight_discount' => 'nullable', 
                     ]);
                     break;
+                    case BillTypeEnum::DeliveryBill :
+                        $validatedData = $request->validate([
+                            'reference' => 'required|min:3',
+                            'bill_date' => 'required|min:3',
+                            'bill_type'=> 'required',
+                            'product_id' => 'required',
+                            'third_party_id'=> 'required',
+                            'driver_id'=> 'required',
+                            'truck_id'=> 'required',
+                            'number_boxes'=> 'required',
+                            'raw'=> 'required',
+                            'net'=> 'required',
+                            'tare'=> 'required',  
+                            'unit_price'=> 'nullable',
+                             'net_payable'=> 'nullable',
+                             'number_boxes_returned' => 'nullable',           
+                            'weight_discount_percentage' => 'nullable',
+                             'discount_value' => 'nullable',
+                             'net_weight_discount' => 'nullable', 
+                        ]);
+                        break;
+
                 
             default :
                 $validatedData = [];

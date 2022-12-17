@@ -14,8 +14,13 @@
                   <h4 class="card-title">{{ __('Edit customer') }}</h4>
                   <p class="card-category">{{ __('Customer information') }}</p>
               @else
+                @if($isSubcontractor==0)
                   <h4 class="card-title">{{ __('Edit supplier') }}</h4>
                   <p class="card-category">{{ __('Supplier information') }}</p>
+                @else
+                  <h4 class="card-title">{{ __('Edit subcontractor') }}</h4>
+                  <p class="card-category">{{ __('Subcontractor information') }}</p>
+                @endif
               @endif
               </div>
               <div class="card-body ">
@@ -79,11 +84,13 @@
                                   'hidden' => true
                                   ]) !!}
                
-              
+                {!! Form::number('is_subcontractor', $thirdParty->is_subcontractor, [
+                                  'hidden' => true
+                                  ]) !!}
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a class="btn btn-default btn-close" href="{{ route('thirdParties', ['isSupplier'=>$thirdParty->is_supplier]) }}">{{ __('Cancel') }}</a>
+                <a class="btn btn-default btn-close" href="{{ route('thirdParties', ['isSupplier'=>$thirdParty->is_supplier, 'isSubcontractor'=>$thirdParty->is_subcontractor]) }}">{{ __('Cancel') }}</a>
              
               </div>
             </div>

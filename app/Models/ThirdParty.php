@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Enums\BillTypeEnum;
 use App\Enums\ThirdPartyEnum;
+use App\Enums\SubcontractorEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +25,10 @@ class ThirdParty extends Model
     {
         return $this->hasMany('App\Models\TransactionBox');
     } 
+    public function drivers()
+    {
+        return $this->hasMany('App\Models\Driver');
+    }
 
     public static function getThirdPartiesByBillType($billType, $action){
         $thirdParties = [];
@@ -37,6 +42,11 @@ class ThirdParty extends Model
                     case BillTypeEnum::WeighBill:
                         $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Customer); 
                         break;
+                    case BillTypeEnum::DeliveryBill :
+                            $thirdParties = ThirdParty::all()
+                            ->where('is_supplier','=',ThirdPartyEnum::Supplier)
+                            ->where('is_subcontractor','=',SubcontractorEnum::Subcontractor);
+                            break;    
                     default    :
                     $thirdParties = [];    
                 }
@@ -50,6 +60,11 @@ class ThirdParty extends Model
                     case BillTypeEnum::WeighBill:    
                         $thirdParties = ThirdParty::pluck('name', 'id')->where('is_supplier','=',ThirdPartyEnum::Customer); 
                         break;  
+                    case BillTypeEnum::DeliveryBill :
+                            $thirdParties = ThirdParty::pluck('name', 'id')
+                            ->where('is_supplier','=',ThirdPartyEnum::Supplier)
+                            ->where('is_subcontractor','=',SubcontractorEnum::Subcontractor);
+                            break;    
                         default    :
                         $thirdParties = [];      
                 }
@@ -65,6 +80,7 @@ class ThirdParty extends Model
         $isSupplier =null;
         switch ($billType) {
                 case BillTypeEnum::EntryBill :
+                case BillTypeEnum::DeliveryBill :    
                     $isSupplier = ThirdPartyEnum::Supplier;
                     break;
                 case BillTypeEnum::ExitBill :
@@ -74,6 +90,21 @@ class ThirdParty extends Model
         }
         return $isSupplier;
     }
+
+    public static function getSubcontractorByBillType($billType){
+        $isSubcontractor =null;
+        switch ($billType) {
+                case BillTypeEnum::EntryBill :
+                case BillTypeEnum::DeliveryBill :    
+                    $isSubcontractor = SubcontractorEnum::Subcontractor;
+                    break;
+                case BillTypeEnum::ExitBill :
+                case BillTypeEnum::WeighBill:    
+                    $isSubcontractor=SubcontractorEnum::Supplier; 
+                    break;    
+        }
+        return $isSubcontractor;
+    }
     public static function getThirdPartiesByType($type){
        
        
@@ -82,7 +113,26 @@ class ThirdParty extends Model
         return $thirdParties;
 
     }
-    protected $fillable  = ['code','name','address','phone','is_supplier'];
+
+    public static function getTitleActivePageByThirdPartyType($isSupplier, $isSubcontractor){
+        if($isSupplier==1)  { 
+            if($isSubcontractor == 0) {
+                $activePage= 'thirdParty/1/0';
+                $titlePage = 'Suppliers';
+            } else {
+                $activePage = 'thirdParty/1/1';
+                $titlePage =  'Subcontractors' ;
+            } 
+        } else {
+                $activePage = 'thirdParty/0/0';
+                $titlePage =  'Customers' ;   
+            }
+        $page['active'] = $activePage;
+        $page['title'] = $titlePage;
+        return $page;
+         
+    }
+    protected $fillable  = ['code','name','address','phone','is_supplier','is_subcontractor'];
     protected $table = 'third_parties';
     
     use HasFactory;

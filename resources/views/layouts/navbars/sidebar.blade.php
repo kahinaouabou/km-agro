@@ -46,17 +46,32 @@
                 <span class="sidebar-normal">{{ __('Products') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'thirdParty/0' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('thirdParties', ['isSupplier'=>0]) }}">
+            <li class="nav-item{{ $activePage == 'thirdParty/0/0' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('thirdParties', 
+                ['isSupplier'=>0 , 'isSubcontractor'=>0]) }}">
               <i class="material-icons icon-sidebar"> Cr </i>
                 <span class="sidebar-normal">{{ __('Customers') }} </span>
               </a>
             </li>
    
-            <li class="nav-item{{ $activePage == 'thirdParty/1' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('thirdParties' , $isSupplier = 1) }}">
+            <li class="nav-item{{ $activePage == 'thirdParty/1/0' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('thirdParties' , 
+                [$isSupplier = 1, 'isSubcontractor'=>0]) }}">
               <i class="material-icons icon-sidebar"> Sr </i>
                 <span class="sidebar-normal">{{ __('Suppliers') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'thirdParty/1/1' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('thirdParties' , 
+                [$isSupplier = 1, 'isSubcontractor'=>1]) }}">
+              <i class="material-icons icon-sidebar"> Sr </i>
+                <span class="sidebar-normal">{{ __('Subcontractors') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'driver' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('drivers.index') }}">
+              <i class="material-icons icon-sidebar"> Dr </i>
+                <span class="sidebar-normal">{{ __('Drivers') }} </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'parcel' ? ' active' : '' }}">

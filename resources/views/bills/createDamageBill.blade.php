@@ -185,7 +185,9 @@ if(name.length!==0){
         }else {
           $('#p-msg').html("");
           exist = false ;
+          
           let is_supplier = $('#input-is-supplier').val();
+          let is_subcontractor = $('#input-is-subcontractor').val();
           let address = $('#input-address').val();
           let phone = $('#input-phone').val();
           $.ajax({
@@ -198,7 +200,8 @@ if(name.length!==0){
                 name:name,
                 address:address,
                 phone:phone,
-                is_supplier:is_supplier
+                is_supplier:is_supplier,
+                is_subcontractor :is_subcontractor
             },
             success:function(response){
                   console.log(response);

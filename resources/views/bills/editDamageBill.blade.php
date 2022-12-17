@@ -181,6 +181,8 @@ let name = $('#input-name').val();
 let address = $('#input-address').val();
 let phone = $('#input-phone').val();
 let is_supplier = $('#input-is-supplier').val();
+let is_subcontractor = $('#input-is-subcontractor').val();
+
 $.ajax({
   url : "{{ route('thirdParties.store') }}",
   type: 'post',
@@ -192,7 +194,8 @@ $.ajax({
       name:name,
       address:address,
       phone:phone,
-      is_supplier:is_supplier
+      is_supplier:is_supplier,
+      is_subcontractor:is_subcontractor
   },
   success:function(response){
         console.log(response);
