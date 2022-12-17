@@ -444,6 +444,7 @@ class BillController extends Controller
         
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type, 'edit');
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
+        $isSubcontractor =  ThirdParty:: getSubcontractorByBillType($type);
         $bill = Bill::findOrFail($id);
         $rooms =Room::where('block_id','=',$bill->block->id)->pluck('name', 'id');
         switch ($type){
@@ -459,8 +460,9 @@ class BillController extends Controller
                 break;            
         }
        
-        return view('bills.edit', compact('products','trucks','blocks','bill','isSupplier',
-                                    'page','type','parcels','rooms','thirdParties','dbBillType'));
+        return view('bills.edit', compact('products','trucks','blocks','bill',
+                                    'isSupplier','page','type','isSubcontractor',
+                                    'parcels','rooms','thirdParties','dbBillType'));
     }
 
     /**
