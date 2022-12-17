@@ -77,7 +77,11 @@
     <tr>
         <td><p style="font-size:18px"><strong >{{__('Chauffeur')}} :</strong >{{$bill->driver->name}}</p></td>
         
-        <td><p style="font-size:18px; margin-left:200px"><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </td>
+       
+    </tr>
+    <tr>
+        
+        <td><p style="font-size:18px; "><strong >{{__('Registration')}} :</strong>{{$bill->truck->registration}}</p> </td>
     
     </tr>
   </table>
