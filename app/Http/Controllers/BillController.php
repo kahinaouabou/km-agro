@@ -302,7 +302,12 @@ class BillController extends Controller
     public function create($type)
     {
         
-        $products = Product::all();
+        if($type== BillTypeEnum::DeliveryBill){
+            $products = Product::where('id',2)->get();
+        } else {
+            $products = Product::all();
+        }
+       
         $trucks = Truck::all();
         $blocks = Block::all();
         $parcels = Parcel::all()->where('parcel_category_id','=',1);
@@ -442,7 +447,13 @@ class BillController extends Controller
      */
     public function edit($id, $type)
     {
-        $products = Product::pluck('name', 'id');
+        if($type== BillTypeEnum::DeliveryBill){
+            $products = Product::where('id',2)->pluck('name', 'id');
+        } else {
+            $products = Product::pluck('name', 'id');
+        }
+        
+        
         $trucks = Truck::pluck('registration', 'id');
         
         $parcels = Parcel::pluck('name', 'id')->where('parcel_category_id','=',1);

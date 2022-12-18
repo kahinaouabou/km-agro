@@ -96,7 +96,7 @@
             {data: 'productName', name: 'Product.name', searchable: true},
             {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'driverName', name: 'Driver.name'},
-            {data: 'truckName', name: 'Truck.name'},
+            {data: 'truckName', name: 'Truck.registration'},
             {data: 'number_boxes', name: 'number_boxes'},
             {data: 'raw', name: 'raw'},
             {data: 'tare', name: 'tare'},
