@@ -209,5 +209,17 @@
 "Add damage bill" : "Ajouter bon avarié",
 "Delivery bill" :"Bon de livraison",
 "Total quantity" :"Quantité total",
-"Total boxes" : "Total caisses"
+"Total boxes" : "Total caisses",
+"Subcontractors":"Sous traitants",
+"Driver":"Chauffeur",
+"Subcontractor":"Sous traitant",
+"Drivers":"Chauffeurs",
+"Discharges":"Décharges",
+"Delivery bills":"Bons de livraison",
+"Print":"Imprimer",
+"Print detail":"Imprimer détail",
+"Print global":"Imprimer global",
+"Associate payment":"Associer Paiement",
+"Add receipt":"Ajouter encaissement",
+"Add disbursement":"Ajouter décaissement"
 }

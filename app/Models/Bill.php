@@ -91,6 +91,8 @@ class Bill extends Model
                 $namePage = 'Entry bill';
                 $titleCard ='Entry bills';
                 $fieldParam = 'entry_bill';
+                $selectThird = 'Select supplier';
+                $third = 'Supplier';
                 break;
             case BillTypeEnum::ExitBill :
                 $activePage= 'bill/'.BillTypeEnum::ExitBill;
@@ -98,6 +100,8 @@ class Bill extends Model
                 $namePage = 'Weigh bill';
                 $titleCard = 'Weigh bills';
                 $fieldParam = 'weigh_bill';
+                $selectThird = 'Select customer';
+                $third = 'Customer';
                 break; 
             case BillTypeEnum::WeighBill :
                 $activePage= 'bill/'.BillTypeEnum::WeighBill;
@@ -105,6 +109,8 @@ class Bill extends Model
                 $namePage = 'Weigh bill';
                 $titleCard = 'Weigh bills';
                 $fieldParam = 'weigh_bill';
+                $selectThird = 'Select customer';
+                $third = 'Customer';
                 break; 
             case BillTypeEnum::DamageBill :
                     $activePage= 'bill/'.BillTypeEnum::DamageBill;
@@ -112,6 +118,8 @@ class Bill extends Model
                     $namePage = 'Damage bill';
                     $titleCard = 'Damage bills';
                     $fieldParam = 'damage_bill';
+                    $selectThird = 'Select customer';
+                    $third = 'Customer';
                     break;
             case BillTypeEnum::DeliveryBill :
                         $activePage= 'bill/'.BillTypeEnum::DeliveryBill;
@@ -119,6 +127,8 @@ class Bill extends Model
                         $namePage = 'Delivery bill';
                         $titleCard = 'Delivery bills';
                         $fieldParam = 'delivery_bill';
+                        $selectThird = 'Select subcontractor';
+                        $third = 'Subcontractor';
                         break;                  
         }
         $page['active']=$activePage;
@@ -126,6 +136,8 @@ class Bill extends Model
         $page['name']=$namePage;
         $page['titleCard']=$titleCard;
         $page['fieldParam']=$fieldParam;
+        $page['selectThird'] = $selectThird;
+        $page['third'] = $third;
         return $page;
     }
     public static function getValidateDataByType($request){

@@ -25,15 +25,21 @@
             <div class="card-body">
                               <div class="row">
                 <div class="col-12 text-right">
-                  @if($type==\App\Enums\BillTypeEnum::ExitBill)
+                  @if($type==\App\Enums\BillTypeEnum::ExitBill 
+                   )
+
                   <button type="button" data-toggle="modal" data-target="#associatePayments" class="btn btn-sm btn-primary" id="associatePaymentButton">{{__('Associate payment')}}</button>
                   
                   <button type="button" data-toggle="modal" data-target="#addPayments" class="btn btn-sm btn-primary" id="addPaymentButton">{{__('Payment')}}</button>
-                  
-                  
+                
                   <a target="_blanck" id='print-situation' href="{{ route('bills.printSituation', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
                   
                   @endif
+                  @if(   $type==\App\Enums\BillTypeEnum::DeliveryBill
+                    )
+                    <a target="_blanck" id='print-situation' href="{{ route('bills.printDeliveryBill', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
+                 
+                 @endif
                   <a href="{{ route('bills.create',$type) }}" class="btn btn-sm btn-primary">{{ __($page['title'])}}</a>
                 
                 </div>

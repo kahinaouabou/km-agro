@@ -88,131 +88,132 @@
  </div>
  <div style='width:100%; height:40px; border-top: 1px solid;' ></div>
 </header>  
-<body>
-    
-    <h1 style=' width: 500px; margin-left : 200px; margin-bottom :50px; display:inline-block' >{{__('Bills Situation')}}</h1>
-    
-    <div style ="width:700px" >
-        <table >
-            <tr>
-                <td></td>
-                <td ></td>
-                @if(!empty($thirdParty->name))
-                <td style=" width:350px;text-align:right;
-                display: block; position: relative; top:0px; font-weight:bold; font-size:20px">{{__('Customer')}} :  </span>
-                </td>
-                <td style=" width:200px ; font-size:18px; 
-                 position: relative;"> {{$thirdParty->name}} 
-                </td>
-                @endif
-            </tr>
-            
-        </table>
-    
-    </div>
-    <div style="width: 600px; margin-left : 380px; margin-bottom :20px">
-         </div>
- 
-  <br/>
-  <?php 
-  $countNetRemaining =0;
-  $countNetPayable =0;
-  $countNetPaid =0;
-   ?>
-  <table width="100%" class='main-table'>
-    <thead style="background-color: lightgray;">
-                    <tr>
-                     
-                      <th>  
-                        {{ __('Reference')}}
-                    </th>
-                    <th>
-                        {{__('Date')}} 
-                    </th>
-                      <th>
-                        {{__('Product')}} 
-                    </th>
-                    @if(empty($thirdParty->id))
-                        <th>
-                        {{__('Customer')}} 
-                        </th>
-                      @endif 
-                      <th>
-                        {{__('Net')}} 
-                    </th> 
-                    <th>
-                        {{__('PU')}} 
-                    </th> 
-                    <th>
-                        {{__('Net payable')}} 
-                    </th> 
-                    <th>
-                        {{__('Net remaining')}} 
-                    </th>
-                    <th>
-                        {{__('Net paid')}} 
-                    </th>
 
-                      </th>
-                    </tr>
-    </thead>
-    <tbody>
-                  @foreach($bills as $bill)
-                  <?php 
-                  $countNetRemaining =  $countNetRemaining + $bill->net_remaining;
-                  $countNetPayable =  $countNetPayable + $bill->net_payable;
-                  $countNetPaid =  $countNetPaid + $bill->net_paid;
-                   ?>
-                  <tr>
-                        <td>
-                        {{  $bill->reference }}
-                        </td>
-                        <td>
-                        {{  Carbon\Carbon::parse($bill->bill_date)->format('d/m/Y')}}
-                        </td>
-                        <td>
-                        {{  $bill->productName }}
-                        </td>
-                        @if(empty($thirdParty->id))
-                          <td>
-                          {{ $bill->thirdPartyName }}
-                          </td>
-                        @endif
-                        <td>
-                        {{ number_format( $bill->net, 0, ',', ' ') }}
-                        </td>
-                        <td>
-                        {{ number_format( $bill->unit_price, 2, ',', ' ') }}
-                        </td>
-                        <td>
-                        {{ number_format( $bill->net_payable, 2, ',', ' ') }}
-                        </td>
-                        <td>
-                        {{ number_format($bill->net_remaining, 2, ',', ' ') }}
-                        </td>
-                        <td>
-                        {{ number_format($bill->net_paid, 2, ',', ' ') }}
-                        </td>
-                      </tr>
-					        @endforeach
-					      </tbody>
- 
-  </table>
-  <table width="100%" >
+<body>
+  <h1 style=' width: 500px; margin-left : 200px; margin-bottom :50px; display:inline-block' >{{__('Bills Situation')}}</h1>
     
-    <tr style ="height:10px; ">
-        <td style='  width:300px; height:10px!important; padding:0; margin:0;'><p style="font-size:16px ;"><strong >{{__('Total ').__('Net payable')}} :</strong></p></td><td><p> {{number_format($countNetPayable, 2, ',', ' ');}}</p></td>
-        
-    </tr>
-    <tr style ="height:10px;">
-        <td ><p style="font-size:16px"><strong >{{__('Total ').__('Net remaining')}} :</strong> </p></td><td><p>{{number_format($countNetRemaining, 2, ',', ' ');}}</p></td>
-        
-    </tr>
-    <tr style ="height:10px;">
-        <td ><p style="font-size:16px"><strong >{{__('Total ').__('Net paid')}} :</strong> </p></td><td><p>{{number_format($countNetPaid, 2, ',', ' ');}}</p></td>
-        
-    </tr>
-  </table>
+  <div style ="width:700px" >
+      <table >
+          <tr>
+              <td></td>
+              <td ></td>
+              @if(!empty($thirdParty->name))
+              <td style=" width:350px;text-align:right;
+              display: block; position: relative; top:0px; font-weight:bold; font-size:20px">{{__('Customer')}} :  </span>
+              </td>
+              <td style=" width:200px ; font-size:18px; 
+               position: relative;"> {{$thirdParty->name}} 
+              </td>
+              @endif
+          </tr>
+          
+      </table>
+  
+  </div>
+  <div style="width: 600px; margin-left : 380px; margin-bottom :20px">
+       </div>
+
+<br/>
+
+<?php 
+$countNetRemaining =0;
+$countNetPayable =0;
+$countNetPaid =0;
+ ?>
+<table width="100%" class='main-table'>
+  <thead style="background-color: lightgray;">
+                  <tr>
+                   
+                    <th>  
+                      {{ __('Reference')}}
+                  </th>
+                  <th>
+                      {{__('Date')}} 
+                  </th>
+                    <th>
+                      {{__('Product')}} 
+                  </th>
+                  @if(empty($thirdParty->id))
+                      <th>
+                      {{__('Customer')}} 
+                      </th>
+                    @endif 
+                    <th>
+                      {{__('Net')}} 
+                  </th> 
+                  <th>
+                      {{__('PU')}} 
+                  </th> 
+                  <th>
+                      {{__('Net payable')}} 
+                  </th> 
+                  <th>
+                      {{__('Net remaining')}} 
+                  </th>
+                  <th>
+                      {{__('Net paid')}} 
+                  </th>
+
+                    </th>
+                  </tr>
+  </thead>
+  <tbody>
+                @foreach($bills as $bill)
+                <?php 
+                $countNetRemaining =  $countNetRemaining + $bill->net_remaining;
+                $countNetPayable =  $countNetPayable + $bill->net_payable;
+                $countNetPaid =  $countNetPaid + $bill->net_paid;
+                 ?>
+                <tr>
+                      <td>
+                      {{  $bill->reference }}
+                      </td>
+                      <td>
+                      {{  Carbon\Carbon::parse($bill->bill_date)->format('d/m/Y')}}
+                      </td>
+                      <td>
+                      {{  $bill->productName }}
+                      </td>
+                      @if(empty($thirdParty->id))
+                        <td>
+                        {{ $bill->thirdPartyName }}
+                        </td>
+                      @endif
+                      <td>
+                      {{ number_format( $bill->net, 0, ',', ' ') }}
+                      </td>
+                      <td>
+                      {{ number_format( $bill->unit_price, 2, ',', ' ') }}
+                      </td>
+                      <td>
+                      {{ number_format( $bill->net_payable, 2, ',', ' ') }}
+                      </td>
+                      <td>
+                      {{ number_format($bill->net_remaining, 2, ',', ' ') }}
+                      </td>
+                      <td>
+                      {{ number_format($bill->net_paid, 2, ',', ' ') }}
+                      </td>
+                    </tr>
+                @endforeach
+              </tbody>
+
+</table>
+<table width="100%" >
+  
+  <tr style ="height:10px; ">
+      <td style='  width:300px; height:10px!important; padding:0; margin:0;'><p style="font-size:16px ;"><strong >{{__('Total ').__('Net payable')}} :</strong></p></td><td><p> {{number_format($countNetPayable, 2, ',', ' ');}}</p></td>
+      
+  </tr>
+  <tr style ="height:10px;">
+      <td ><p style="font-size:16px"><strong >{{__('Total ').__('Net remaining')}} :</strong> </p></td><td><p>{{number_format($countNetRemaining, 2, ',', ' ');}}</p></td>
+      
+  </tr>
+  <tr style ="height:10px;">
+      <td ><p style="font-size:16px"><strong >{{__('Total ').__('Net paid')}} :</strong> </p></td><td><p>{{number_format($countNetPaid, 2, ',', ' ');}}</p></td>
+      
+  </tr>
+</table>
   </body>
   <footer>
     </footer>

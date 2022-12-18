@@ -74,6 +74,11 @@ class BillController extends Controller
             }else {
                 $selected_id['third_party_id'] = '';
             }
+            if(!empty($request->driver_id)){
+                $selected_id['driver_id'] = $request->driver_id;
+            }else {
+                $selected_id['driver_id'] = '';
+            }
             if(!empty($request->block_id)){
                 $selected_id['block_id'] = $request->block_id;
             }else {
@@ -244,6 +249,11 @@ class BillController extends Controller
         }else {
             $selected_id['third_party_id'] = '';
         }
+        if(!empty($request->driver_id)){
+            $selected_id['driver_id'] = $request->driver_id;
+        }else {
+            $selected_id['driver_id'] = '';
+        }
         if(!empty($request->block_id)){
             $selected_id['block_id'] = $request->block_id;
         }else {
@@ -275,8 +285,9 @@ class BillController extends Controller
         $sumNet = Bill::getSumNet( $request,  $dbBillType , $currentProgramId );
         $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
         $sumNetRemaining = Bill::getSumNetRemaining( $request  , $dbBillType , $currentProgramId);
+        $thirdParties = ThirdParty:: getThirdPartiesByBillType($type, 'create');
         return view('bills.index',
-        compact('bills','type','page',
+        compact('bills','type','page','thirdParties',
         'selected_id','dbBillType','sumNet','sumNetPayable','sumNetRemaining'));
    
     }
@@ -626,12 +637,13 @@ class BillController extends Controller
        
         $bills = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
-                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')   
+                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')    
+                
                 ->select(
                 DB::raw('bills.net_payable - bills.net_remaining as net_paid')  , 
                 'bills.*', 
                 'Product.name as productName',
-                'ThirdParty.name as thirdPartyName',
+                'ThirdParty.name as thirdPartyName'
                 //DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date")
                  )
                 ->where('bill_type', '=', BillTypeEnum::ExitBill)
@@ -655,18 +667,58 @@ class BillController extends Controller
                     return $request->get('date_to') ?
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
                 ->orderBy("bill_date","desc")->get();
-              
-           
+
+        $type = $bills[0]->bill_type;
+        
         $billsName = __('Bills situation');
         $company = Company::first();
         $thirdParty = ThirdParty::find($request->third_party_id);
         
         $pdf = PDF::loadView('bills.pdf.printSituation', 
+        compact('bills','company','thirdParty','type'));
+        
+        return $pdf->stream($billsName.'.pdf');
+    }
+    public function printDeliveryBill(Request $request){
+       
+        $bills = DB::table('bills')
+                ->join('products as Product', 'Product.id', '=', 'bills.product_id')
+                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')   
+                ->join('drivers as Driver', 'Driver.id', '=', 'bills.driver_id')   
+                ->join('trucks as Truck', 'Truck.id', '=', 'bills.truck_id')   
+                
+                ->select(
+                'bills.*', 
+                'ThirdParty.name as thirdPartyName',
+                'Driver.name as driverName',
+                'Truck.registration as truckName',
+                'Driver.phone as driverPhone'
+                //DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date")
+                 )
+                ->where('bill_type', '=', BillTypeEnum::DeliveryBill)
+                ->where( function($query) use($request){
+                    return $request->get('third_party_id') ?
+                           $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
+               
+                ->where(function($query) use($request){
+                    return $request->get('date_from') ?
+                          $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+                ->where(function($query) use($request){
+                    return $request->get('date_to') ?
+                        $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+                ->orderBy("bill_date","desc")->get();
+
+      
+        
+        $billsName = __('bon_livraions');
+        $company = Company::first();
+        $thirdParty = ThirdParty::find($request->third_party_id);
+        
+        $pdf = PDF::loadView('bills.pdf.printSituationDeliveryBill', 
         compact('bills','company','thirdParty'));
         
         return $pdf->stream($billsName.'.pdf');
     }
-    
     public function addPaymentContent(){
 
     }

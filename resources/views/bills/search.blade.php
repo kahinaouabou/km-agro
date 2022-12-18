@@ -13,22 +13,41 @@
                   
                     <div class="card-body ">
                     <div class="col-sm-12">
-                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Customers') }}</label>
+                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __($page['third']) }}</label>
                         
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
                                 <select name="third_party_id" id="input-third-party-search" class="third-party-select2 form-control">
-                                  <option value="0">{{ __('Select customer') }}</option>
-                                  @foreach (\App\Models\ThirdParty::select('id','name')->where('is_supplier','=',App\Enums\ThirdPartyEnum::Customer)->get() as $thirdParty)
+                                  
+                                    
+                                <option value="0">{{ __($page['selectThird']) }}</option>
+                                  @foreach ($thirdParties as $thirdParty)
                                     <option value="{{ $thirdParty->id }}" {{ $thirdParty->id == $selected_id['third_party_id'] ? 'selected' : '' }}>
                                     {{ $thirdParty['name'] }}
+                                  </option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+                            @if($type == \App\Enums\BillTypeEnum::DeliveryBill)
+                            <label class="col-sm-2 col-form-label col-form-label-filter" >{{ __('Drivers') }}</label>
+                        
+                            <div class="col-sm-3" style="display: inline-block;">
+                              <div class="form-group">
+                                <select name="driver_id" id="input-driver-search" class="driver-select2 form-control" >
+                                  <option value="0">{{ __('Select driver') }}</option>
+                                  @foreach (\App\Models\Driver::select('id','name')->get() as $driver)
+                                  
+                                    <option value="{{ $driver->id }}" {{ $driver->id == $selected_id['driver_id'] ? 'selected' : '' }}>
+                                    {{ $driver['name'] }}
                                     </option>
                                   @endforeach
                                 </select>
                               </div>
                             </div>
+                            @endif
                      </div>	
-                      
+                      @if($type != \App\Enums\BillTypeEnum::DeliveryBill)	
                         <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Blocks') }}</label>
                         
@@ -61,6 +80,8 @@
                             </div>
                             
                         </div>
+                      @endif  
+                        
                         @if($type == \App\Enums\BillTypeEnum::ExitBill)	
                         <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Net remaining') }}</label>
