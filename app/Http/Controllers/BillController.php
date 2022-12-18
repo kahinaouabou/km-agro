@@ -129,8 +129,8 @@ class BillController extends Controller
                 ->where('bill_type', '=', $dbBillType)
                 ->where('program_id', '=', $currentProgramId)
                 ->where( function($query) use($request){
-                    return $request->get('third_party_id') ?
-                           $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+                    return $request->get('bills.third_party_id') ?
+                           $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('block_id') ?
                           $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
@@ -626,7 +626,7 @@ class BillController extends Controller
                 ->where('bill_type', '=', BillTypeEnum::ExitBill)
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
-                           $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
+                           $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('block_id') ?
                           $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
