@@ -129,7 +129,7 @@ class BillController extends Controller
                 ->where('bill_type', '=', $dbBillType)
                 ->where('program_id', '=', $currentProgramId)
                 ->where( function($query) use($request){
-                    return $request->get('bills.third_party_id') ?
+                    return $request->get('third_party_id') ?
                            $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('block_id') ?
