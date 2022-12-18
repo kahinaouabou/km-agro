@@ -117,14 +117,14 @@
                         <th>
                         {{__('Driver')}} 
                         </th>
-                        <th>
+                        <th style="width: 120px;">
                         {{__('Phone')}} 
                         </th>
                       <th>
                         {{__('Registration')}} 
                     </th> 
                     <th>
-                        {{__('Nb boxes')}} 
+                        {{__('Nb C')}} 
                     </th> 
                     
                     </tr>
