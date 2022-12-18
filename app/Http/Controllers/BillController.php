@@ -68,6 +68,7 @@ class BillController extends Controller
         }  
         
         if ($request->ajax()) {
+            
             $selected_id = [];
             if(!empty($request->third_party_id)){
                 $selected_id['third_party_id'] = $request->third_party_id;
@@ -105,6 +106,7 @@ class BillController extends Controller
             }else {
                 $selected_id['date_to'] = '';
             }
+            
             $currentProgramId = Program::getCurrentProgram();
             $sumNet = Bill::getSumNet( $request, $dbBillType , $currentProgramId);
             $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
@@ -197,7 +199,7 @@ class BillController extends Controller
                         return number_format($sumNbBoxes, 0, ',', ' ')  ;
                     })
                     
-
+                    
                     ->addColumn('selected_id', function() use ($selected_id){
                         return $selected_id  ;
                     })

@@ -84,8 +84,6 @@
         url :url,
         data: function (d) {
             d.third_party_id  = jQuery('#input-third-party-search').val(),
-            d.block_id  = jQuery('#input-block-search').val(),
-            d.room_id  = jQuery('#input-room-search').val(),
             d.date_from = jQuery('#input-date-from').val(),
             d.date_to = jQuery('#input-date-to').val()
         }
@@ -129,6 +127,17 @@
 
     $("#btn-search").click(function(e){
         e.preventDefault();
+        let selected_id ='';
+            selected_id = selected_id +'third_party_id='+ jQuery('#input-third-party-search').val();
+            selected_id = selected_id +'&block_id='+ jQuery('#input-block-search').val();
+            selected_id= selected_id +'&room_id='+ jQuery('#input-room-search').val();
+            selected_id = selected_id +'&net_remaining='+ jQuery('#input-net-remaining-search').val();
+            selected_id= selected_id +'&date_from='+ jQuery('#input-date-from').val();
+            selected_id= selected_id +'&date_to='+ jQuery('#input-date-to').val();
+            console.log(selected_id);
+            let url = "{{ route('bills.printDeliveryBill' , ':selected_id') }}";
+            url = url.replace(':selected_id', selected_id);
+            $('#print-situation').attr('href',url);
            
         table.draw(false);
     });
