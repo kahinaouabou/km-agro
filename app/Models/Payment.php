@@ -65,4 +65,25 @@ class Payment extends Model
          $page['fieldParam']=$fieldParam;
          return $page;
      }
+     public static function getSumAmounts($request, $type, $currentProgramId){
+        $sumAmounts = Payment::
+             where('payment_type', '=', $type)
+            ->where('program_id', '=', $currentProgramId)
+            ->where( function($query) use($request){
+                return $request->get('third_party_id') ?
+                       $query->from('payments')->where('third_party_id',$request->get('third_party_id')) : '';})
+            ->where( function($query) use($request){
+                return $request->get('payment_type') ?
+                    $query->from('payments')->where('payment_type',$request->get('payment_type')) : '';})
+            ->where(function($query) use($request){
+                return $request->get('date_from') ?
+                      $query->from('payments')->where('payment_date','>=',$request->get('date_from')) : '';})
+            ->where(function($query) use($request){
+                return $request->get('date_to') ?
+                    $query->from('payments')->where('payment_date','<=',$request->get('date_to')) : '';})
+            ->sum('amount');
+        return $sumAmounts;  
+
+     }
+   
 }

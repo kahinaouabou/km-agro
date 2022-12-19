@@ -118,7 +118,7 @@
             $('#total-net').html(data.sumNet);
             $('#total-boxes').html(data.sumNbBoxes);
             $('#input-total-net').val(data.inputSumNet);
-        },    
+            },    
          
       
     });

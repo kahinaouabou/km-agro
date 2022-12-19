@@ -67,8 +67,10 @@
             </div>
           </div>
           <div class="card-header card-header-primary card-footer-primary">
-                <h4 class="card-title ">{{__('Total amount')}} : <strong id="total-amount"></strong><strong> DA</strong></h4>
-                 </div> 
+                <h4 class="card-title ">{{__('Total receipts')}} : <strong id="total-receipt"></strong><strong> DA</strong></h4>
+                <h4 class="card-title ">{{__('Total disbursements')}} : <strong id="total-disbursement"></strong><strong> DA</strong></h4>
+                
+              </div> 
          
       </div>
     </div>
@@ -80,8 +82,6 @@
 <script type="text/javascript" src="{{ URL::asset('js/functions.js') }}"></script>
 <script type="text/javascript">
     $(function () {
-      let sumAmount = 0;
-      $('#total-amount').html(sumAmount.toFixed(2));
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -95,6 +95,7 @@
         url :url,
         data: function (d) {
             d.third_party_id  = jQuery('#input-third-party').val(),
+            d.payment_type  = jQuery('#input-payment-type').val(),
             d.date_from = jQuery('#input-date-from').val(),
             d.date_to = jQuery('#input-date-to').val()
         }
@@ -108,20 +109,13 @@
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ],
         "createdRow": function ( row, data, index ) {
-            if(index==0){
-                sumAmount=  parseFloat(data.amount);
-            }else {
-                sumAmount= parseFloat(sumAmount) + parseFloat(data.amount);
-            }
-            
-            $('#total-amount').html(sumAmount.toFixed(2));
+            $('#total-receipt').html(data.sumReceipts);
+            $('#total-disbursement').html(data.sumDisbursements);
         },
         });
 
         $("#btn-search").click(function(e){
-        e.preventDefault();
-        let sumAmount = 0;
-        $('#total-amount').html(sumAmount.toFixed(2));   
+        e.preventDefault();  
         table.draw(false);
     });
 

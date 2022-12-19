@@ -78,3 +78,11 @@
 .select2-container--default {
   width:100% !important;
 } 
+
+.row-danger {
+  background-color: #fdd9d7 !important;
+}
+
+.row-success {
+  background-color: #dbefdc !important;
+}

@@ -221,5 +221,9 @@
 "Print global":"Imprimer global",
 "Associate payment":"Associer Paiement",
 "Add receipt":"Ajouter encaissement",
-"Add disbursement":"Ajouter décaissement"
+"Add disbursement":"Ajouter décaissement",
+"Total receipts" :"Total encaissements",
+"Total disbursements" :"Total décaissements",
+"Receipt":"Encaissement",
+"Disbursement":"Décaissement"
 }

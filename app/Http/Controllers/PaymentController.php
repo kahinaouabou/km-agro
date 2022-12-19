@@ -33,6 +33,11 @@ class PaymentController extends Controller
             }else {
                 $selected_id['third_party_id'] = '';
             }
+            if(!empty($request->payment_type)){
+                $selected_id['payment_type'] = $request->payment_type;
+            }else {
+                $selected_id['payment_type'] = '';
+            }
           
             if(!empty($request->date_from)){
                 $selected_id['date_from'] = $request->date_from;
@@ -44,10 +49,10 @@ class PaymentController extends Controller
             }else {
                 $selected_id['date_to'] = '';
             }
-
-            // $sumReceipts = Payment::getSumReceipts( $request );
-            // $sumDisbursements = Payment::getSumDisbursements( $request );
             $currentProgramId = Program::getCurrentProgram();
+            $sumReceipts = Payment::getSumAmounts($request, PaymentTypeEnum::Receipt, $currentProgramId);
+            $sumDisbursements = Payment::getSumAmounts($request , PaymentTypeEnum::Disbursement, $currentProgramId);
+            
             $data = DB::table('payments')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
                 ->select('payments.*', 'ThirdParty.name as thirdPartyName',
@@ -56,19 +61,34 @@ class PaymentController extends Controller
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
                            $query->from('payments')->where('third_party_id',$request->get('third_party_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('payment_type') ?
+                            $query->from('payments')->where('payment_type',$request->get('payment_type')) : '';})
+            
                 ->where(function($query) use($request){
                     return $request->get('date_from') ?
                           $query->from('payments')->where('payment_date','>=',$request->get('date_from')) : '';})
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
                         $query->from('payments')->where('payment_date','<=',$request->get('date_to')) : '';}); 
+                
                 return Datatables::of($data)
                     ->addIndexColumn()
                     // ->addColumn('sumAmount', function() use ($sumAmount){
                     //     return  number_format($sumAmount, 2, ',', ' ');
                     // })
                     ->editColumn('payment_type', function($row) {
-                        return  Config::get('constants.'.$row->payment_type);
+                        return  __(Config::get('constants.'.$row->payment_type));
+                    })
+                    ->setRowClass(function ($row) {
+                        
+                        return $row->payment_type==2 ? ('row-danger') : ('row-success');
+                    })
+                    ->addColumn('sumReceipts', function() use ($sumReceipts){
+                        return  number_format($sumReceipts, 2, ',', ' ');
+                    })
+                    ->addColumn('sumDisbursements', function() use ($sumDisbursements){
+                        return  number_format($sumDisbursements, 2, ',', ' ');
                     })
                     ->addColumn('action', function($row){
                         $routeView =  route("payments.show", $row->id) ;
