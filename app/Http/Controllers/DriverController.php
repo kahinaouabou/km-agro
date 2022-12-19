@@ -44,6 +44,7 @@ class DriverController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|min:3',
             'third_party_id' => 'required',
+            'phone'=>'nullable'
         ]);
         
         $driver = Driver::create($validatedData);
@@ -81,7 +82,7 @@ class DriverController extends Controller
         //
         $driver = Driver::findOrFail($id);
         $subcontractors = ThirdParty:: getThirdPartiesByBillType(BillTypeEnum::DeliveryBill,'edit');;
-        return view('subcontractors.edit', compact('block','subcontractors'));
+        return view('drivers.edit', compact('driver','subcontractors'));
     }
 
     /**
@@ -96,6 +97,7 @@ class DriverController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|min:3',
             'third_party_id' => 'required',
+            'phone'=>'nullable'
         ]);
        Driver::whereId($id)->update($validatedData);
        

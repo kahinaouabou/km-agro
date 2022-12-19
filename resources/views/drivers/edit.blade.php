@@ -69,7 +69,7 @@
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a class="btn btn-default btn-close" href="{{ route('subcontractors.index') }}">{{ __('Cancel') }}</a>
+                <a class="btn btn-default btn-close" href="{{ route('drivers.index') }}">{{ __('Cancel') }}</a>
              
               </div>
             </div>

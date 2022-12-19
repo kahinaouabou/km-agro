@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use  Illuminate\Support\Facades\DB;
 use PDF;
+use Config;
 class PaymentController extends Controller
 {
     /**
@@ -66,6 +67,9 @@ class PaymentController extends Controller
                     // ->addColumn('sumAmount', function() use ($sumAmount){
                     //     return  number_format($sumAmount, 2, ',', ' ');
                     // })
+                    ->editColumn('payment_type', function($row) {
+                        return  Config::get('constants.'.$row->payment_type);
+                    })
                     ->addColumn('action', function($row){
                         $routeView =  route("payments.show", $row->id) ;
                         $routeEdit =  route("payments.edit", $row->id) ;
