@@ -681,6 +681,52 @@ class BillController extends Controller
         
         return $pdf->stream($billsName.'.pdf');
     }
+    public function printDetailedSituation(Request $request){
+       
+        $bills = DB::table('bills')
+                ->join('products as Product', 'Product.id', '=', 'bills.product_id')
+                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')    
+                
+                ->select(
+                DB::raw('bills.net_payable - bills.net_remaining as net_paid')  , 
+                'bills.*', 
+                'Product.name as productName',
+                'ThirdParty.name as thirdPartyName'
+                //DB::raw("DATE_FORMAT(bills.bill_date, '%d/%m/%Y') as bill_date")
+                 )
+                ->where('bill_type', '=', BillTypeEnum::ExitBill)
+                ->where( function($query) use($request){
+                    return $request->get('third_party_id') ?
+                           $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('block_id') ?
+                          $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('room_id') ?
+                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';}) 
+                ->where( function($query) use($request){
+                    return $request->get('net_remaining') ?
+                            $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
+                
+                            ->where(function($query) use($request){
+                    return $request->get('date_from') ?
+                          $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
+                ->where(function($query) use($request){
+                    return $request->get('date_to') ?
+                        $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
+                ->orderBy("bill_date","desc")->get();
+
+        $type = $bills[0]->bill_type;
+        
+        $billsName = __('Bills situation');
+        $company = Company::first();
+        $thirdParty = ThirdParty::find($request->third_party_id);
+        
+        $pdf = PDF::loadView('bills.pdf.printDetailedSituation', 
+        compact('bills','company','thirdParty','type'))->setPaper('a4', 'landscape');
+        
+        return $pdf->stream($billsName.'.pdf');
+    }
     public function printDeliveryBill(Request $request){
        
         $bills = DB::table('bills')

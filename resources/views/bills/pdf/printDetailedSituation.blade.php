@@ -20,8 +20,8 @@
         position: fixed;
         left: 0px;
         right: 0px;
-        height: 60px;
-        margin-bottom: -60px;
+        height: 30px;
+        margin-bottom: -30px;
       }
     * {
         font-family: Verdana, Arial, sans-serif;
@@ -90,7 +90,7 @@
 </header>  
 
 <body>
-  <h1 style=' width: 500px; margin-left : 200px; margin-bottom :40px; display:inline-block' >{{__('Bills Situation')}}</h1>
+  <h1 style=' width: 500px; margin-left : 350px; margin-bottom :40px; display:inline-block' >{{__('Bills Situation')}}</h1>
     
   <div style ="width:700px" >
       <table >
@@ -110,7 +110,7 @@
       </table>
   
   </div>
-  <div style="width: 600px; margin-left : 380px; margin-bottom :20px">
+  <div style="width: 600px; margin-left : 380px; margin-bottom :10px">
        </div>
 
 <br/>
@@ -142,8 +142,18 @@ $countNetPaid =0;
                       {{__('Net')}} 
                   </th> 
                   <th>
+                      {{__('%')}} 
+                  </th>
+                  <th>
+                      {{__('Net - %')}} 
+                  </th>
+                  
+                  <th>
                       {{__('PU')}} 
                   </th> 
+                  <th>
+                      {{__('Discount')}} 
+                  </th>
                   <th>
                       {{__('Net payable')}} 
                   </th> 
@@ -183,7 +193,16 @@ $countNetPaid =0;
                       {{ number_format( $bill->net, 0, ',', ' ') }}
                       </td>
                       <td>
+                      {{ number_format( $bill->weight_discount_percentage, 2, ',', ' ') }}
+                      </td>
+                      <td>
+                      {{ number_format( $bill->net_weight_discount, 2, ',', ' ') }}
+                      </td>
+                      <td>
                       {{ number_format( $bill->unit_price, 2, ',', ' ') }}
+                      </td>
+                      <td>
+                      {{ number_format( $bill->discount_value, 2, ',', ' ') }}
                       </td>
                       <td>
                       {{ number_format( $bill->net_payable, 2, ',', ' ') }}
@@ -199,7 +218,7 @@ $countNetPaid =0;
               </tbody>
 
 </table>
-<p style="font-size:16px"><strong >{{__('Total ').__('Net payable')}} :</strong> {{number_format($countNetPayable, 2, ',', ' ');}}</p>
+<p style="font-size:16px ;"><strong >{{__('Total ').__('Net payable')}} :</strong> {{number_format($countNetPayable, 2, ',', ' ');}}</p>
 <p style="font-size:16px"><strong >{{__('Total ').__('Net remaining')}} :</strong> {{number_format($countNetRemaining, 2, ',', ' ');}}</p>
 <p style="font-size:16px"><strong >{{__('Total ').__('Net paid')}} :</strong> {{number_format($countNetPaid, 2, ',', ' ');}}</p>
 

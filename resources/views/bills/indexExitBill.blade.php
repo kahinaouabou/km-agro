@@ -170,8 +170,12 @@
             selected_id= selected_id +'&date_to='+ jQuery('#input-date-to').val();
             console.log(selected_id);
             let url = "{{ route('bills.printSituation' , ':selected_id') }}";
+            let url2 = "{{ route('bills.printDetailedSituation' , ':selected_id') }}";
             url = url.replace(':selected_id', selected_id);
             $('#print-situation').attr('href',url);
+            url2 = url2.replace(':selected_id', selected_id);
+            $('#print-detail-situation').attr('href',url2);
+           
             console.log(url);
         
         table.draw(false);

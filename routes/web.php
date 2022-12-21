@@ -99,6 +99,7 @@ Route::get('bills/{thirdParty}/{type}/printBill', 'App\Http\Controllers\BillCont
 Route::get('bills/{thirdParty}/print', 'App\Http\Controllers\BillController@print')->name('bills.print')->middleware('auth');
 Route::get('bill/addPaymentContent', 'App\Http\Controllers\BillController@addPaymentContent')->name('bills.addPaymentContent')->middleware('auth');
 Route::get('billSituation/printSituation', 'App\Http\Controllers\BillController@printSituation')->name('bills.printSituation')->middleware('auth');
+Route::get('billSituation/printDetailedSituation', 'App\Http\Controllers\BillController@printDetailedSituation')->name('bills.printDetailedSituation')->middleware('auth');
 Route::get('billSituation/printDeliveryBill', 'App\Http\Controllers\BillController@printDeliveryBill')->name('bills.printDeliveryBill')->middleware('auth');
 
 

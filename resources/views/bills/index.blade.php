@@ -32,8 +32,19 @@
                   
                   <button type="button" data-toggle="modal" data-target="#addPayments" class="btn btn-sm btn-primary" id="addPaymentButton">{{__('Payment')}}</button>
                 
-                  <a target="_blanck" id='print-situation' href="{{ route('bills.printSituation', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
-                  
+                  <div class="dropdown" style="display: inline-block;">
+                    <button style ="padding: 6px 20px !important" class="btn  btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{__('Print')}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <div style="text-align: center;display: block;">
+                      <a target="_blanck" id='print-situation' href="{{ route('bills.printSituation', $selected_id) }}"  >{{__('Print global')}}</a>
+                    </div>
+                    <div style="text-align: center;display: block;">
+                      <a target="_blanck" id='print-detail-situation' href="{{ route('bills.printDetailedSituation', $selected_id) }}"  >{{__('Print detail')}}</a>
+                    </div>            
+                    </div>
+                  </div>
                   @endif
                   @if(   $type==\App\Enums\BillTypeEnum::DeliveryBill
                     )
