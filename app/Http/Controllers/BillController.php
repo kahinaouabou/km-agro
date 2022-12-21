@@ -754,7 +754,7 @@ class BillController extends Controller
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-                ->orderBy("bill_date","desc")->get();
+                ->orderBy("reference","desc")->get();
 
       
         
