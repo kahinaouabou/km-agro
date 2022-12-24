@@ -25,7 +25,7 @@
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                             <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" 
                             id="input-name" type="text" placeholder="{{ __('Name') }}"  
-                            //onfocusout="checkIfNameThirdPartyExist()" 
+                            " 
                             aria-required="true"/>
                             @if ($errors->has('name'))
                                 <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
@@ -85,9 +85,9 @@
         $('#addThirdParty').css("display","none");
         $('#input-name').removeAttr('required');
   });
-  $("#input-name").focusout(function(e) {
-    checkIfNameThirdPartyExist();
-  })
+  // $("#input-name").focusout(function(e) {
+  //   checkIfNameThirdPartyExist();
+  // })
 
 });
 

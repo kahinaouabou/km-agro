@@ -25,8 +25,8 @@
             <div class="card-body">
                               <div class="row">
                 <div class="col-12 text-right">
-                  @if($type==\App\Enums\BillTypeEnum::ExitBill 
-                   )
+                @switch($type)
+                @case (\App\Enums\BillTypeEnum::ExitBill)
 
                   <button type="button" data-toggle="modal" data-target="#associatePayments" class="btn btn-sm btn-primary" id="associatePaymentButton">{{__('Associate payment')}}</button>
                   
@@ -45,12 +45,18 @@
                     </div>            
                     </div>
                   </div>
-                  @endif
-                  @if(   $type==\App\Enums\BillTypeEnum::DeliveryBill
-                    )
+                @break
+                @case (\App\Enums\BillTypeEnum::DeliveryBill)
                     <a target="_blanck" id='print-situation' href="{{ route('bills.printDeliveryBill', $selected_id) }}"  class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
                  
-                 @endif
+                 @break
+                 @case (\App\Enums\BillTypeEnum::SubcontractingBill)
+                 <button type="button" data-toggle="modal" data-target="#associatePayments" class="btn btn-sm btn-primary" id="associatePaymentButton">{{__('Associate payment')}}</button>
+                  
+                  <button type="button" data-toggle="modal" data-target="#addPayments" class="btn btn-sm btn-primary" id="addPaymentButton">{{__('Payment')}}</button>
+                
+                 @break
+                @endswitch
                   <a href="{{ route('bills.create',$type) }}" class="btn btn-sm btn-primary">{{ __($page['title'])}}</a>
                 
                 </div>
@@ -72,6 +78,9 @@
                 @case (\App\Enums\BillTypeEnum::DeliveryBill)
                   @include('bills.indexDeliveryBill')
                 @break
+                @case (\App\Enums\BillTypeEnum::SubcontractingBill)
+                  @include('bills.indexSubcontractingBill')
+                @break
               @endswitch
                
               </div>
@@ -80,6 +89,7 @@
           </div>
           @switch($type)
             @case ( \App\Enums\BillTypeEnum::ExitBill)
+            @case ( \App\Enums\BillTypeEnum::SubcontractingBill)
               <div class="card-header card-header-primary card-footer-primary">
                 <h4 class="card-title ">{{__('Total net payable')}} : <strong id="total-net-payable"></strong><strong> DA</strong></h4>
                 <h4 class="card-title ">{{__('Total net paid')}} : <strong id="total-net-paid"></strong><strong> DA</strong></h4>

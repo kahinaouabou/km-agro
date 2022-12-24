@@ -27,10 +27,7 @@ class BillRequest extends FormRequest
             'reference' => ['required', 'min:3'],
             'product_id' => ['required'],
             'bill_date' => ['required'],
-            'number_boxes'=> ['required'],
-            'raw'=> ['required'],
-            'tare'=> ['required'],
-            'net'=> ['required'],    
+            'number_boxes'=> ['required'],  
         ];
     }
 }

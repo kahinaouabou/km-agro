@@ -10,6 +10,7 @@ use App\Models\Driver;
 use App\Models\Parcel;
 use App\Models\ThirdParty;
 use App\Models\BillPayment;
+use App\Models\Payment;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Requests\BillRequest;
@@ -62,8 +63,12 @@ class BillController extends Controller
             break ;
             case BillTypeEnum::DamageBill:
                 $dbBillType = BillTypeEnum::DamageBill;
+                break;
             case BillTypeEnum::DeliveryBill:
                     $dbBillType = BillTypeEnum::DeliveryBill;    
+            break; 
+            case BillTypeEnum::SubcontractingBill:
+                $dbBillType = BillTypeEnum::SubcontractingBill;    
             break;    
         }  
         
@@ -288,8 +293,9 @@ class BillController extends Controller
         $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
         $sumNetRemaining = Bill::getSumNetRemaining( $request  , $dbBillType , $currentProgramId);
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type, 'create');
+        $paymentType = Payment::getPaymentTypeByBilleType($type);
         return view('bills.index',
-        compact('bills','type','page','thirdParties',
+        compact('bills','type','page','thirdParties','paymentType',
         'selected_id','dbBillType','sumNet','sumNetPayable','sumNetRemaining'));
    
     }
@@ -329,6 +335,7 @@ class BillController extends Controller
         $thirdParties = ThirdParty:: getThirdPartiesByBillType($type,'create');
         $isSupplier =  ThirdParty:: getThirdPartyTypeByBillType($type);
         $isSubcontractor =  ThirdParty:: getSubcontractorByBillType($type);
+        
         switch ($type){
             case BillTypeEnum::EntryBill:
                 $dbBillType = BillTypeEnum::EntryBill; 
@@ -342,10 +349,14 @@ class BillController extends Controller
             break;  
             case BillTypeEnum::DeliveryBill:
                 $dbBillType = BillTypeEnum::DeliveryBill;
+            break; 
+             
+            case BillTypeEnum::SubcontractingBill:
+                $dbBillType = BillTypeEnum::SubcontractingBill;    
             break;  
         }
         $drivers = [];
-        if($type ==BillTypeEnum::DeliveryBill){
+        if($type ==BillTypeEnum::DeliveryBill || $type ==BillTypeEnum::SubcontractingBill){
             $drivers = Driver::all();
         }
         $nextReference = Setting::getNextReferenceByFieldName($page['fieldParam']);
@@ -367,7 +378,8 @@ class BillController extends Controller
         
         $type = (int)$request->bill_type ;
         $validatedData = Bill::getValidateDataByType($request);
-        if($type==BillTypeEnum::ExitBill){
+        
+        if($type==BillTypeEnum::ExitBill || $type==BillTypeEnum::SubcontractingBill){
         $validatedData['net_remaining']=  $validatedData['net_payable'];
         
         
@@ -426,7 +438,9 @@ class BillController extends Controller
                     return redirect('/bill/'.BillTypeEnum::DamageBill)->with('message',__('Damage bill successfully created.'));
                 case BillTypeEnum::DeliveryBill :
                         return redirect('/bill/'.BillTypeEnum::DeliveryBill)->with('message',__('Delivery bill successfully created.'));
-                                    
+                case BillTypeEnum::SubcontractingBill :
+                            return redirect('/bill/'.BillTypeEnum::SubcontractingBill)->with('message',__('Subcontracting bill successfully created.'));
+                                         
             }
         }
     
@@ -481,7 +495,8 @@ class BillController extends Controller
         $rooms = [];
         $blocks = [];
         $drivers = [];
-        if($type != BillTypeEnum::DeliveryBill){
+        if($type != BillTypeEnum::DeliveryBill && 
+        $type != BillTypeEnum::SubcontractingBill){
            $rooms =Room::where('block_id','=',$bill->block->id)->pluck('name', 'id');
            $blocks = Block::pluck('name', 'id');
         }else {
@@ -500,7 +515,11 @@ class BillController extends Controller
                 break;  
             case BillTypeEnum::DeliveryBill:
                     $dbBillType = BillTypeEnum::DeliveryBill;
-                break;               
+                break;
+             
+                case BillTypeEnum::SubcontractingBill:
+                    $dbBillType = BillTypeEnum::SubcontractingBill;    
+                break;                    
         }
        
         return view('bills.edit', compact('products','trucks','blocks','bill','drivers',
@@ -573,7 +592,10 @@ class BillController extends Controller
                  
                 case BillTypeEnum::DeliveryBill :
                         return redirect('/bill/'.BillTypeEnum::DeliveryBill)->with('message',__('Delivery bill successfully updated.'));
-                         
+                
+                case BillTypeEnum::SubcontractingBill :
+                        return redirect('/bill/'.BillTypeEnum::SubcontractingBill)->with('message',__('Subcontracting bill successfully updated.'));
+                              
                       
             
             
@@ -756,8 +778,6 @@ class BillController extends Controller
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
                 ->orderBy("reference","desc")->get();
 
-      
-        
         $billsName = __('bon_livraions');
         $company = Company::first();
         $thirdParty = ThirdParty::find($request->third_party_id);

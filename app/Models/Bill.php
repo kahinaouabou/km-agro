@@ -129,7 +129,16 @@ class Bill extends Model
                         $fieldParam = 'delivery_bill';
                         $selectThird = 'Select subcontractor';
                         $third = 'Subcontractor';
-                        break;                  
+                        break; 
+            case BillTypeEnum::SubcontractingBill :
+                        $activePage= 'bill/'.BillTypeEnum::SubcontractingBill;
+                        $titlePage = 'Add subcontracting bill';
+                        $namePage = 'Subcontracting bill';
+                        $titleCard = 'Subcontracting bills';
+                        $fieldParam = 'subcontracting_bill';
+                        $selectThird = 'Select subcontractor';
+                        $third = 'Subcontractor';
+                        break;                              
         }
         $page['active']=$activePage;
         $page['title']=$titlePage;
@@ -222,6 +231,27 @@ class Bill extends Model
                              'net_weight_discount' => 'nullable', 
                         ]);
                         break;
+                    case BillTypeEnum::SubcontractingBill :
+                            $validatedData = $request->validate([
+                                'reference' => 'required|min:3',
+                                'bill_date' => 'required|min:3',
+                                'bill_type'=> 'required',
+                                'product_id' => 'required',
+                                'third_party_id'=> 'required',
+                                'driver_id'=> 'required',
+                                'truck_id'=> 'required',
+                                'number_boxes'=> 'required',
+                                'raw'=> 'nullable',
+                                'net'=> 'nullable',
+                                'tare'=> 'nullable',  
+                                'unit_price'=> 'nullable',
+                                'net_payable'=> 'required',
+                                'number_boxes_returned' => 'nullable',           
+                                'weight_discount_percentage' => 'nullable',
+                                'discount_value' => 'nullable',
+                                'net_weight_discount' => 'nullable', 
+                            ]);
+                            break;    
 
                 
             default :

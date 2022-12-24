@@ -28,6 +28,9 @@
                 @case (\App\Enums\BillTypeEnum::DeliveryBill)
                   @include('bills.createDeliveryBill')
                 @break
+                @case (\App\Enums\BillTypeEnum::SubcontractingBill)
+                  @include('bills.createSubcontractingBill')
+                @break
               @endswitch
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>

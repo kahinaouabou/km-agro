@@ -82,7 +82,9 @@
                                                 'required' => true,
                                                 'hidden' => true,
                                                 ]) !!}
-                {!! Form::number('payment_type', \App\Enums\PaymentTypeEnum::Receipt, [
+                 
+
+                {!! Form::number('payment_type', $paymentType , [
                                                 'id' =>'input-payment-type',
                                                 'required' => true,
                                                 'hidden' => true,

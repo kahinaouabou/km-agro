@@ -79,11 +79,13 @@ class ThirdPartyController extends Controller
         ]);
         $isSupplier = (int)$request->is_supplier ;
         $isSubcontractor = (int)$request->is_subcontractor ;
+        
         $thirdParty = ThirdParty::create($validatedData);
         if ($request->ajax()) {
-            $thirdParties = ThirdParty::all()->pluck('name', 'id')
-            ->where('is_supplier','=',$isSupplier)
-            ->where('is_subcontractor','=',$isSubcontractor);
+            $thirdParties = ThirdParty::all()
+                ->where('is_supplier', '=', $isSupplier)
+                ->where('is_subcontractor', '=', $isSubcontractor)
+                ->pluck('name', 'id');
 
             return response()->json([
                 'selectedId'=>$thirdParty->id,

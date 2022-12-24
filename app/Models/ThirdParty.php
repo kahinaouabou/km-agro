@@ -43,6 +43,7 @@ class ThirdParty extends Model
                         $thirdParties = ThirdParty::all()->where('is_supplier','=',ThirdPartyEnum::Customer); 
                         break;
                     case BillTypeEnum::DeliveryBill :
+                    case BillTypeEnum::SubcontractingBill :    
                             $thirdParties = ThirdParty::all()
                             ->where('is_supplier','=',ThirdPartyEnum::Supplier)
                             ->where('is_subcontractor','=',SubcontractorEnum::Subcontractor);
@@ -61,6 +62,7 @@ class ThirdParty extends Model
                         $thirdParties = ThirdParty::where('is_supplier','=',ThirdPartyEnum::Customer)->pluck('name', 'id'); 
                         break;  
                     case BillTypeEnum::DeliveryBill :
+                    case BillTypeEnum::SubcontractingBill :    
                             $thirdParties = ThirdParty::
                             where('is_supplier','=',ThirdPartyEnum::Supplier)
                             ->where('is_subcontractor','=',SubcontractorEnum::Subcontractor)
@@ -82,7 +84,8 @@ class ThirdParty extends Model
         $isSupplier =null;
         switch ($billType) {
                 case BillTypeEnum::EntryBill :
-                case BillTypeEnum::DeliveryBill :    
+                case BillTypeEnum::DeliveryBill :   
+                case BillTypeEnum::SubcontractingBill :       
                     $isSupplier = ThirdPartyEnum::Supplier;
                     break;
                 case BillTypeEnum::ExitBill :
@@ -97,7 +100,8 @@ class ThirdParty extends Model
         $isSubcontractor =null;
         switch ($billType) {
                 case BillTypeEnum::EntryBill :
-                case BillTypeEnum::DeliveryBill :    
+                case BillTypeEnum::DeliveryBill :  
+                case BillTypeEnum::SubcontractingBill :   
                     $isSubcontractor = SubcontractorEnum::Subcontractor;
                     break;
                 case BillTypeEnum::ExitBill :

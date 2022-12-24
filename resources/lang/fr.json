@@ -216,6 +216,7 @@
 "Drivers":"Chauffeurs",
 "Discharges":"Décharges",
 "Delivery bills":"Bons de livraison",
+"Add delivery bill":"Ajouter bon de livraison",
 "Print":"Imprimer",
 "Print detail":"Imprimer détail",
 "Print global":"Imprimer global",
@@ -225,5 +226,12 @@
 "Total receipts" :"Total encaissements",
 "Total disbursements" :"Total décaissements",
 "Receipt":"Encaissement",
-"Disbursement":"Décaissement"
+"Disbursement":"Décaissement",
+"Subcontracting bill":"Bon de soutraitance",
+"Subcontracting bills":"Bons de soutraitance",
+"Add subcontracting bill":"Ajouter bon de soutraitance",
+"Select subcontractor":"Sélectionnez un sous-traitant",
+"Select driver":"Sélectionnez un chauffeur",
+"Add subcontractor":"Ajouter un sous-traitant",
+"Add driver":"Ajouter un chauffeur"
 }

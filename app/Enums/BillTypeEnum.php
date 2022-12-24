@@ -13,5 +13,6 @@ class BillTypeEnum
     const DamageBill = 4;
 
     const DeliveryBill = 5;
+    const SubcontractingBill = 6;
 
 }

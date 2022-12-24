@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\PaymentTypeEnum;
+use App\Enums\BillTypeEnum;
 use Carbon\Carbon;
 class Payment extends Model
 {
@@ -84,6 +85,22 @@ class Payment extends Model
             ->sum('amount');
         return $sumAmounts;  
 
+     }
+
+        
+     public static function getPaymentTypeByBilleType($billType){
+        switch ($billType) {
+            case BillTypeEnum::ExitBill :
+            case BillTypeEnum::WeighBill: 
+            case BillTypeEnum::DamageBill:        
+                $paymentType = PaymentTypeEnum::Receipt; 
+                break; 
+            case BillTypeEnum::SubcontractingBill:    
+            case BillTypeEnum::DeliveryBill:     
+                $paymentType=PaymentTypeEnum::Disbursement; 
+                break;         
+            }
+    return $paymentType;
      }
    
 }

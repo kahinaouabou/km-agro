@@ -129,6 +129,12 @@
                 <span class="sidebar-normal">{{ __('Delivery bill') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'bill/6' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::SubcontractingBill ) }}">
+              <i class="material-icons icon-sidebar"> Sb </i>
+                <span class="sidebar-normal">{{ __('Subcontracting bill') }} </span>
+              </a>
+            </li>
             @endif
             @if (auth()->user()->can('transaction-box-list'))
             <li class="nav-item{{ $activePage == 'transactionBox' ? ' active' : '' }}">
