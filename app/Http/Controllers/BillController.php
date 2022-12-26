@@ -378,11 +378,11 @@ class BillController extends Controller
         
         $type = (int)$request->bill_type ;
         $validatedData = Bill::getValidateDataByType($request);
-        
-        if($type==BillTypeEnum::ExitBill || $type==BillTypeEnum::SubcontractingBill){
-        $validatedData['net_remaining']=  $validatedData['net_payable'];
-        
-        
+
+        if ($type == BillTypeEnum::ExitBill || $type == BillTypeEnum::SubcontractingBill) {
+            $validatedData['net_remaining'] = $validatedData['net_payable'];
+        }
+        if($type==BillTypeEnum::ExitBill){
         if($validatedData['number_boxes_returned']==Null){
             $validatedData['number_boxes_returned']=0; 
         }
