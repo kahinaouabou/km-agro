@@ -82,7 +82,7 @@ class PaymentController extends Controller
                     })
                     ->setRowClass(function ($row) {
                         
-                        return $row->payment_type==2 ? ('row-danger') : ('row-success');
+                        return $row->payment_type==1 ? ('row-danger') : ('row-success');
                     })
                     ->addColumn('sumReceipts', function() use ($sumReceipts){
                         return  number_format($sumReceipts, 2, ',', ' ');
