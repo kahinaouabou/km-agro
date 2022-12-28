@@ -19,8 +19,8 @@
                             <div class="col-sm-3" style="display: inline-block;">
                               <div class="form-group">
                                 <select name="third_party_id" id="input-third-party" class="third-party-select2 form-control">
-                                  <option value="0">{{ __('Select customer') }}</option>
-                                  @foreach (\App\Models\ThirdParty::select('id','name')->where('is_supplier','=',App\Enums\ThirdPartyEnum::Customer)->get() as $thirdParty)
+                                  <option value="0">{{ __('Select third') }}</option>
+                                  @foreach (\App\Models\ThirdParty::select('id','name')->get() as $thirdParty)
                                     <option value="{{ $thirdParty->id }}" {{ $thirdParty->id == $selected_id['third_party_id'] ? 'selected' : '' }}>
                                     {{ $thirdParty['name'] }}
                                     </option>

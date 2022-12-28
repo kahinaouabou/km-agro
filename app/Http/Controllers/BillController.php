@@ -85,6 +85,11 @@ class BillController extends Controller
             }else {
                 $selected_id['driver_id'] = '';
             }
+            if(!empty($request->truck_id)){
+                $selected_id['truck_id'] = $request->truck_id;
+            }else {
+                $selected_id['truck_id'] = '';
+            }
             if(!empty($request->block_id)){
                 $selected_id['block_id'] = $request->block_id;
             }else {
@@ -143,6 +148,12 @@ class BillController extends Controller
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
                            $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('driver_id') ?
+                        $query->from('bills')->where('bills.driver_id',$request->get('driver_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('truck_id') ?
+                        $query->from('bills')->where('bills.truck_id',$request->get('truck_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('block_id') ?
                           $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
@@ -260,6 +271,11 @@ class BillController extends Controller
             $selected_id['driver_id'] = $request->driver_id;
         }else {
             $selected_id['driver_id'] = '';
+        }
+        if(!empty($request->truck_id)){
+            $selected_id['truck_id'] = $request->truck_id;
+        }else {
+            $selected_id['truck_id'] = '';
         }
         if(!empty($request->block_id)){
             $selected_id['block_id'] = $request->block_id;

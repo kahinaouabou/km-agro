@@ -80,7 +80,25 @@
                             </div>
                             
                         </div>
-                      @endif  
+                      @endif 
+                      <div class="col-sm-12">
+                        <label class="col-sm-2 col-form-label col-form-label-filter" >{{ __('Registration') }}</label>
+                        
+                        <div class="col-sm-3" style="display: inline-block;">
+                          <div class="form-group">
+                            <select name="registration_id" id="input-truck-search" class="driver-select2 form-control" >
+                              <option value="0">{{ __('Select truck') }}</option>
+                              @foreach (\App\Models\Truck::select('id','registration')->get() as $truck)
+                              
+                                <option value="{{ $truck->id }}" {{ $truck->id == $selected_id['truck_id'] ? 'selected' : '' }}>
+                                {{ $truck['registration'] }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+
+                      </div> 
                         
                         @if($type == \App\Enums\BillTypeEnum::ExitBill)	
                         <div class="col-sm-12">

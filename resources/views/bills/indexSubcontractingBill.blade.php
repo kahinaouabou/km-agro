@@ -86,6 +86,8 @@
         url :url,
         data: function (d) {
             d.third_party_id  = jQuery('#input-third-party-search').val(),
+            d.truck_id  = jQuery('#input-truck-search').val(),
+            d.driver_id  = jQuery('#input-driver-search').val(),
             d.date_from = jQuery('#input-date-from').val(),
             d.date_to = jQuery('#input-date-to').val()
         }
