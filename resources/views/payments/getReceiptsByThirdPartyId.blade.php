@@ -2,7 +2,9 @@
 @if(!empty($receipts))
 <div class="table-responsive">
                 <table class="table">
-                  <thead class=" text-primary">
+                  <thead class=" text-primary" style=" width: calc( 100% - 1em ); display: table;
+    width: 100%;
+    table-layout: fixed;">
                     <tr>
                       <th>
                         {{ __('  ')}}
@@ -22,9 +24,13 @@
                     </th>
                   </tr>
                 </thead>
-                  <tbody>
+                  <tbody style =" display: block;
+    height: 250px;
+    overflow: auto;">
                   @foreach($receipts as $receipt)
-                    <tr id="row-{{$receipt->id}} ">
+                    <tr id="row-{{$receipt->id}} " style ="display: table;
+    width: 100%;
+    table-layout: fixed;">
                         <td>
                           <input id="check-{{$receipt->id}}" type="checkbox" class='id' 
                                  value={{(int)$receipt->id}}>
