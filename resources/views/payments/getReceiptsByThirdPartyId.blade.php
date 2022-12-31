@@ -22,10 +22,10 @@
                     <th>
                         {{__('Amount remaining')}} 
                     </th>
-                  </tr>
+               </tr>
                 </thead>
                   <tbody style =" display: block;
-    height: 250px;
+    height: 180px;
     overflow: auto;">
                   @foreach($receipts as $receipt)
                     <tr id="row-{{$receipt->id}} " style ="display: table;
