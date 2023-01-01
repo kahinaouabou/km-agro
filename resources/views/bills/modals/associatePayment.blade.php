@@ -16,7 +16,11 @@
             <div id ='receipt-tab'>
 
             </div>
-               
+            {!! Form::number('payment_type', $paymentType , [
+                            'id' =>'input-payment-type',
+                            'required' => true,
+                            'hidden' => true,
+                            ]) !!} 
             <div class="row">
                 <label class="col-sm-2 col-form-label">{{ __('Amount payable') }}</label>
                 <div class="col-sm-7">

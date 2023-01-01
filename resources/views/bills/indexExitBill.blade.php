@@ -245,6 +245,7 @@ $.ajax({
   data :{
       billIds:JSON.stringify(billIds),
       paymentIds:JSON.stringify(paymentIds),
+      paymentTypeId:$('#input-payment-type').val(),
   },
   success:function(response){
         console.log(response);
@@ -374,8 +375,10 @@ $.ajax({
             $('#associatePayment').css("display","block");
             billIds = [];
             let sumNetRemaining = 0;
-            let url = "{{ route('payments.getReceiptsByThirdPartyId' , ':thirdPartyId') }}";
+            $paymentTypeId = $('#input-payment-type').val();
+            let url = "{{ route('payments.getReceiptsByThirdPartyId' , [':thirdPartyId',':paymentTypeId']) }}";
             url = url.replace(':thirdPartyId', thirdPartyIds[0]);
+            url = url.replace(':paymentTypeId', $paymentTypeId);
               jQuery('#receipt-tab').load(url , function(){
                     
                   });

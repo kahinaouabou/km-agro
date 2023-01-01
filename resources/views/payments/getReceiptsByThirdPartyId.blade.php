@@ -66,5 +66,5 @@
               </div>
 
  @else 
- <p>{{__('Thre is no receipts')}}</p>
+ <p>{{__('Thre is no payments not associate')}}</p>
  @endif

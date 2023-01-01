@@ -313,7 +313,7 @@ class PaymentController extends Controller
         return response()->json(['success'=>$bills]);
     }
 
-    public function getReceiptsByThirdPartyId($thirdPartyId){
+    public function getReceiptsByThirdPartyId($thirdPartyId, $paymentTypeId){
      
         
         // $payments = DB::table('payments')
@@ -331,7 +331,7 @@ class PaymentController extends Controller
         $payments = DB::table('payments')
         ->select('payments.*',DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date") )
         ->where('third_party_id', $thirdPartyId)
-        ->where('payment_type',PaymentTypeEnum::Receipt)
+        ->where('payment_type',$paymentTypeId)
         ->orderBy('payment_date', 'asc')
         ->orderBy('reference', 'asc')
         ->get();
@@ -352,13 +352,13 @@ class PaymentController extends Controller
         
     }
 
-    public function getReceiptsByPaymentIds($paymentIds){
+    public function getReceiptsByPaymentIds($paymentIds, $paymentTypeId){
      
     
         $payments = DB::table('payments')
         ->select('payments.*',DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date") )
         ->whereIn('id', $paymentIds)
-        ->where('payment_type',PaymentTypeEnum::Receipt)
+        ->where('payment_type',$paymentTypeId)
         ->orderBy('payment_date', 'asc')
         ->orderBy('reference', 'asc')
         ->get();
@@ -384,7 +384,7 @@ class PaymentController extends Controller
             
             $billIds = JSON_decode($request->billIds);
             $paymentIds = JSON_decode($request->paymentIds);
-           
+            $paymentTypeId = JSON_decode($request->paymentTypeId);
             $bills = Bill::whereIn('id', $billIds)
             ->where('net_remaining','>',0)
             ->orderBy('bill_date', 'asc')
@@ -394,7 +394,7 @@ class PaymentController extends Controller
             
                 $j = 0;
                 $nbBills = count($bills);
-                $payments = $this->getReceiptsByPaymentIds($paymentIds);
+                $payments = $this->getReceiptsByPaymentIds($paymentIds, $paymentTypeId);
                 $amountPaid = 0;
                 
                 foreach ($payments as $payment) {
