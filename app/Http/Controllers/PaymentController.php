@@ -56,7 +56,8 @@ class PaymentController extends Controller
             $data = DB::table('payments')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
                 ->select('payments.*', 'ThirdParty.name as thirdPartyName',
-                DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date"))
+                //DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date")
+                )
                 ->where('program_id', '=', $currentProgramId)
                 ->where( function($query) use($request){
                     return $request->get('third_party_id') ?
@@ -70,8 +71,8 @@ class PaymentController extends Controller
                           $query->from('payments')->where('payment_date','>=',$request->get('date_from')) : '';})
                 ->where(function($query) use($request){
                     return $request->get('date_to') ?
-                        $query->from('payments')->where('payment_date','<=',$request->get('date_to')) : '';}); 
-                
+                        $query->from('payments')->where('payment_date','<=',$request->get('date_to')) : '';}) 
+                ->orderBy("payment_date","desc") ;
                 return Datatables::of($data)
                     ->addIndexColumn()
                     // ->addColumn('sumAmount', function() use ($sumAmount){
@@ -165,6 +166,7 @@ class PaymentController extends Controller
                'amount' => 'required',
                'payment_type' => 'required',
                'payment_date' => 'required',
+               'observation'=>'nullable'
             ]);
             $currentProgramId = Program::getCurrentProgram();
             $validatedData['program_id']=$currentProgramId;
@@ -239,6 +241,7 @@ class PaymentController extends Controller
             'amount' => 'required',
             'payment_type' => 'required',
             'payment_date' => 'required',
+            'observation'=>'nullable'
          ]);
         Payment::whereId($id)->update($validatedData);
 

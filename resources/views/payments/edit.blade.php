@@ -81,6 +81,18 @@
                     </div>
                   </div>
                 </div> 
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Observation') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::textarea('observation', $payment->observation, [
+                                                'class' => 'form-control',
+                                                'id' =>'input-observation',
+                                                ]) !!}
+                                                                            
+                    </div>
+                  </div>
+                </div>
                
                 {!! Form::number('payment_type', $payment->payment_type, [
                                                 'class' => 'form-control',

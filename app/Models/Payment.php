@@ -36,7 +36,7 @@ class Payment extends Model
          return $date;
     }
     protected $fillable  = ['reference','payment_date','payment_type',
-    'amount','third_party_id','program_id'];
+    'amount','third_party_id','program_id','observation'];
     protected $table = 'payments';
 
     

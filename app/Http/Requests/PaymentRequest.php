@@ -29,6 +29,7 @@ class PaymentRequest extends FormRequest
             'amount' => ['required'],
             'payment_type' => ['required'],
             'payment_date' => ['required'],
+            'observation'=>'nullable'
         ];
     }
 }

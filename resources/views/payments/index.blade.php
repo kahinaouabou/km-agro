@@ -108,6 +108,18 @@
             {data: 'amount', name: 'amount'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ],
+        "columnDefs":[
+            { targets: 1,
+                render: function ( data, type, row ) {
+                var datetime = moment(data, 'YYYY-MM-DD');
+                var displayString = moment(datetime).format('DD/MM/YYYY');
+                if ( type === 'display' || type === 'filter' ) {
+                    return displayString;
+                } else {
+                    return datetime;
+                }
+                }
+            }],
         "createdRow": function ( row, data, index ) {
             $('#total-receipt').html(data.sumReceipts);
             $('#total-disbursement').html(data.sumDisbursements);
