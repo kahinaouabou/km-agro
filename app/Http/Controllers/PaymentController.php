@@ -385,22 +385,22 @@ class PaymentController extends Controller
             $billIds = JSON_decode($request->billIds);
             $paymentIds = JSON_decode($request->paymentIds);
             $paymentTypeId = JSON_decode($request->paymentTypeId);
+
             $bills = Bill::whereIn('id', $billIds)
             ->where('net_remaining','>',0)
             ->orderBy('bill_date', 'asc')
             ->orderBy('reference', 'asc')
             ->get();
-            
-            
+                
+        
                 $j = 0;
                 $nbBills = count($bills);
                 $payments = $this->getReceiptsByPaymentIds($paymentIds, $paymentTypeId);
+        
                 $amountPaid = 0;
                 
                 foreach ($payments as $payment) {
                    
-                  
-
                     $payrollAmount = $payment->rest;
                     while ($payrollAmount > 0 && $j < $nbBills) {
 
@@ -413,7 +413,7 @@ class PaymentController extends Controller
                             
                             $payrollAmount = $payrollAmount - $amountRemainingBill;
                         } else {
-                            $amountPaid = $payrollAmount;
+                            $amountPaid = $amountPaid + $payrollAmount;
                             $amountRemaining = $amountRemainingBill - $payrollAmount;
                             $payrollAmount = 0;
                         }
