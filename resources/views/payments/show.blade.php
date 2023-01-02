@@ -19,6 +19,7 @@
                <p><strong>{{__('Type')}} : </strong>{{$payment->payment_type}}</p>
                <p><strong>{{__('Amount')}} : </strong>{{number_format($payment->amount, 2, ',', ' ');}}</p>
                <p><strong>{{__('Advanced amount')}} : </strong>{{number_format($payment->amount_remaining, 2, ',', ' ');}}</p>
+               <p><strong>{{__('Observation')}}  : </strong>{{$payment->observation}}</p>
               </div>
 
               <div class="table-responsive">
