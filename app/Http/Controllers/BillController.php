@@ -27,19 +27,19 @@ use  Illuminate\Support\Facades\DB;
 class BillController extends Controller
 {
     
-    // function __construct()
+     function __construct()
 
-    // {
+     {
 
-    //      $this->middleware('permission:bill-list|bill-create|bill-edit|bill-delete', ['only' => ['index','show']]);
+          $this->middleware('permission:bill-list', ['only' => ['index','show']]);
 
-    //      $this->middleware('permission:bill-create', ['only' => ['create','store']]);
+          $this->middleware('permission:bill-create', ['only' => ['create','store']]);
 
-    //      $this->middleware('permission:bill-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:bill-edit', ['only' => ['edit','update']]);
 
-    //      $this->middleware('permission:bill-delete', ['only' => ['destroy']]);
+          $this->middleware('permission:bill-delete', ['only' => ['destroy']]);
 
-    // }
+     }
     
     /**
      * Display a listing of the resource.

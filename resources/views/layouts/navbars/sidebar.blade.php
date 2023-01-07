@@ -46,6 +46,12 @@
                 <span class="sidebar-normal">{{ __('Products') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'pivot' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('pivots.index') }}">
+                <i class="material-icons icon-sidebar"> Pt </i>
+                <span class="sidebar-normal">{{ __('Pivots') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'thirdParty/0/0' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('thirdParties', 
                 ['isSupplier'=>0 , 'isSubcontractor'=>0]) }}">
@@ -98,13 +104,16 @@
                 <span class="sidebar-normal">{{ __('Trucks') }} </span>
               </a>
             </li>
-    
+            
+            
             <li class="nav-item{{ $activePage == 'bill/1' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::EntryBill) }}">
               <i class="material-icons icon-sidebar"> Be </i>
                 <span class="sidebar-normal">{{ __('Entry bill') }} </span>
               </a>
             </li>
+            @endif
+            @if (auth()->user()->can('bill-list'))
             <li class="nav-item{{ $activePage == 'bill/2' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::ExitBill) }}">
               <i class="material-icons icon-sidebar"> Bs </i>
@@ -117,12 +126,16 @@
                 <span class="sidebar-normal">{{ __('Weigh bill') }} </span>
               </a>
             </li>
+            @endif
+            @if(auth()->user()->hasRole('Admin'))
             <li class="nav-item{{ $activePage == 'bill/4' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::DamageBill ) }}">
               <i class="material-icons icon-sidebar"> Bd </i>
                 <span class="sidebar-normal">{{ __('Damage bill') }} </span>
               </a>
             </li>
+            @endif
+            @if (auth()->user()->can('bill-list'))
             <li class="nav-item{{ $activePage == 'bill/5' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bills' , $type = \App\Enums\BillTypeEnum::DeliveryBill ) }}">
               <i class="material-icons icon-sidebar"> Dd </i>
@@ -144,13 +157,16 @@
               </a>
             </li>
             @endif
-            @if(auth()->user()->hasRole('Admin'))
+            
+            @if (auth()->user()->can('payment-list'))
             <li class="nav-item{{ $activePage == 'payment' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('payments.index') }}">
               <i class="material-icons icon-sidebar"> Pt </i>
                 <span class="sidebar-normal">{{ __('Payments') }} </span>
               </a>
             </li>
+            @endif
+            @if(auth()->user()->hasRole('Admin'))
             <li class="nav-item{{ $activePage == 'company' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('companies.edit', \App\Models\Company::first()) }}">
               <i class="material-icons icon-sidebar"> Cy </i>

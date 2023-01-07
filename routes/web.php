@@ -75,6 +75,7 @@ Route::get('rooms/getRoomsByBlock/{blockId}', 'App\Http\Controllers\RoomControll
 Route::get('room/print', 'App\Http\Controllers\RoomController@print')->name('rooms.print')->middleware('auth');
 
 Route::resource('products', 'App\Http\Controllers\ProductController')->middleware('auth');
+Route::resource('pivots', 'App\Http\Controllers\PivotController')->middleware('auth');
 Route::resource('parcelCategories', 'App\Http\Controllers\ParcelCategoryController')->middleware('auth');
 Route::resource('parcels', 'App\Http\Controllers\ParcelController')->middleware('auth');
 Route::resource('marks', 'App\Http\Controllers\MarkController')->middleware('auth');
