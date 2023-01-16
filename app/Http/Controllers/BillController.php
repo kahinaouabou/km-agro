@@ -708,7 +708,6 @@ class BillController extends Controller
                 ->where( function($query) use($request){
                     return $request->get('net_remaining') ?
                             $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
-                
                             ->where(function($query) use($request){
                     return $request->get('date_from') ?
                           $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})

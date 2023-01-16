@@ -130,11 +130,12 @@ $countNetPaid =0;
                   <th>
                       {{__('Date')}} 
                   </th>
-                    <th>
+                    <th style = "width:38px">
+                   
                       {{__('Product')}} 
                   </th>
                   @if(empty($thirdParty->id))
-                      <th>
+                      <th style = "width:38px">
                       {{__('Customer')}} 
                       </th>
                     @endif 
