@@ -25,6 +25,8 @@
                               <div class="row">
                 <div class="col-12 text-right">
                   <a href="{{ route('programs.create') }}" class="btn btn-sm btn-primary">{{__('Add program')}}</a>
+                  <a href="{{ route('profile.editProgram') }}" class="btn btn-sm btn-primary">{{__('select current program')}}</a>
+                
                 </div>
               </div>
               <div class="table-responsive">
@@ -36,9 +38,6 @@
                     <th>
                     {{__('Name')}} 
                     </th>
-                    <th>
-                      {{__('Current')}} 
-                      </th>
                     
                     <th class="text-right">
                     {{ __('Actions')}}
@@ -54,14 +53,6 @@
                         {{ $program->name }}
 
                         </td>
-                        <td>
-                          @if($program->is_current ==1)
-                          {{ ('Programme courant') }}
-                          
-                          @endif
-                          
-  
-                          </td>
                         <td class="td-actions text-right">
                            
                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('programs.edit', $program->id) }}" data-original-title="" title="">

@@ -117,7 +117,7 @@ class BillController extends Controller
                 $selected_id['date_to'] = '';
             }
             
-            $currentProgramId = Program::getCurrentProgram();
+            $currentProgramId = auth()->user()->program_id;;
             $sumNet = Bill::getSumNet( $request, $dbBillType , $currentProgramId);
             $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
             $sumNetRemaining = Bill::getSumNetRemaining( $request , $dbBillType , $currentProgramId );
@@ -303,7 +303,7 @@ class BillController extends Controller
         }else {
             $selected_id['date_to'] = '';
         }
-        $currentProgramId = Program::getCurrentProgram();
+        $currentProgramId = auth()->user()->program_id;
 
         $sumNet = Bill::getSumNet( $request,  $dbBillType , $currentProgramId );
         $sumNetPayable = Bill::getSumNetPayable( $request , $dbBillType , $currentProgramId);
@@ -413,7 +413,7 @@ class BillController extends Controller
         }
     }
 
-        $currentProgramId = Program::getCurrentProgram();
+        $currentProgramId = auth()->user()->program_id;;
         $validatedData['program_id']=$currentProgramId;
         
         if($bill= Bill::create($validatedData)){

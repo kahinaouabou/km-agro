@@ -67,7 +67,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
+	Route::get('profile/editProgram',  'App\Http\Controllers\ProfileController@editProgram')->name('profile.editProgram');
+	Route::put('profile/updateProgram', ['as' => 'profile.updateProgram', 'uses' => 'App\Http\Controllers\ProfileController@updateProgram']);
+	
+	
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	
 });
 
 Route::resource('rooms', 'App\Http\Controllers\RoomController')->middleware('auth');

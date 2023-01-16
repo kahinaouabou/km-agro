@@ -185,7 +185,7 @@ class TransactionBoxController extends Controller
             'third_party_id' => 'required',
             'number_boxes_returned'=>'required',
         ]);
-        $currentProgramId = Program::getCurrentProgram();
+        $currentProgramId = auth()->user()->program_id;
         $validatedData['program_id']=$currentProgramId;
         TransactionBox::create($validatedData);
         return redirect('/transactionBoxes')->with('message',__('Returned boxes successfully created.'));

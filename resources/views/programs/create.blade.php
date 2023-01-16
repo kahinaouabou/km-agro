@@ -50,17 +50,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Program is current') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                      {!! Form::checkbox('is_current',null,[
-                        'class' => 'form-control',
-                        'id'=>'input-is-current'
-                        ]) !!}
-                    </div>
-                  </div>
-                </div>
                 
                 
                 

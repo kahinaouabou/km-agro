@@ -43,19 +43,11 @@ class ProgramController extends Controller
     {
        $validatedData = $request->validate([
             'code' => 'required|min:3',
-            'name' => 'required|min:3',
-            'is_current'=>'nullable'
+            'name' => 'required|min:3'
         ]);
-        if(isset($validatedData['is_current'])){
-            $validatedData['is_current'] = 1;
-        }else {
-            $validatedData['is_current'] = 0;
-        }
         
         $program=Program::create($validatedData);
-        if($validatedData['is_current'] == 1){
-            Program::where('id','!=',$program->id)->update(['is_current'=>0]);
-        }
+       
         return redirect('/programs')->with('message',__('Program successfully created.'));
     }
 
@@ -100,18 +92,10 @@ class ProgramController extends Controller
         $validatedData = $request->validate([
             'code' => 'required|min:3',
             'name' => 'required|min:3',
-            'is_current'=>'nullable'
         ]);
-        if(isset($validatedData['is_current'])){
-            $validatedData['is_current'] = 1;
-        }else {
-            $validatedData['is_current'] = 0;
-        }
         
         Program::whereId($id)->update($validatedData);
-        if($validatedData['is_current'] == 1){
-            Program::where('id','!=',$id)->update(['is_current'=>0]);
-        }
+       
         return redirect('/programs')->with('message',__('Program successfully updated.'));
     }
 

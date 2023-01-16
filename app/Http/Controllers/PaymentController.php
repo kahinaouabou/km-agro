@@ -63,7 +63,7 @@ class PaymentController extends Controller
             }else {
                 $selected_id['date_to'] = '';
             }
-            $currentProgramId = Program::getCurrentProgram();
+            $currentProgramId = auth()->user()->program_id;;
             $sumReceipts = Payment::getSumAmounts($request, PaymentTypeEnum::Receipt, $currentProgramId);
             $sumDisbursements = Payment::getSumAmounts($request , PaymentTypeEnum::Disbursement, $currentProgramId);
             
@@ -182,7 +182,7 @@ class PaymentController extends Controller
                'payment_date' => 'required',
                'observation'=>'nullable'
             ]);
-            $currentProgramId = Program::getCurrentProgram();
+            $currentProgramId = auth()->user()->program_id;
             $validatedData['program_id']=$currentProgramId;
         $payment = Payment::create($validatedData);
         Setting::setNextReferenceNumber('payment');
