@@ -25,9 +25,9 @@
             <div class="card-body">
                               <div class="row">
                 <div class="col-12 text-right">
+                  <a target="_blanck" href="{{ route('payments.printSituation', $selected_id) }}" id='print-situation' class="btn btn-sm btn-primary">{{__('Print PDF')}}</a>
                   <a href="{{ route('payments.create', \App\Enums\PaymentTypeEnum::Receipt) }}" class="btn btn-sm btn-primary">{{ __('Add receipt')}}</a>
                   <a href="{{ route('payments.create',\App\Enums\PaymentTypeEnum::Disbursement) }}" class="btn btn-sm btn-primary">{{ __('Add disbursement')}}</a>
-                
                 </div>
               </div>
               <div class="table-responsive">
@@ -128,6 +128,16 @@
 
         $("#btn-search").click(function(e){
         e.preventDefault();  
+        let selected_id ='';
+            selected_id = selected_id +'third_party_id='+ jQuery('#input-third-party').val();
+            selected_id = selected_id +'payment_type='+ jQuery('#input-payment-type').val();
+           
+            selected_id= selected_id +'&date_from='+ jQuery('#input-date-from').val();
+            selected_id= selected_id +'&date_to='+ jQuery('#input-date-to').val();
+            console.log(selected_id);
+            let url = "{{ route('payments.printSituation' , ':selected_id') }}";
+            url = url.replace(':selected_id', selected_id);
+            $('#print-situation').attr('href',url);
         table.draw(false);
     });
 

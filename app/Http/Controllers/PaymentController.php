@@ -291,6 +291,37 @@ class PaymentController extends Controller
         compact('payment','paymentName','company','paymentBills'));
         return $pdf->stream($paymentName.'.pdf');
     }
+
+    public function printSituation(Request $request){
+        $payments = DB::table('payments')
+                ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
+                ->select('payments.*', 'ThirdParty.name as thirdPartyName',
+                )
+                ->where( function($query) use($request){
+                    return $request->get('third_party_id') ?
+                           $query->from('payments')->where('third_party_id',$request->get('third_party_id')) : '';})
+                ->where( function($query) use($request){
+                    return $request->get('payment_type') ?
+                            $query->from('payments')->where('payment_type',$request->get('payment_type')) : '';})
+            
+                ->where(function($query) use($request){
+                    return $request->get('date_from') ?
+                          $query->from('payments')->where('payment_date','>=',$request->get('date_from')) : '';})
+                ->where(function($query) use($request){
+                    return $request->get('date_to') ?
+                        $query->from('payments')->where('payment_date','<=',$request->get('date_to')) : '';}) 
+                ->orderBy("payment_date","desc")->get() ;
+
+        $company = Company::first();
+        $thirdParty = ThirdParty::find($request->third_party_id);
+                
+        $pdf = PDF::loadView('payments.pdf.printSituation', 
+        compact('payments','company','thirdParty'));
+              
+        $paymentsName = __('Payments situation');       
+        return $pdf->stream($paymentsName.'.pdf');        
+
+    }
     public function addAssociationPaymentBills($request, $payment){
         $billIds = JSON_decode($request->billIds);
            

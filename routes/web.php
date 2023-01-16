@@ -123,6 +123,9 @@ Route::get('payment/getReference', 'App\Http\Controllers\PaymentController@getRe
 Route::get('payments/{type}/create', 'App\Http\Controllers\PaymentController@create')->name('payments.create')->middleware('auth');
 Route::get('payments/getReceiptsByThirdPartyId/{thirdParty}/{paymentType}', 'App\Http\Controllers\PaymentController@getReceiptsByThirdPartyId')->name('payments.getReceiptsByThirdPartyId')->middleware('auth');
 Route::post('payment/associatePaymentsBills', 'App\Http\Controllers\PaymentController@associatePaymentsBills')->name('payments.associatePaymentsBills')->middleware('auth');
+Route::get('payment/printSituation', 'App\Http\Controllers\PaymentController@printSituation')->name('payments.printSituation')->middleware('auth');
+
+
 
 Route::resource('discharges', 'App\Http\Controllers\DischargeController')->middleware('auth');
 Route::get('discharges/{discharge}/print', 'App\Http\Controllers\DischargeController@print')->name('discharges.print')->middleware('auth');
