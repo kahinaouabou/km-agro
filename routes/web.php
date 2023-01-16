@@ -107,6 +107,7 @@ Route::get('bill/addPaymentContent', 'App\Http\Controllers\BillController@addPay
 Route::get('billSituation/printSituation', 'App\Http\Controllers\BillController@printSituation')->name('bills.printSituation')->middleware('auth');
 Route::get('billSituation/printDetailedSituation', 'App\Http\Controllers\BillController@printDetailedSituation')->name('bills.printDetailedSituation')->middleware('auth');
 Route::get('billSituation/printDeliveryBill', 'App\Http\Controllers\BillController@printDeliveryBill')->name('bills.printDeliveryBill')->middleware('auth');
+Route::get('getDeliveryBillReference', 'App\Http\Controllers\BillController@getDeliveryBillReference')->name('bills.getDeliveryBillReference')->middleware('auth');
 
 
 Route::resource('transactionBoxes', 'App\Http\Controllers\TransactionBoxController')->middleware('auth');

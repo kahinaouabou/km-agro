@@ -219,6 +219,7 @@ class Bill extends Model
                             'third_party_id'=> 'required',
                             'driver_id'=> 'required',
                             'truck_id'=> 'required',
+                            'pivot_id'=>'required',
                             'number_boxes'=> 'required',
                             'raw'=> 'required',
                             'net'=> 'required',

@@ -27,7 +27,17 @@
                     </div>
                   </div>
                 @endif
-               
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Code') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('code') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="delivery_bill_prefix" id="input-code" type="text" placeholder="{{ __('Code') }}" value="{{ $pivot->delivery_bill_prefix }}"  aria-required="true"/>
+                      @if ($errors->has('code'))
+                        <span id="code-error" class="error text-danger" for="input-code">{{ $errors->first('code') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
                   <div class="col-sm-7">

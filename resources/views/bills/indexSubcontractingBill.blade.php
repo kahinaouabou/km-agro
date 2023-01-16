@@ -363,7 +363,7 @@ $.ajax({
 
 
   
-  function getPaymentReference(){
+  function getPaymentReference() {
     $.ajax({
   url : "{{ route('payments.getReference') }}",
   type: 'get',

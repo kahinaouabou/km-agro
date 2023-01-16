@@ -32,7 +32,10 @@
                   <thead class=" text-primary">
                     <tr>
                     <th>
-                    {{__('Model')}} 
+                    {{__('Code')}} 
+                    </th>
+                    <th>
+                    {{__('Name')}} 
                     </th>
                     <th class="text-right">
                     {{ __('Actions')}}
@@ -42,6 +45,11 @@
                   <tbody>
                   @foreach($pivots as $pivot)
                     <tr>
+                       <td>
+                        @if(!empty($pivot->code))
+                        {{ $pivot->code }}
+                        @endif
+                        </td>
                         <td>
                         @if(!empty($pivot->name))
                         {{ $pivot->name }}

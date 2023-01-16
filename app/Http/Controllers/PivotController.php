@@ -42,6 +42,7 @@ class PivotController extends Controller
     public function store(PivotRequest $request)
     {
        $validatedData = $request->validate([
+            'delivery_bill_prefix' => 'required|min:1',
             'name' => 'required|min:1',
         ]);
         Pivot::create($validatedData);
@@ -83,6 +84,7 @@ class PivotController extends Controller
     {
         //
         $validatedData = $request->validate([
+            'delivery_bill_prefix' => 'required|min:1',
             'name' => 'required|min:1',
         ]);
         Pivot::whereId($id)->update($validatedData);

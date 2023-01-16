@@ -58,6 +58,46 @@ class Setting extends Model
         }
     }
 
+    static public function getDeliveryBillNextReference($dbFieldName, $pivotId){
+        $date = Date('Y');
+        $referenceParameterFields =Setting::getReferenceInfos($dbFieldName.'_ref_auto');
+
+        $referenceParameterPivot = Pivot::getReferenceInfosByPivotId($pivotId);
+       
+        $dbFieldNameSize = $dbFieldName.'_size';
+        
+        $dbFieldNamePrefix = $dbFieldName.'_prefix';
+        $dbFieldNameDatePosition = $dbFieldName.'date_position';
+        $dbFieldNameNextref = $dbFieldName.'_next_ref';
+        if (!empty ($referenceParameterFields)) {
+            $size = (int)$referenceParameterPivot->$dbFieldNameSize;
+            $prefix = $referenceParameterFields->$dbFieldNamePrefix;
+            $pivotPrefix = $referenceParameterPivot->$dbFieldNamePrefix;
+			$datePosition = $referenceParameterFields->$dbFieldNameDatePosition;
+            $nextNumber = $referenceParameterPivot-> $dbFieldNameNextref;
+            $sizeNumber = strlen((int)$nextNumber);
+            $nextReference = '';
+            if ($size > $sizeNumber) {
+                $size = $size - $sizeNumber;
+                $nextReference = $nextNumber;
+                for ($i = 1; $i <= $size; $i++) {
+                    $nextReference = '0' . $nextReference;
+                }
+            } else {
+                $nextReference = $nextNumber;
+            }
+			if ($datePosition == 2) {
+                $nextReference = $prefix . '/'.$pivotPrefix. $nextReference. '/' . $date  ;
+            } else {
+				$nextReference = $date. '/' .$prefix .'/'.$pivotPrefix. $nextReference;
+			}
+            
+            return $nextReference;
+        } else {
+            return 0;
+        }
+    }
+
     static public function setNextReferenceNumber($dbFieldName){
         $nextNumber = 0;
         $referenceParameterFields =Setting::getReferenceInfos($dbFieldName.'_ref_auto');
@@ -66,6 +106,19 @@ class Setting extends Model
                     $number = $referenceParameterFields->$dbFieldNameNextref;
                     $nextNumber = (int)$number+1;
                     Setting::where('id', $referenceParameterFields->id)
+                    ->update(array($dbFieldName.'_next_ref' => $nextNumber));
+                }
+                return $nextNumber;
+	}
+    static public function setDeliveryBillNextReferenceNumber($dbFieldName, $pivotId){
+        $nextNumber = 0;
+        $referenceParameterFields =Setting::getReferenceInfos($dbFieldName.'_ref_auto');
+        $referenceParameterPivot = Pivot::getReferenceInfosByPivotId($pivotId);
+        $dbFieldNameNextref = $dbFieldName.'_next_ref';
+        if (!empty ($referenceParameterFields)) {
+                    $number = $referenceParameterPivot->$dbFieldNameNextref;
+                    $nextNumber = (int)$number+1;
+                    Pivot::where('id', $pivotId)
                     ->update(array($dbFieldName.'_next_ref' => $nextNumber));
                 }
                 return $nextNumber;

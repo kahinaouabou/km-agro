@@ -24,6 +24,7 @@ class PivotRequest extends FormRequest
     public function rules()
     {
         return [
+            'delivery_bill_prefix' => ['required', 'min:1'],
             'name' => ['required', 'min:1'],
         ];
     }

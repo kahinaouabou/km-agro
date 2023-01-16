@@ -15,6 +15,22 @@
                   </div>
                 @endif
                 <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Pivots') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group{{ $errors->has('pivot_id') ? ' has-danger' : '' }}">
+                      <select class="form-control{{ $errors->has('pivot_id') ? ' is-invalid' : '' }}" 
+                        name="pivot_id" id="input-pivot" type="select" 
+                        placeholder="{{ __('Pivot') }}" onchange="getDeliveryBillReference()"
+                        required >
+                      <option value="">{{ __('Select pivot') }}</option>
+                        @foreach($pivots as $pivot)
+                        <option value="{{ $pivot->id }}" >{{ $pivot->name }}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Reference') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('reference') ? ' has-danger' : '' }}">
@@ -386,6 +402,28 @@ $.ajax({
 
 
 });     
+function getDeliveryBillReference(){
+  $.ajax({
+  url : "{{ route('bills.getDeliveryBillReference') }}",
+  type: 'get',
+  headers: {
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    data :{
+      pivot_id:$('#input-pivot').val(),
+  },
+  success:function(response){
+        console.log(response);
+        if((response.reference.length!=="")){
+            $('#input-reference').val(response.reference);
+            
+        }
 
+      },
+      error: function(error) {
+        console.log(error);
+      }
+});
+  }
 
   </script>

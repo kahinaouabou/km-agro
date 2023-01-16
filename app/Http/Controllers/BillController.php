@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Bill;
+use App\Models\Pivot;
 use App\Models\Product;
 use App\Models\Truck;
 use App\Models\Block;
@@ -339,8 +340,10 @@ class BillController extends Controller
         
         if($type== BillTypeEnum::DeliveryBill){
             $products = Product::where('id',2)->get();
+            $pivots = Pivot::all();
         } else {
             $products = Product::all();
+            $pivots = [];
         }
        
         $trucks = Truck::all();
@@ -380,7 +383,7 @@ class BillController extends Controller
         return view('bills.create', compact('products','trucks','blocks',
                                         'isSupplier','dbBillType','drivers',
                                     'page','type','parcels','rooms','isSubcontractor',
-                                    'thirdParties','nextReference'));
+                                    'thirdParties','nextReference','pivots'));
     }
 
     /**
@@ -418,7 +421,13 @@ class BillController extends Controller
         
         if($bill= Bill::create($validatedData)){
             $page = Bill::getTitleActivePageByTypeBill($type);
-            Setting::setNextReferenceNumber($page['fieldParam']);
+            if($type== BillTypeEnum::DeliveryBill){
+                $pivotId = $request->pivot_id;
+                Setting::setDeliveryBillNextReferenceNumber('delivery_bill', $pivotId);
+            }else {
+                Setting::setNextReferenceNumber($page['fieldParam']);
+            }
+            
             if($type==BillTypeEnum::ExitBill){
                 $transactionBoxesRequest = new TransactionBoxRequest();
                 $params = [
@@ -805,5 +814,13 @@ class BillController extends Controller
     }
     public function addPaymentContent(){
 
+    }
+
+    public function getDeliveryBillReference(Request $request){
+        $pivotId = $request->pivot_id;
+        $nextReference = Setting::getDeliveryBillNextReference('delivery_bill', $pivotId);
+        return response()->json([
+            'reference'=>$nextReference
+             ]);
     }
 }
