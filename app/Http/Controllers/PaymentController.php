@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Enums\PaymentTypeEnum;
+use App\Models\PaymentCategory;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Payment;
 use App\Models\Bill;
@@ -47,8 +48,14 @@ class PaymentController extends Controller
             }else {
                 $selected_id['third_party_id'] = '';
             }
+            if(!empty($request->payment_category_id)){
+                $selected_id['payment_category_id'] = $request->payment_category_id;
+            }else {
+                $selected_id['payment_category_id'] = '';
+            }
             if(!empty($request->payment_type)){
                 $selected_id['payment_type'] = $request->payment_type;
+               
             }else {
                 $selected_id['payment_type'] = '';
             }
@@ -69,7 +76,9 @@ class PaymentController extends Controller
             
             $data = DB::table('payments')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
-                ->select('payments.*', 'ThirdParty.name as thirdPartyName',
+                ->leftjoin('payment_categories as PaymentCategory', 'PaymentCategory.id', '=', 'payments.payment_category_id')     
+                
+                ->select('payments.*', 'ThirdParty.name as thirdPartyName', 'PaymentCategory.name as categoryName'
                 //DB::raw("DATE_FORMAT(payments.payment_date, '%d/%m/%Y') as payment_date")
                 )
                 ->where('program_id', '=', $currentProgramId)
@@ -77,8 +86,12 @@ class PaymentController extends Controller
                     return $request->get('third_party_id') ?
                            $query->from('payments')->where('third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
+                    return $request->get('payment_category_id') ?
+                            $query->from('payments')->where('payment_category_id',$request->get('payment_category_id')) : '';})
+                        
+                    ->where( function($query) use($request){
                     return $request->get('payment_type') ?
-                            $query->from('payments')->where('payment_type',$request->get('payment_type')) : '';})
+                            $query->from('payments')->where('payment_type',Config::get('constants.'.$request->payment_type)) : '';})
             
                 ->where(function($query) use($request){
                     return $request->get('date_from') ?
@@ -133,6 +146,11 @@ class PaymentController extends Controller
                                 @csrf
                                 @method("DELETE")
                             </form>
+                            <button type="button" class="" data-toggle="tooltip" 
+                            data-placement="bottom" title="'.$row->observation.'">
+                            Obs
+                            </button>
+                            
                             ';
                             return $btn;
                     })
@@ -142,6 +160,8 @@ class PaymentController extends Controller
         }
         $selected_id = [];
         $selected_id['third_party_id'] = $request->third_party_id;
+        $selected_id['payment_category_id'] = $request->payment_category_id;
+        $selected_id['payment_type'] = $request->payment_type;
         $selected_id['date_from'] = $request->date_from;
         $selected_id['date_to'] = $request->date_to;
         
@@ -160,8 +180,9 @@ class PaymentController extends Controller
         $nextReference = Setting::getNextReferenceByFieldName('payment');
         $page = Payment::getTitleActivePageByPaymentType($type);
         $thirdParties = ThirdParty:: getThirdPartiesByType($type);
+        $paymentCategories = PaymentCategory::all();
 
-        return view('payments.create',compact('nextReference','page','thirdParties','type'));
+        return view('payments.create',compact('nextReference','page','thirdParties','type','paymentCategories'));
     }
 
     /**
@@ -180,7 +201,8 @@ class PaymentController extends Controller
                'amount' => 'required',
                'payment_type' => 'required',
                'payment_date' => 'required',
-               'observation'=>'nullable'
+               'observation'=>'nullable',
+               'payment_category_id'=>'nullable'
             ]);
             $currentProgramId = auth()->user()->program_id;
             $validatedData['program_id']=$currentProgramId;
@@ -232,7 +254,8 @@ class PaymentController extends Controller
         $payment = Payment::findOrFail($id);
         
         $thirdParties = ThirdParty:: getThirdPartiesByType($payment->payment_type);
-        return view('payments.edit', compact('payment','thirdParties'));
+        $paymentCategries = PaymentCategory::pluck('name', 'id');
+        return view('payments.edit', compact('payment','thirdParties','paymentCategries'));
     
     }
 
@@ -255,7 +278,8 @@ class PaymentController extends Controller
             'amount' => 'required',
             'payment_type' => 'required',
             'payment_date' => 'required',
-            'observation'=>'nullable'
+            'observation'=>'nullable',
+            'payment_category_id'=>'nullable'
          ]);
         Payment::whereId($id)->update($validatedData);
 
@@ -293,6 +317,8 @@ class PaymentController extends Controller
     }
 
     public function printSituation(Request $request){
+        
+        
         $payments = DB::table('payments')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'payments.third_party_id')     
                 ->select('payments.*', 'ThirdParty.name as thirdPartyName',
@@ -302,7 +328,7 @@ class PaymentController extends Controller
                            $query->from('payments')->where('third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('payment_type') ?
-                            $query->from('payments')->where('payment_type',$request->get('payment_type')) : '';})
+                            $query->from('payments')->where('payment_type',Config::get('constants.'.$request->payment_type)) : '';})
             
                 ->where(function($query) use($request){
                     return $request->get('date_from') ?

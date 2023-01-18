@@ -55,6 +55,16 @@
 "Parcel category successfully updated." :"La catégorie parcelle a été mofidié avec succès.",
 "Parcel category successfully deleted." :"La catégorie parcelle a été supprimé avec succès.",
 "Parcel category information" :"Informations de la catégorie",
+
+"Payment categories" :"Catégorie paiements",
+"Add payment category":"Ajouter une catégorie paiment",
+"Edit payment category" :"Modifier une une catégorie paiment",
+"Here you can manage payment categories" : "Ici, vous pouvez gérer les catégorie paiments",
+"Payment category successfully created." :"La catégorie paiment a été créée avec succès.",
+"Payment category successfully updated." :"La catégorie paiment a été mofidié avec succès.",
+"Payment category successfully deleted." :"La catégorie paiment a été supprimé avec succès.",
+"Payment category information" :"Informations de la catégorie",
+
 "Customers" :"Clients",
 "Suppliers" :"Fournisseurs",
 "Here you can manage customer" : "Ici, vous pouvez gérer les clients",

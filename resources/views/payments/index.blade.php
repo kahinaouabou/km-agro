@@ -41,6 +41,9 @@
                         {{__('Date')}} 
                     </th>
                     <th>
+                        {{__('Categories')}} 
+                    </th>
+                    <th>
                         {{__('Customer')}} 
                     </th> 
                     <th>
@@ -95,6 +98,7 @@
         url :url,
         data: function (d) {
             d.third_party_id  = jQuery('#input-third-party').val(),
+            d.payment_category_id  = jQuery('#input-payment-category').val(),
             d.payment_type  = jQuery('#input-payment-type').val(),
             d.date_from = jQuery('#input-date-from').val(),
             d.date_to = jQuery('#input-date-to').val()
@@ -103,6 +107,7 @@
         columns: [
             {data: 'reference', name: 'reference'},
             {data: 'payment_date', name: 'payment_date' ,type:'date'},
+            {data: 'categoryName', name: 'PaymentCategory.name'},
             {data: 'thirdPartyName', name: 'ThirdParty.name'},
             {data: 'payment_type', name: 'payment_type'},
             {data: 'amount', name: 'amount'},
@@ -130,8 +135,8 @@
         e.preventDefault();  
         let selected_id ='';
             selected_id = selected_id +'third_party_id='+ jQuery('#input-third-party').val();
-            selected_id = selected_id +'payment_type='+ jQuery('#input-payment-type').val();
-           
+            selected_id = selected_id +'&payment_category_id='+ jQuery('#input-payment-category').val();
+            selected_id = selected_id +'&payment_type='+ jQuery('#input-payment-type').val();
             selected_id= selected_id +'&date_from='+ jQuery('#input-date-from').val();
             selected_id= selected_id +'&date_to='+ jQuery('#input-date-to').val();
             console.log(selected_id);

@@ -50,6 +50,36 @@
                     </div>
                   </div>
                 </div>
+                @if(!empty( $payment->paymentCategory->id))
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Categories') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::select('payment_category_id', $paymentCategries, $payment->paymentCategory->id,
+                      [
+                        'class' => 'form-control',
+                        'placeholder'=> __('Select category') ,
+      
+                        ]) !!}
+                    </div>
+                  </div>
+                </div>
+                @else 
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Categories') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group">
+                    {!! Form::select('payment_category_id', $paymentCategries, null,
+                      [
+                        'class' => 'form-control',
+                        'placeholder'=> __('Select category') ,
+      
+                        ]) !!}
+                    </div>
+                  </div>
+                </div>
+                @endif
+               
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Third party') }}</label>
                   <div class="col-sm-7">

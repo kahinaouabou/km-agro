@@ -83,6 +83,8 @@ Route::resource('products', 'App\Http\Controllers\ProductController')->middlewar
 Route::resource('pivots', 'App\Http\Controllers\PivotController')->middleware('auth');
 Route::resource('parcelCategories', 'App\Http\Controllers\ParcelCategoryController')->middleware('auth');
 Route::resource('parcels', 'App\Http\Controllers\ParcelController')->middleware('auth');
+Route::resource('paymentCategories', 'App\Http\Controllers\PaymentCategoryController')->middleware('auth');
+
 Route::resource('marks', 'App\Http\Controllers\MarkController')->middleware('auth');
 Route::resource('trucks', 'App\Http\Controllers\TruckController')->middleware('auth');
 Route::resource('thirdParties', 'App\Http\Controllers\ThirdPartyController')->middleware('auth');

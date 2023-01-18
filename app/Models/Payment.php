@@ -17,6 +17,10 @@ class Payment extends Model
     {
         return $this->belongsTo('App\Models\ThirdParty');
     }
+    public function PaymentCategory()
+    {
+        return $this->belongsTo('App\Models\PaymentCategory');
+    }
     
     protected $casts  = [
         'payment_date' => 'date:d/m/Y',

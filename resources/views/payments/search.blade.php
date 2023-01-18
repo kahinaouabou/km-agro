@@ -28,29 +28,49 @@
                                 </select>
                               </div>
                             </div>
-                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Type') }}</label>
-                        
-                            <div class="col-sm-3" style="display: inline-block;">
-                              <div class="form-group">
-                                <?php
-                                $types = [
-                                  0 => 'Receipt',
-                                  1 => 'Disbursement'
-                                ]
-                                ?>
-                                <select name="payment_type_id" id="input-payment-type" class="third-party-select2 form-control">
-                                  <option value="">{{ __('Select type') }}</option>
-                                  @foreach ($types  as $key => $value)
-                                    <option value="{{ $key }}" {{ $key == $selected_id['third_party_id'] ? 'selected' : '' }}>
-                                    {{ __($value) }}
-                                    </option>
-                                  @endforeach
-                                </select>
-                              </div>
-                            </div>		
+                            <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Categorie') }}</label>
+                      
+                          <div class="col-sm-3" style="display: inline-block;">
+                            <div class="form-group">
+                              <select name="payment_category_id" id="input-payment-category" class="third-party-select2 form-control">
+                                <option value="0">{{ __('Select category') }}</option>
+                                @foreach (\App\Models\PaymentCategory::select('id','name')->get() as $paymentCategory)
+                                  <option value="{{ $paymentCategory->id }}" {{ $paymentCategory->id == $selected_id['payment_category_id'] ? 'selected' : '' }}>
+                                  {{ $paymentCategory['name'] }}
+                                  </option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div>		
                             
-                          </div>	
                           
+                        </div>	
+                        <div class="col-sm-12">
+                          
+                          <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Type') }}</label>
+                      
+                          <div class="col-sm-3" style="display: inline-block;">
+                            <div class="form-group">
+                              <?php
+                              $types = [
+                                ''=> 'Select type',
+                                'Receipt' => 'Receipt',
+                                'Disbursement' => 'Disbursement'
+                              ]
+                              ?>
+                              <select name="payment_type" id="input-payment-type" class="third-party-select2 form-control">
+                                
+                                @foreach ($types  as $key => $value)
+                                  <option value="{{ $key }}" {{ $key == $selected_id['payment_type'] ? 'selected' : '' }}>
+                                  {{ __($value) }}
+                                </option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div>		
+                          
+                        
+                      </div>  
                           <div class="col-sm-12">
                             <label class="col-sm-2 col-form-label col-form-label-filter">{{ __('Date from') }}</label>
                         

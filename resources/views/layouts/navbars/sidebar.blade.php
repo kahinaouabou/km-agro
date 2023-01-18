@@ -159,6 +159,12 @@
             @endif
             
             @if (auth()->user()->can('payment-list'))
+            <li class="nav-item{{ $activePage == 'paymentCategory' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('paymentCategories.index') }}">
+              <i class="material-icons icon-sidebar"> Pc </i>
+                <span class="sidebar-normal">{{ __('Payment categories') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'payment' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('payments.index') }}">
               <i class="material-icons icon-sidebar"> Pt </i>
