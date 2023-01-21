@@ -87,6 +87,11 @@ Route::resource('paymentCategories', 'App\Http\Controllers\PaymentCategoryContro
 
 Route::resource('marks', 'App\Http\Controllers\MarkController')->middleware('auth');
 Route::resource('trucks', 'App\Http\Controllers\TruckController')->middleware('auth');
+Route::get('trucks/getTrucksByThirdPartyId/{thirdPartyId}', 'App\Http\Controllers\TruckController@getTrucksByThirdPartyId')->name('trucks.getTrucksByThirdPartyId')->middleware('auth');
+Route::get('truck/regulateTruckIbsInBills', 'App\Http\Controllers\TruckController@regulateTruckIbsInBills')->name('trucks.regulateTruckIbsInBills')->middleware('auth');
+
+
+
 Route::resource('thirdParties', 'App\Http\Controllers\ThirdPartyController')->middleware('auth');
 Route::get('thirdParty/searchName', 'App\Http\Controllers\ThirdPartyController@searchName')->name('thirdParties.searchName')->middleware('auth');
 Route::get('thirdParty/{isSupplier}/{isSubcontractor}', 'App\Http\Controllers\ThirdPartyController@index')->name('thirdParties')->middleware('auth');

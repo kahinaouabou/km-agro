@@ -205,6 +205,7 @@ jQuery(document).on('click', '#addTruckButton', function() {
           $('#addDriver').appendTo("body").modal('show');
           $('#input-name-driver').attr('required',true);
           $('#input-subcontractor').val($('#input-third-party').val());
+          $('#input-third').val($('#input-third-party').val());
 
       });       
 
@@ -305,6 +306,7 @@ let registration = $('#input-registration').val();
 let model = $('#input-model').val();
 let tare = $('#input-tare-truck').val();
 let mark_id = $('#input-mark').val();
+let third_party_id =  $('#input-third').val();
 console.log(tare);
 $.ajax({
   url : "{{ route('trucks.store') }}",

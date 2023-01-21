@@ -170,6 +170,7 @@ jQuery(document).on('click', '#addThirdPartyButton', function() {
 jQuery(document).on('click', '#addTruckButton', function() {
           $('#addTruck').appendTo("body").modal('show');
           $('#input-registration').attr('required',true);
+          $('#input-third').val($('#input-third-party').val());
       }); 
 
 jQuery("#add-third-party-button").click(function(e){
@@ -236,6 +237,7 @@ let registration = $('#input-registration').val();
 let model = $('#input-model').val();
 let tare = $('#input-tare-truck').val();
 let mark_id = $('#input-mark').val();
+let third_party_id =  $('#input-third').val();
 console.log(tare);
 $.ajax({
   url : "{{ route('trucks.store') }}",

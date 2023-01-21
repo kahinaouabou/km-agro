@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BillTypeEnum;
+use App\Models\Bill;
 use App\Models\Truck;
 use Illuminate\Http\Request;
 use App\Http\Requests\TruckRequest;
@@ -48,11 +50,12 @@ class TruckController extends Controller
             'model' => 'nullable',
             'mark_id' => 'nullable',
             'tare' => 'nullable',
+            'third_party_id' => 'nullable',
         ]);
         
         $truck=Truck::create($validatedData);
         if ($request->ajax()) {
-            $trucks = Truck::all()->pluck('registration', 'id');
+            $trucks = Truck::all()->where('third_party_id',$request->third_party_id)->pluck('registration', 'id');
 
             return response()->json([
                 'selectedId'=>$truck->id,
@@ -121,5 +124,42 @@ class TruckController extends Controller
         $truck = Truck::findOrFail($id);
         $truck->delete();
         return redirect('/trucks')->with('message',__('Truck successfully deleted.'));
+    }
+
+    public function getTrucksByThirdPartyId($thirdPartyId = null){
+        $trucks = Truck::all()->where('third_party_id','=',$thirdPartyId)->pluck('registration', 'id');
+        $placeholder = __('Select registration');
+        return response()->json([
+            'trucks'=>$trucks,
+            'placeholder'=>$placeholder
+             ]);
+    }
+    public function regulateTruckIbsInBills(){
+
+        $MAX_I = 8;
+     $DIVISEUR = 2;
+     $résultat = 0;
+     for ( $i = 0; $i < $MAX_I; $i++)
+     {
+          $valeur = ($i + 1) / $DIVISEUR;
+          for ($j = 0; $j < $valeur; $j++)
+          {
+               $résultat = $résultat+$valeur;
+          }
+     }
+     dd($résultat);
+        $trucks = Truck::distinct('registration')->orderBy('id','asc')->get();
+        foreach($trucks as $truck){
+            $ids = [];
+            $registration = Truck::where('registration', $truck->registration)->first();
+            $registrations = Truck::where('registration', $truck->registration)->get();
+            foreach($registrations as $registration){
+                $ids[] = $registration->id;
+            }
+            $bills = Bill::whereIn('truck_id', $ids)->where('bill_type', BillTypeEnum::ExitBill)->get();
+
+            dd($bills);
+        }
+        
     }
 }

@@ -254,6 +254,7 @@ let registration = $('#input-registration').val();
 let model = $('#input-model').val();
 let tare = $('#input-tare-truck').val();
 let mark_id = $('#input-mark').val();
+let third_party_id =  $('#input-third').val();
 console.log(tare);
 $.ajax({
   url : "{{ route('trucks.store') }}",

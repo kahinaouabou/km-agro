@@ -185,9 +185,10 @@ if(!empty($request->room_id)){
 
     public function getRoomsByBlock($blockId = null){
         $rooms = Room::all()->where('block_id','=',$blockId)->pluck('name', 'id');
-
+        $placeholder =  __('Select room');
         return response()->json([
-            'rooms'=>$rooms
+            'rooms'=>$rooms,
+            'placeholder'=>$placeholder
              ]);
     }
 }

@@ -81,7 +81,12 @@
                   <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('third_party_id') ? ' has-danger' : '' }}">
-                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" name="third_party_id" id="input-third-party" type="select"  required >
+                      <select class="third-party-select2 form-control{{ $errors->has('third_party_id') ? ' is-invalid' : '' }}" 
+                      name="third_party_id" 
+                      id="input-third-party" 
+                      type="select"
+                      onchange="getTrucksByThirdPartyId()"
+                      required >
                         <option value="">{{ __('Select customer') }}</option>
                         @foreach($thirdParties as $thirdParty)
                         <option value="{{ $thirdParty->id }}" >{{ $thirdParty->name }}</option>
@@ -272,6 +277,7 @@ jQuery(document).on('click', '#addThirdPartyButton', function() {
 jQuery(document).on('click', '#addTruckButton', function() {
           $('#addTruck').appendTo("body").modal('show');
           $('#input-registration').attr('required',true);
+          $('#input-third').val($('#input-third-party').val());
 
       }); 
 
@@ -372,6 +378,8 @@ let registration = $('#input-registration').val();
 let model = $('#input-model').val();
 let tare = $('#input-tare-truck').val();
 let mark_id = $('#input-mark').val();
+let third_party_id =  $('#input-third').val();
+console.log(third_party_id);
 console.log(tare);
 $.ajax({
   url : "{{ route('trucks.store') }}",
@@ -383,7 +391,8 @@ $.ajax({
       registration:registration,
       model:model,
       tare:tare,
-      mark_id:mark_id
+      mark_id:mark_id,
+      third_party_id:third_party_id
   },
   success:function(response){
         console.log(response);

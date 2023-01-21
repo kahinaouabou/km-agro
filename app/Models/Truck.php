@@ -16,7 +16,7 @@ class Truck extends Model
         return $this->hasMany('App\Models\Bill');
     }
     
-    protected $fillable  = ['registration','model','mark_id','tare'];
+    protected $fillable  = ['registration','model','mark_id','third_party_id','tare'];
     protected $table = 'trucks';
     use HasFactory;
 }

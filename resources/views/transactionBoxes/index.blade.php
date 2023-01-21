@@ -144,7 +144,9 @@
                         @endif
                         </td>
                         <td>
+                        if(!empty($transactionBox->program->name))
                         {{ $transactionBox->program->name }}
+                        @endif
                         </td>
                         <td>
                         {{  $transactionBox->transaction_date->format('d/m/Y') }}

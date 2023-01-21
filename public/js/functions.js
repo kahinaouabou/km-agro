@@ -225,11 +225,47 @@ function getRoomsByBlock(){
           if(response) {
                   $('#input-room-search').empty();
                   msg = "<?php echo __('Select room') ?>";
-                  $("#input-room-search").append("<option>"+msg+"</option>");
+                  $("#input-room-search").append("<option>"+response.placeholder+"</option>");
                       $.each(response.rooms,function(key,value){
                         
                          $('#input-room-search').append( '<option value="'+key+'">'+value+'</option>' )
                                 
+                      });
+          }
+        },
+        error: function(error) {
+          console.log(error);
+        }
+  });
+}
+
+function getTrucksByThirdPartyId(){
+  let thidPartyId = $('#input-third-party').val();
+  let url = base_path +"trucks/getTrucksByThirdPartyId/"+thidPartyId;
+  $.ajax({
+    url : url,
+    type: 'get',
+    headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+    data :{
+      thidPartyId:thidPartyId
+    },
+    success:function(response){
+          console.log(response);
+          if(response) {
+            $('#input-truck').empty();
+                  $("#input-truck").append('<option>'+response.placeholder+'</option>');
+                 
+                      $.each(response.trucks,function(key,value){
+                        // $('#input-third-party').append($("<option/>", {
+                        //      value: key,
+                        //      text: value,
+                        //   }));
+                        
+                          $("#input-truck").append( '<option value="'+key+'">'+value+'</option>' )
+                        
+                         
                       });
           }
         },
