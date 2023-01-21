@@ -144,7 +144,7 @@
                         @endif
                         </td>
                         <td>
-                        if(!empty($transactionBox->program->name))
+                        @if(!empty($transactionBox->program->name))
                         {{ $transactionBox->program->name }}
                         @endif
                         </td>
