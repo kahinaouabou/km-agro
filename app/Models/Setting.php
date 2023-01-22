@@ -87,9 +87,9 @@ class Setting extends Model
                 $nextReference = $nextNumber;
             }
 			if ($datePosition == 2) {
-                $nextReference = $prefix . '/'.$pivotPrefix. $nextReference. '/' . $date  ;
+                $nextReference = $pivotPrefix . '/'.$prefix. $nextReference. '/' . $date  ;
             } else {
-				$nextReference = $date. '/' .$prefix .'/'.$pivotPrefix. $nextReference;
+				$nextReference = $date. '/' .$pivotPrefix .'/'.$prefix.$nextReference;
 			}
             
             return $nextReference;

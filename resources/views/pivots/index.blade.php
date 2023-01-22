@@ -46,8 +46,8 @@
                   @foreach($pivots as $pivot)
                     <tr>
                        <td>
-                        @if(!empty($pivot->code))
-                        {{ $pivot->code }}
+                        @if(!empty($pivot->delivery_bill_prefix ))
+                        {{ $pivot->delivery_bill_prefix  }}
                         @endif
                         </td>
                         <td>
