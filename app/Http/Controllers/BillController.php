@@ -683,7 +683,7 @@ class BillController extends Controller
         return view('bills.getSelectByOrigin'); 
     }
     public function printSituation(Request $request){
-       
+        
         $bills = DB::table('bills')
                 ->join('products as Product', 'Product.id', '=', 'bills.product_id')
                 ->join('third_parties as ThirdParty', 'ThirdParty.id', '=', 'bills.third_party_id')    
@@ -701,10 +701,10 @@ class BillController extends Controller
                            $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('block_id') ?
-                          $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                          $query->from('bills')->whereIn('bills.block_id',[$request->get('block_id')]) : '';})
                 ->where( function($query) use($request){
                     return $request->get('room_id') ?
-                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';}) 
+                            $query->from('bills')->whereIn('room_id',[$request->get('room_id')]) : '';}) 
                 ->where( function($query) use($request){
                     return $request->get('net_remaining') ?
                             $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
@@ -715,7 +715,7 @@ class BillController extends Controller
                     return $request->get('date_to') ?
                         $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
                 ->orderBy("bill_date","desc")->get();
-
+        
         $type = $bills[0]->bill_type;
         
         $billsName = __('Bills situation');
@@ -746,10 +746,10 @@ class BillController extends Controller
                            $query->from('bills')->where('bills.third_party_id',$request->get('third_party_id')) : '';})
                 ->where( function($query) use($request){
                     return $request->get('block_id') ?
-                          $query->from('bills')->where('bills.block_id',$request->get('block_id')) : '';})
+                          $query->from('bills')->whereIn('bills.block_id',[$request->get('block_id')]) : '';})
                 ->where( function($query) use($request){
                     return $request->get('room_id') ?
-                            $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';}) 
+                            $query->from('bills')->whereIn('room_id',[$request->get('room_id')]) : '';}) 
                 ->where( function($query) use($request){
                     return $request->get('net_remaining') ?
                             $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      

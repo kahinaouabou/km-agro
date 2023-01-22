@@ -163,6 +163,7 @@
     $("#btn-search").click(function(e){
         e.preventDefault();
             let selected_id ='';
+            console.log(jQuery('#input-block-search').val());
             selected_id = selected_id +'third_party_id='+ jQuery('#input-third-party-search').val();
             selected_id = selected_id +'&block_id='+ jQuery('#input-block-search').val();
             selected_id= selected_id +'&room_id='+ jQuery('#input-room-search').val();
