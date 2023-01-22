@@ -43,8 +43,6 @@ class PermissionTableSeeder extends Seeder
 
         ];
 
-     
-
         foreach ($permissions as $permission) {
 
              Permission::create(['name' => $permission]);

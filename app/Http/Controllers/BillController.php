@@ -40,6 +40,14 @@ class BillController extends Controller
 
           $this->middleware('permission:bill-delete', ['only' => ['destroy']]);
 
+          $this->middleware('permission:delivery-bill-list', ['only' => ['index','show']]);
+
+          $this->middleware('permission:delivery-bill-create', ['only' => ['create','store']]);
+
+         $this->middleware('permission:delivery-bill-edit', ['only' => ['edit','update']]);
+
+          $this->middleware('permission:delivery-bill-delete', ['only' => ['destroy']]);
+
      }
     
     /**

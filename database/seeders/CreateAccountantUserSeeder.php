@@ -19,37 +19,18 @@ class CreateAccountantUserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
-
-            'name' => 'Comptable', 
-
-             'email' => 'comptable@gmail.com',
-
-             'password' => bcrypt('12345')
-
-         ]);
+       
     
 
         $role = Role::create(['name' => 'Comptable']);
-
         $permissionsArray = [
-
-
             'bill-list',
- 
             'bill-create',
-
-
             'payment-list',
- 
             'payment-create',
- 
- 
-         ];
+        ];
 
         $permissions = Permission::whereIn('name',$permissionsArray)->get();
-
-        
 
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
