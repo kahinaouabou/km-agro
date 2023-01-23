@@ -32,21 +32,13 @@ class BillController extends Controller
 
      {
 
-          $this->middleware('permission:bill-list', ['only' => ['index','show']]);
-
-          $this->middleware('permission:bill-create', ['only' => ['create','store']]);
-
+          
          $this->middleware('permission:bill-edit', ['only' => ['edit','update']]);
 
           $this->middleware('permission:bill-delete', ['only' => ['destroy']]);
+        
 
-          $this->middleware('permission:delivery-bill-list', ['only' => ['index','show']]);
-
-          $this->middleware('permission:delivery-bill-create', ['only' => ['create','store']]);
-
-         $this->middleware('permission:delivery-bill-edit', ['only' => ['edit','update']]);
-
-          $this->middleware('permission:delivery-bill-delete', ['only' => ['destroy']]);
+       
 
      }
     
@@ -59,6 +51,13 @@ class BillController extends Controller
     public function index($type, Request $request)
     {
         //
+        
+        if ($type == BillTypeEnum::DeliveryBill) {
+            $this->middleware('permission:delivery-bill-list', ['only' => ['index', 'show']]);
+
+        }else {
+            $this->middleware('permission:bill-list', ['only' => ['index','show']]);
+        }
         $bills = Bill::where('bill_type', $type)->paginate(15);
         
         //and create a view which we return - note dot syntax to go into folder
@@ -345,7 +344,13 @@ class BillController extends Controller
      */
     public function create($type)
     {
+        if($type ==BillTypeEnum::DeliveryBill){
+            $this->middleware('permission:delivery-bill-create', ['only' => ['create','store']]);
+        }else {
+            $this->middleware('permission:bill-create', ['only' => ['create','store']]);
+        }
         
+       
         if($type== BillTypeEnum::DeliveryBill){
             $products = Product::where('id',2)->get();
             $pivots = Pivot::all();
