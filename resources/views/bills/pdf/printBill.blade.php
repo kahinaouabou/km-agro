@@ -1,131 +1,137 @@
 <!doctype html>
-<html >
+<html>
+
 <head>
-<meta charset="UTF-8">
-<title>{{$billName}}</title>
+  <meta charset="UTF-8">
+  <title>{{$billName}}</title>
 
-<style type="text/css">
+  <style type="text/css">
     * {
-        font-family: Verdana, Arial, sans-serif;
+      font-family: Verdana, Arial, sans-serif;
     }
-    
-    tfoot tr td{
-        font-weight: bold;
+
+    tfoot tr td {
+      font-weight: bold;
     }
+
     .gray {
-        background-color: lightgray
+      background-color: lightgray
     }
-    .main-table, .bill-table, .payment-table {
-            border: 1px solid black;
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0;
-        }
 
-        .main-table > thead > tr > th, 
-        .main-table > tbody > tr > th, 
-        .main-table > tfoot > tr > th, 
-        .main-table > thead > tr > td, 
-        .main-table > tbody > tr > td, 
-        .main-table > tfoot > tr > td,
-        
-        .bill-table > thead > tr > th, 
-        .bill-table > tbody > tr > th, 
-        .bill-table > tfoot > tr > th, 
-        .bill-table > thead > tr > td, 
-        .bill-table > tbody > tr > td, 
-        .bill-table > tfoot > tr > td,
+    .main-table,
+    .bill-table,
+    .payment-table {
+      border: 1px solid black;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+    }
 
-        .payment-table > thead > tr > th, 
-        .payment-table > tbody > tr > th, 
-        .payment-table > tfoot > tr > th, 
-        .payment-table > thead > tr > td, 
-        .payment-table > tbody > tr > td, 
-        .payment-table > tfoot > tr > td
+    .main-table>thead>tr>th,
+    .main-table>tbody>tr>th,
+    .main-table>tfoot>tr>th,
+    .main-table>thead>tr>td,
+    .main-table>tbody>tr>td,
+    .main-table>tfoot>tr>td,
 
-         {
-            border: 1px solid #000;
-        }
+    .bill-table>thead>tr>th,
+    .bill-table>tbody>tr>th,
+    .bill-table>tfoot>tr>th,
+    .bill-table>thead>tr>td,
+    .bill-table>tbody>tr>td,
+    .bill-table>tfoot>tr>td,
 
-        .main-table th {
-            border: 1px solid black;
-            padding: 10px 5px 15px 5px;
-            text-align: center;
-            font-size: 18px
-        }
+    .payment-table>thead>tr>th,
+    .payment-table>tbody>tr>th,
+    .payment-table>tfoot>tr>th,
+    .payment-table>thead>tr>td,
+    .payment-table>tbody>tr>td,
+    .payment-table>tfoot>tr>td {
+      border: 1px solid #000;
+    }
 
-        .main-table td {
-            text-align: center;
-            padding: 3px 5px;
-            font-size: 16px;
-            padding: 15px 5px 50px 5px;
-        }
+    .main-table th {
+      border: 1px solid black;
+      padding: 10px 5px 15px 5px;
+      text-align: center;
+      font-size: 18px
+    }
 
-        .bill-table th, .payment-table th  {
-            border: 1px solid black;
-            padding:  5px ;
-            text-align: center;
-            font-size: 14px
-        }
+    .main-table td {
+      text-align: center;
+      padding: 3px 5px;
+      font-size: 16px;
+      padding: 15px 5px 50px 5px;
+    }
 
-        .bill-table td, .payment-table td {
-            text-align: center;
-            padding:  5px;
-            font-size: 12px;
-            padding:  5px ;
-        }
-        
-</style>
+    .bill-table th,
+    .payment-table th {
+      border: 1px solid black;
+      padding: 5px;
+      text-align: center;
+      font-size: 14px
+    }
+
+    .bill-table td,
+    .payment-table td {
+      text-align: center;
+      padding: 5px;
+      font-size: 12px;
+      padding: 5px;
+    }
+  </style>
 
 </head>
+
 <body>
 
   <table width="100%">
     <tr>
-       <td valign="top" width="300px"></td>
-        
-        <td align="left">
+      <td valign="top" width="300px"></td>
+
+      <td align="left">
         @if($type == \App\Enums\BillTypeEnum::DeliveryBill)
-            <h2>Etablissement HAOUCHINE Farid</h2>
-            <p><strong>Agrément ministériel n°: 053</p> 
-        @else 
-            <h2>{{ $company->name }}</h2>
-            <!-- <p><strong>Agrément ministériel n°: 053</p>  -->
+        <h2>Etablissement HAOUCHINE Farid</h2>
+        <p><strong>Agrément ministériel n°: 053</p>
+        @else
+        <h2>{{ $company->name }}</h2>
+        <!-- <p><strong>Agrément ministériel n°: 053</p>  -->
         @endif
-          
-            <p>{{$company->address}}</p> 
-            @if($type != \App\Enums\BillTypeEnum::DeliveryBill) 
-            <p>{{$company->email}}</p> 
-            @endif 
-            @if(!empty($company->fax))  
-            <p >Tel: {{$company->phone}} / Fax: {{$company->fax}}</p>
-            @else 
-            <p >Tel: {{$company->phone}} </p>
-            @endif 
-        </td>
+
+        <p>{{$company->address}}</p>
+        @if($type != \App\Enums\BillTypeEnum::DeliveryBill)
+        <p>{{$company->email}}</p>
+        @endif
+        @if(!empty($company->fax))
+        <p>Tel: {{$company->phone}} / Fax: {{$company->fax}}</p>
+        @else
+        <p>Tel: {{$company->phone}} </p>
+        @endif
+      </td>
     </tr>
 
   </table>
-<hr>
+  <hr>
 
-            @switch($type)
-                @case (\App\Enums\BillTypeEnum::EntryBill)
-                  @include('bills.pdf.printEntryBill')
-                @break
-                @case (\App\Enums\BillTypeEnum::WeighBill)
-                  @include('bills.pdf.printWeighBill')
-                @break 
-                @case (\App\Enums\BillTypeEnum::ExitBill)
-                  @include('bills.pdf.printExitBill')
-                @break
-                @case (\App\Enums\BillTypeEnum::DamageBill)
-                  @include('bills.pdf.printWeighBill')
-                @break
-                @case (\App\Enums\BillTypeEnum::DeliveryBill)
-                  @include('bills.pdf.printDeliveryBill')
-                @break 
-            @endswitch
+  @switch($type)
+  @case (\App\Enums\BillTypeEnum::EntryBill)
+  @include('bills.pdf.printEntryBill')
+  @break
+  @case (\App\Enums\BillTypeEnum::WeighBill)
+  @include('bills.pdf.printWeighBill')
+  @break
+  @case (\App\Enums\BillTypeEnum::ExitBill)
+  @include('bills.pdf.printExitBill')
+  @break
+  @case (\App\Enums\BillTypeEnum::DamageBill)
+  @include('bills.pdf.printWeighBill')
+  @break
+  @case (\App\Enums\BillTypeEnum::DeliveryBill)
+  @include('bills.pdf.printDeliveryBill')
+  @break
+  @endswitch
 
 
 </body>
+
 </html>

@@ -9,9 +9,10 @@ use App\Models\Block;
 use App\Models\Room;
 use App\Models\Warehouse;
 use  Illuminate\Support\Facades\DB;
+
 class BlockController extends Controller
 {
- 
+
 
     // function __construct()
 
@@ -27,7 +28,7 @@ class BlockController extends Controller
     //      $this->middleware('permission:block-delete', ['only' => ['destroy']]);
 
     // }
-    
+
     /**
      * Display a listing of the resource.
      * @param  \App\Models\Block  $model
@@ -35,17 +36,17 @@ class BlockController extends Controller
      */
     public function index()
     {
-        $blocks = Block:: orderBy("name","asc")->get(); 
-        return view('blocks.index',compact('blocks'));    
+        $blocks = Block::orderBy("name", "asc")->get();
+        return view('blocks.index', compact('blocks'));
     }
     public function all()
     {
         $blocks = DB::table('blocks')
-                    ->join('warehouses', 'warehouses.id', '=', 'Blocks.warehouse_id')
-                    ->select('blocks.*','warehouses.name as warehouse')->get();
+            ->join('warehouses', 'warehouses.id', '=', 'Blocks.warehouse_id')
+            ->select('blocks.*', 'warehouses.name as warehouse')->get();
         return response()->json([
-            'rows'=>$blocks
-             ]);  
+            'rows' => $blocks
+        ]);
     }
 
     /**
@@ -68,16 +69,16 @@ class BlockController extends Controller
      */
     public function store(BlockRequest $request)
     {
-       
+
         $validatedData = $request->validate([
             'code' => 'required|min:3',
             'name' => 'required|min:3',
             'number_rooms' => 'required',
             'warehouse_id' => 'required',
         ]);
-        
+
         Block::create($validatedData);
-        return redirect('/blocks')->with('message',__('Block successfully created.'));
+        return redirect('/blocks')->with('message', __('Block successfully created.'));
     }
 
     /**
@@ -101,7 +102,7 @@ class BlockController extends Controller
     {
         $block = Block::findOrFail($id);
         $warehouses = Warehouse::pluck('name', 'id');
-        return view('blocks.edit', compact('block','warehouses'));
+        return view('blocks.edit', compact('block', 'warehouses'));
     }
 
     /**
@@ -120,10 +121,11 @@ class BlockController extends Controller
             'warehouse_id' => 'required',
         ]);
         Block::whereId($id)->update($validatedData);
-        return redirect('/blocks')->with('message',__('Block successfully updated.'));
+        return redirect('/blocks')->with('message', __('Block successfully updated.'));
     }
 
-    public function editBloc(Request $request,$id){
+    public function editBloc(Request $request, $id)
+    {
         $validatedData = $request->validate([
             'code' => 'required|min:3',
             'name' => 'required|min:3',
@@ -132,8 +134,8 @@ class BlockController extends Controller
         ]);
         Block::whereId($id)->update($validatedData);
         return response()->json([
-            'sucsses'=>__('Block successfully updated.')
-             ]);
+            'sucsses' => __('Block successfully updated.')
+        ]);
     }
 
     /**
@@ -144,23 +146,22 @@ class BlockController extends Controller
      */
     public function destroy($id)
     {
-        $dependences =$this->verifyDependences($id);
-        if(!$dependences){
+        $dependences = $this->verifyDependences($id);
+        if (!$dependences) {
             $block = Block::findOrFail($id);
             $block->delete();
-            return redirect('/blocks')->with('message',__('Block successfully deleted.'));
-        
-        }else {
-            return redirect('/blocks')->with('error',__("Block can't be deleted. Remove dependencies"));
+            return redirect('/blocks')->with('message', __('Block successfully deleted.'));
+        } else {
+            return redirect('/blocks')->with('error', __("Block can't be deleted. Remove dependencies"));
         }
-        
     }
     /**
      * @param  int  $blockId
      *
-     */ 
-    public function verifyDependences($blockId) {
-           $exist =  Room::checkIfRoomExist($blockId);
-           return $exist;
+     */
+    public function verifyDependences($blockId)
+    {
+        $exist =  Room::checkIfRoomExist($blockId);
+        return $exist;
     }
 }

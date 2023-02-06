@@ -90,21 +90,24 @@ Route::resource('trucks', 'App\Http\Controllers\TruckController')->middleware('a
 Route::get('trucks/getTrucksByThirdPartyId/{thirdPartyId}', 'App\Http\Controllers\TruckController@getTrucksByThirdPartyId')->name('trucks.getTrucksByThirdPartyId')->middleware('auth');
 Route::get('truck/regulateTruckIbsInBills', 'App\Http\Controllers\TruckController@regulateTruckIbsInBills')->name('trucks.regulateTruckIbsInBills')->middleware('auth');
 
-
+Route::resource('varieties', 'App\Http\Controllers\VarietyController')->middleware('auth');
 
 Route::resource('thirdParties', 'App\Http\Controllers\ThirdPartyController')->middleware('auth');
 Route::get('thirdParty/searchName', 'App\Http\Controllers\ThirdPartyController@searchName')->name('thirdParties.searchName')->middleware('auth');
 Route::get('thirdParty/{isSupplier}/{isSubcontractor}', 'App\Http\Controllers\ThirdPartyController@index')->name('thirdParties')->middleware('auth');
+Route::resource('bills', 'App\Http\Controllers\BillController')->middleware('auth');
 
 Route::get('thirdParties/{isSupplier}/{isSubcontractor}/create', 'App\Http\Controllers\ThirdPartyController@create')->name('thirdParties.create')->middleware('auth');
 Route::get('thirdParties/{thirdParty}/{isSupplier}/{isSubcontractor}/edit', 'App\Http\Controllers\ThirdPartyController@edit')->name('thirdParties.edit')->middleware('auth');
-Route::resource('bills', 'App\Http\Controllers\BillController')->middleware('auth');
 Route::get('bill/{type}', 'App\Http\Controllers\BillController@index')->name('bills')->middleware('auth');
 Route::get('bills/{type}/create', 'App\Http\Controllers\BillController@create')->name('bills.create')->middleware('auth');
 Route::get('bills/{bill}/{type}/edit', 'App\Http\Controllers\BillController@edit')->name('bills.edit')->middleware('auth');
 Route::get('bills/{bill}/{type}/show', 'App\Http\Controllers\BillController@show')->name('bills.show')->middleware('auth');
+Route::get('bills/{productId}/getVarietiesByProductId', 'App\Http\Controllers\BillController@getVarietiesByProductId')->name('bills.getVarietiessByProductId')->middleware('auth');
 
 Route::get('bills/{blockId}/getRoomsByBlockId', 'App\Http\Controllers\BillController@getRoomsByBlockId')->name('bills.getRoomsByBlockId')->middleware('auth');
+
+
 Route::get('bills/{origin}/getSelectByOrigin', 'App\Http\Controllers\BillController@getSelectByOrigin')->name('bills.getSelectByOrigin')->middleware('auth');
 Route::get('bills/{thirdPartyId}/getParcelsByThirdPartyId', 'App\Http\Controllers\BillController@getParcelsByThirdPartyId')->name('bills.getParcelsByThirdPartyId')->middleware('auth');
 Route::get('generate-pdf', 'App\Http\Controllers\PDFController@generatePDF')->name('generatePDF')->middleware('auth');

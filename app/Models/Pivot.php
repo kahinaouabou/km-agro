@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Pivot extends Model
 {
     use HasFactory;
+    public function bills()
+    {
+        return $this->hasMany('App\Models\Bill');
+    }
     protected $fillable  = ['delivery_bill_prefix','name'];
 
     static public function getReferenceInfosByPivotId($pivotId){

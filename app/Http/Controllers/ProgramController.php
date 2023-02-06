@@ -49,6 +49,7 @@ class ProgramController extends Controller
         $program=Program::create($validatedData);
        
         return redirect('/programs')->with('message',__('Program successfully created.'));
+    
     }
 
 
