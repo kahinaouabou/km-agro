@@ -25,7 +25,8 @@ jQuery(document ).ready(function(){
                 
                   });
           });
-             
+
+            
     jQuery("#external-origin").on("change", function() {
             let origin = jQuery(this).val();
             let url = "{{ route('bills.getSelectByOrigin' , ':origin') }}";
@@ -139,8 +140,7 @@ jQuery(document ).ready(function(){
   let netPayable = parseFloat(net)*parseFloat(unitPrice);
   jQuery("#input-net-payable").val(netPayable.toFixed(2));
   }
- 
-  }
+
   function calculateNetValueWithWeightDiscountPercentage (){
             let net = jQuery('#input-net').val();
             let weightDiscountPercentage = jQuery('#input-weight-discount-percentage').val();
@@ -274,4 +274,8 @@ function getTrucksByThirdPartyId(){
         }
   });
 }
+
+
+
+  }
 

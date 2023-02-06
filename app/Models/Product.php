@@ -11,6 +11,10 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Bill');
     }
+    public function varieties()
+    {
+        return $this->hasMany('App\Models\Variety');
+    }
     
     protected $fillable  = ['reference','name'];
     protected $table = 'products';

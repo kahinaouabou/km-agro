@@ -12,15 +12,7 @@ class AddDeliveryBillPermissions extends Migration
      */
     public function up()
     {
-        $permissions = [
-            'delivery-bill-list',
-            'delivery-bill-create',
-            'delivery-bill-edit',
-            'delivery-bill-delete'
-        ];
-         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
-        } 
+      
         
         
         

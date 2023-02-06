@@ -14,6 +14,10 @@ class Bill extends Model
     {
         return $this->belongsTo('App\Models\Product');
     }
+    public function Variety()
+    {
+        return $this->belongsTo('App\Models\Variety');
+    }
     public function Truck()
     {
         return $this->belongsTo('App\Models\Truck');
@@ -38,6 +42,10 @@ class Bill extends Model
     {
         return $this->belongsTo('App\Models\Driver');
     }
+    public function Pivot()
+    {
+        return $this->belongsTo('App\Models\Pivot');
+    }
     public function transactionBoxes()
     {
         return $this->hasMany('App\Models\TransactionBox');
@@ -46,11 +54,14 @@ class Bill extends Model
     {
         return $this->belongsToMany('App\Models\Payment', 'bill_payment');
     }
-    protected $fillable  = ['reference','bill_date','bill_type','product_id','truck_id','driver_id',
-                            'origin','parcel_id','third_party_id','block_id','room_id',
-                            'number_boxes','raw','tare','net','net_weight_discount',
-                            'weight_discount_percentage','unit_price','discount_value',
-                            'net_payable','net_remaining','number_boxes_returned','program_id'];
+    protected $fillable  = [
+        'reference', 'bill_date', 'bill_type', 'product_id','variety_id', 'truck_id',
+        'driver_id', 'pivot_id',
+        'origin', 'parcel_id', 'third_party_id', 'block_id', 'room_id',
+        'number_boxes', 'raw', 'tare', 'net', 'net_weight_discount',
+        'weight_discount_percentage', 'unit_price', 'discount_value',
+        'net_payable', 'net_remaining', 'number_boxes_returned', 'program_id'
+    ];
     protected $table = 'bills';
 
     protected $casts  = [
@@ -63,335 +74,389 @@ class Bill extends Model
 
     ];
 
-    public function serializeDate($date){
-        if($date != null){
+    public function serializeDate($date)
+    {
+        if ($date != null) {
             Carbon::parse($date)->format('Y-m-d');
-        }else {
-            $date =null;
+        } else {
+            $date = null;
         }
-        
-         return $date;
+
+        return $date;
     }
- 
+
     use HasFactory;
 
-   
+
     /**
      * 
      * @param int $type
      * @return array
      */
-    public static function getTitleActivePageByTypeBill($type=null){
+    public static function getTitleActivePageByTypeBill($type = null)
+    {
         
-       $page = [];
-        switch ($type){
-            case BillTypeEnum::EntryBill :
-                $activePage= 'bill/'.BillTypeEnum::EntryBill;
+        $page = [];
+        switch ($type) {
+            case BillTypeEnum::EntryBill:
+                $activePage = 'bill/' . BillTypeEnum::EntryBill;
                 $titlePage = 'Add entry bill';
                 $namePage = 'Entry bill';
-                $titleCard ='Entry bills';
+                $titleCard = 'Entry bills';
                 $fieldParam = 'entry_bill';
                 $selectThird = 'Select supplier';
                 $third = 'Supplier';
                 break;
-            case BillTypeEnum::ExitBill :
-                $activePage= 'bill/'.BillTypeEnum::ExitBill;
+            case BillTypeEnum::ExitBill:
+                $activePage = 'bill/' . BillTypeEnum::ExitBill;
                 $titlePage = 'Add weigh bill';
                 $namePage = 'Weigh bill';
                 $titleCard = 'Weigh bills';
                 $fieldParam = 'weigh_bill';
                 $selectThird = 'Select customer';
                 $third = 'Customer';
-                break; 
-            case BillTypeEnum::WeighBill :
-                $activePage= 'bill/'.BillTypeEnum::WeighBill;
+                break;
+            case BillTypeEnum::WeighBill:
+                $activePage = 'bill/' . BillTypeEnum::WeighBill;
                 $titlePage = 'Add weigh bill';
                 $namePage = 'Weigh bill';
                 $titleCard = 'Weigh bills';
                 $fieldParam = 'weigh_bill';
                 $selectThird = 'Select customer';
                 $third = 'Customer';
-                break; 
-            case BillTypeEnum::DamageBill :
-                    $activePage= 'bill/'.BillTypeEnum::DamageBill;
-                    $titlePage = 'Add damage bill';
-                    $namePage = 'Damage bill';
-                    $titleCard = 'Damage bills';
-                    $fieldParam = 'damage_bill';
-                    $selectThird = 'Select customer';
-                    $third = 'Customer';
-                    break;
-            case BillTypeEnum::DeliveryBill :
-                        $activePage= 'bill/'.BillTypeEnum::DeliveryBill;
-                        $titlePage = 'Add delivery bill';
-                        $namePage = 'Delivery bill';
-                        $titleCard = 'Delivery bills';
-                        $fieldParam = 'delivery_bill';
-                        $selectThird = 'Select subcontractor';
-                        $third = 'Subcontractor';
-                        break; 
-            case BillTypeEnum::SubcontractingBill :
-                        $activePage= 'bill/'.BillTypeEnum::SubcontractingBill;
-                        $titlePage = 'Add subcontracting bill';
-                        $namePage = 'Subcontracting bill';
-                        $titleCard = 'Subcontracting bills';
-                        $fieldParam = 'subcontracting_bill';
-                        $selectThird = 'Select subcontractor';
-                        $third = 'Subcontractor';
-                        break;                              
+                break;
+            case BillTypeEnum::DamageBill:
+                $activePage = 'bill/' . BillTypeEnum::DamageBill;
+                $titlePage = 'Add damage bill';
+                $namePage = 'Damage bill';
+                $titleCard = 'Damage bills';
+                $fieldParam = 'damage_bill';
+                $selectThird = 'Select customer';
+                $third = 'Customer';
+                break;
+            case BillTypeEnum::DeliveryBill:
+                $activePage = 'bill/' . BillTypeEnum::DeliveryBill;
+                $titlePage = 'Add delivery bill';
+                $namePage = 'Delivery bill';
+                $titleCard = 'Delivery bills';
+                $fieldParam = 'delivery_bill';
+                $selectThird = 'Select subcontractor';
+                $third = 'Subcontractor';
+                break;
+            case BillTypeEnum::SubcontractingBill:
+                $activePage = 'bill/' . BillTypeEnum::SubcontractingBill;
+                $titlePage = 'Add subcontracting bill';
+                $namePage = 'Subcontracting bill';
+                $titleCard = 'Subcontracting bills';
+                $fieldParam = 'subcontracting_bill';
+                $selectThird = 'Select subcontractor';
+                $third = 'Subcontractor';
+                break;
+            case BillTypeEnum::OrderBill:
+                $activePage = 'bill/' . BillTypeEnum::OrderBill;
+                $titlePage = 'Add order bill';
+                $namePage = 'Order bill';
+                $titleCard = 'Order bills';
+                $fieldParam = 'order_bill';
+                $selectThird = 'Select customer';
+                $third = 'Customer';
+                break;
+
         }
-        $page['active']=$activePage;
-        $page['title']=$titlePage;
-        $page['name']=$namePage;
-        $page['titleCard']=$titleCard;
-        $page['fieldParam']=$fieldParam;
+        $page['active'] = $activePage;
+        $page['title'] = $titlePage;
+        $page['name'] = $namePage;
+        $page['titleCard'] = $titleCard;
+        $page['fieldParam'] = $fieldParam;
         $page['selectThird'] = $selectThird;
         $page['third'] = $third;
         return $page;
     }
-    public static function getValidateDataByType($request){
-        
-        switch ($request->bill_type){
-            case BillTypeEnum::EntryBill :
+    public static function getValidateDataByType($request)
+    {
+
+        switch ($request->bill_type) {
+            case BillTypeEnum::EntryBill:
                 $validatedData = $request->validate([
                     'reference' => 'required|min:3',
                     'bill_date' => 'required|min:3',
-                    'bill_type'=> 'required',
+                    'bill_type' => 'required',
                     'product_id' => 'required',
-                    'truck_id'=> 'required',
-                    'block_id'=> 'required',
-                    'room_id'=> 'required',
-                    'origin'=> 'required',
-                    'number_boxes'=> 'required',
-                    'raw'=> 'required',
-                    'net'=> 'required',
-                    'tare'=> 'required',   
+                    'truck_id' => 'required',
+                    'block_id' => 'required',
+                    'room_id' => 'required',
+                    'origin' => 'required',
+                    'number_boxes' => 'required',
+                    'raw' => 'required',
+                    'net' => 'required',
+                    'tare' => 'required',
                 ]);
                 break;
-            case BillTypeEnum::ExitBill :
+            case BillTypeEnum::ExitBill:
                 $validatedData = $request->validate([
                     'reference' => 'required|min:3',
                     'bill_date' => 'required|min:3',
-                    'bill_type'=> 'required',
+                    'bill_type' => 'required',
                     'product_id' => 'required',
-                    'truck_id'=> 'required',
-                    'block_id'=> 'required',
-                    'room_id'=> 'required',
-                    'third_party_id'=> 'required',
-                    'number_boxes'=> 'required',
-                    'raw'=> 'required',
-                    'net'=> 'required',
-                    'tare'=> 'required', 
-                    'unit_price'=> 'required',
-                    'net_payable'=> 'required',
-                    'number_boxes_returned' => 'nullable',           
+                    'truck_id' => 'required',
+                    'block_id' => 'required',
+                    'room_id' => 'required',
+                    'third_party_id' => 'required',
+                    'number_boxes' => 'required',
+                    'raw' => 'required',
+                    'net' => 'required',
+                    'tare' => 'required',
+                    'unit_price' => 'required',
+                    'net_payable' => 'required',
+                    'number_boxes_returned' => 'nullable',
                     'weight_discount_percentage' => 'nullable',
                     'discount_value' => 'nullable',
                     'net_weight_discount' => 'nullable',
                 ]);
                 break;
-                case BillTypeEnum::DamageBill :
+            case BillTypeEnum::DamageBill:
+                $validatedData = $request->validate([
+                    'reference' => 'required|min:3',
+                    'bill_date' => 'required|min:3',
+                    'bill_type' => 'required',
+                    'product_id' => 'required',
+                    'block_id' => 'required',
+                    'room_id' => 'required',
+                    'number_boxes' => 'required',
+                    'raw' => 'required',
+                    'net' => 'required',
+                    'tare' => 'required',
+                    'unit_price' => 'nullable',
+                    'net_payable' => 'nullable',
+                    'number_boxes_returned' => 'nullable',
+                    'weight_discount_percentage' => 'nullable',
+                    'discount_value' => 'nullable',
+                    'net_weight_discount' => 'nullable',
+                ]);
+                break;
+            case BillTypeEnum::DeliveryBill:
+                $validatedData = $request->validate([
+                    'reference' => 'required|min:3',
+                    'bill_date' => 'required|min:3',
+                    'bill_type' => 'required',
+                    'product_id' => 'required',
+                    'third_party_id' => 'required',
+                    'driver_id' => 'required',
+                    'truck_id' => 'required',
+                    'pivot_id' => 'required',
+                    'number_boxes' => 'required',
+                    'raw' => 'required',
+                    'net' => 'required',
+                    'tare' => 'required',
+                    'unit_price' => 'nullable',
+                    'net_payable' => 'nullable',
+                    'number_boxes_returned' => 'nullable',
+                    'weight_discount_percentage' => 'nullable',
+                    'discount_value' => 'nullable',
+                    'net_weight_discount' => 'nullable',
+                ]);
+                break;
+            case BillTypeEnum::SubcontractingBill:
+                $validatedData = $request->validate([
+                    'reference' => 'required|min:3',
+                    'bill_date' => 'required|min:3',
+                    'bill_type' => 'required',
+                    'product_id' => 'required',
+                    'third_party_id' => 'required',
+                    'driver_id' => 'required',
+                    'truck_id' => 'required',
+                    'number_boxes' => 'required',
+                    'raw' => 'nullable',
+                    'net' => 'nullable',
+                    'tare' => 'nullable',
+                    'unit_price' => 'nullable',
+                    'net_payable' => 'required',
+                    'number_boxes_returned' => 'nullable',
+                    'weight_discount_percentage' => 'nullable',
+                    'discount_value' => 'nullable',
+                    'net_weight_discount' => 'nullable',
+                ]);
+                break;
+            case BillTypeEnum::OrderBill:
                     $validatedData = $request->validate([
                         'reference' => 'required|min:3',
                         'bill_date' => 'required|min:3',
-                        'bill_type'=> 'required',
+                        'bill_type' => 'required',
                         'product_id' => 'required',
-                        'block_id'=> 'required',
-                        'room_id'=> 'required',
-                        'number_boxes'=> 'required',
-                        'raw'=> 'required',
-                        'net'=> 'required',
-                        'tare'=> 'required',  
-                        'unit_price'=> 'nullable',
-                         'net_payable'=> 'nullable',
-                         'number_boxes_returned' => 'nullable',           
+                        'variety_id' => 'nullable',
+                        'third_party_id' => 'required',
+                        'driver_id' => 'nullable',
+                        'truck_id' => 'nullable',
+                        'number_boxes' => 'nullable',
+                        'raw' => 'nullable',
+                        'net' => 'required',
+                        'tare' => 'nullable',
+                        'unit_price' => 'required',
+                        'net_payable' => 'required',
+                        'number_boxes_returned' => 'nullable',
                         'weight_discount_percentage' => 'nullable',
-                         'discount_value' => 'nullable',
-                         'net_weight_discount' => 'nullable', 
+                        'discount_value' => 'nullable',
+                        'net_weight_discount' => 'nullable',
                     ]);
-                    break;
-                    case BillTypeEnum::DeliveryBill :
-                        $validatedData = $request->validate([
-                            'reference' => 'required|min:3',
-                            'bill_date' => 'required|min:3',
-                            'bill_type'=> 'required',
-                            'product_id' => 'required',
-                            'third_party_id'=> 'required',
-                            'driver_id'=> 'required',
-                            'truck_id'=> 'required',
-                            'pivot_id'=>'required',
-                            'number_boxes'=> 'required',
-                            'raw'=> 'required',
-                            'net'=> 'required',
-                            'tare'=> 'required',  
-                            'unit_price'=> 'nullable',
-                             'net_payable'=> 'nullable',
-                             'number_boxes_returned' => 'nullable',           
-                            'weight_discount_percentage' => 'nullable',
-                             'discount_value' => 'nullable',
-                             'net_weight_discount' => 'nullable', 
-                        ]);
-                        break;
-                    case BillTypeEnum::SubcontractingBill :
-                            $validatedData = $request->validate([
-                                'reference' => 'required|min:3',
-                                'bill_date' => 'required|min:3',
-                                'bill_type'=> 'required',
-                                'product_id' => 'required',
-                                'third_party_id'=> 'required',
-                                'driver_id'=> 'required',
-                                'truck_id'=> 'required',
-                                'number_boxes'=> 'required',
-                                'raw'=> 'nullable',
-                                'net'=> 'nullable',
-                                'tare'=> 'nullable',  
-                                'unit_price'=> 'nullable',
-                                'net_payable'=> 'required',
-                                'number_boxes_returned' => 'nullable',           
-                                'weight_discount_percentage' => 'nullable',
-                                'discount_value' => 'nullable',
-                                'net_weight_discount' => 'nullable', 
-                            ]);
-                            break;    
+                    break;    
 
-                
-            default :
+
+            default:
                 $validatedData = [];
         }
-        return $validatedData ;
-
+        return $validatedData;
     }
 
-    public static function getSumUnstockedQuantityByRoomId($roomId){
-        $sumUnstockedQuantity = Bill::where('room_id','=',$roomId)->sum('net');
+    public static function getSumUnstockedQuantityByRoomId($roomId)
+    {
+        $sumUnstockedQuantity = Bill::where('room_id', '=', $roomId)->sum('net');
         return $sumUnstockedQuantity;
     }
 
-    public static function getSumNbBoxes($request, $dbBillType, $currentProgramId){
-        $sumNbBoxes = Bill::
-        where('bill_type', '=', $dbBillType)
-        ->where('program_id', '=', $currentProgramId)
-        ->where( function($query) use($request){
-            return $request->get('third_party_id') ?
-                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('block_id') ?
-                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('net_remaining') ?
-                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
-                                           
-        ->where(function($query) use($request){
-            return $request->get('date_from') ?
-                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
-        ->where(function($query) use($request){
-            return $request->get('date_to') ?
-                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-        ->sum("number_boxes");
-        return $sumNbBoxes ;
+    public static function getSumNbBoxes($request, $dbBillType, $currentProgramId)
+    {
+        $sumNbBoxes = Bill::where('bill_type', '=', $dbBillType)
+            ->where('program_id', '=', $currentProgramId)
+            ->where(function ($query) use ($request) {
+                return $request->get('third_party_id') ?
+                    $query->from('bills')->where('third_party_id', $request->get('third_party_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('block_id') ?
+                    $query->from('bills')->whereIn('bills.block_id', $request->get('block_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('room_id') ?
+                    $query->from('bills')->whereIn('room_id', $request->get('room_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining', $request->get('net_remaining'), 0) : '';
+            })
 
+            ->where(function ($query) use ($request) {
+                return $request->get('date_from') ?
+                    $query->from('bills')->where('bill_date', '>=', $request->get('date_from')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('date_to') ?
+                    $query->from('bills')->where('bill_date', '<=', $request->get('date_to')) : '';
+            })
+            ->sum("number_boxes");
+        return $sumNbBoxes;
     }
-    public static function getSumNet($request, $dbBillType, $currentProgramId){
-        $sumNet = Bill::
-        where('bill_type', '=', $dbBillType)
-        ->where('program_id', '=', $currentProgramId)
-        ->where( function($query) use($request){
-            return $request->get('third_party_id') ?
-                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('block_id') ?
-                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('net_remaining') ?
-                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
-                                           
-        ->where(function($query) use($request){
-            return $request->get('date_from') ?
-                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
-        ->where(function($query) use($request){
-            return $request->get('date_to') ?
-                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-        ->sum("net");
-        return $sumNet ;
+    public static function getSumNet($request, $dbBillType, $currentProgramId)
+    {
+        $sumNet = Bill::where('bill_type', '=', $dbBillType)
+            ->where('program_id', '=', $currentProgramId)
+            ->where(function ($query) use ($request) {
+                return $request->get('third_party_id') ?
+                    $query->from('bills')->where('third_party_id', $request->get('third_party_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('block_id') ?
+                    $query->from('bills')->whereIn('bills.block_id', $request->get('block_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('room_id') ?
+                    $query->from('bills')->whereIn('room_id', $request->get('room_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining', $request->get('net_remaining'), 0) : '';
+            })
 
+            ->where(function ($query) use ($request) {
+                return $request->get('date_from') ?
+                    $query->from('bills')->where('bill_date', '>=', $request->get('date_from')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('date_to') ?
+                    $query->from('bills')->where('bill_date', '<=', $request->get('date_to')) : '';
+            })
+            ->sum("net");
+        return $sumNet;
     }
-    public static function getSumNetPayable($request, $dbBillType, $currentProgramId){
-        $sumNetPayable = Bill::
-        where('bill_type', '=', $dbBillType)
-        ->where('program_id', '=', $currentProgramId)
-        ->where( function($query) use($request){
-            return $request->get('third_party_id') ?
-                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('block_id') ?
-                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('net_remaining') ?
-                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
-                                           
-        ->where(function($query) use($request){
-            return $request->get('date_from') ?
-                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
-        ->where(function($query) use($request){
-            return $request->get('date_to') ?
-                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-        ->sum("net_payable");
-        return $sumNetPayable ;
+    public static function getSumNetPayable($request, $dbBillType, $currentProgramId)
+    {
+        $sumNetPayable = Bill::where('bill_type', '=', $dbBillType)
+            ->where('program_id', '=', $currentProgramId)
+            ->where(function ($query) use ($request) {
+                return $request->get('third_party_id') ?
+                    $query->from('bills')->where('third_party_id', $request->get('third_party_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('block_id') ?
+                    $query->from('bills')->whereIn('bills.block_id', $request->get('block_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('room_id') ?
+                    $query->from('bills')->whereIn('room_id', $request->get('room_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining', $request->get('net_remaining'), 0) : '';
+            })
 
+            ->where(function ($query) use ($request) {
+                return $request->get('date_from') ?
+                    $query->from('bills')->where('bill_date', '>=', $request->get('date_from')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('date_to') ?
+                    $query->from('bills')->where('bill_date', '<=', $request->get('date_to')) : '';
+            })
+            ->sum("net_payable");
+        return $sumNetPayable;
     }
-    public static function getSumNetRemaining($request,$dbBillType, $currentProgramId){
-        $sumNetRemaining = Bill::
-        where('bill_type', '=', $dbBillType)
-        ->where('program_id', '=', $currentProgramId)
-        ->where( function($query) use($request){
-            return $request->get('third_party_id') ?
-                   $query->from('bills')->where('third_party_id',$request->get('third_party_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('block_id') ?
-                  $query->from('bills')->whereIn('bills.block_id',$request->get('block_id')) : '';})
-        ->where( function($query) use($request){
-            return $request->get('room_id') ?
-                    $query->from('bills')->whereIn('room_id',$request->get('room_id')) : '';})
-       ->where( function($query) use($request){
-            return $request->get('net_remaining') ?
-                    $query->from('bills')->where('bills.net_remaining',$request->get('net_remaining'),0) : '';})                      
-                                           
-        ->where(function($query) use($request){
-            return $request->get('date_from') ?
-                  $query->from('bills')->where('bill_date','>=',$request->get('date_from')) : '';})
-        ->where(function($query) use($request){
-            return $request->get('date_to') ?
-                $query->from('bills')->where('bill_date','<=',$request->get('date_to')) : '';}) 
-        ->sum("net_remaining");
-        return $sumNetRemaining ;
+    public static function getSumNetRemaining($request, $dbBillType, $currentProgramId)
+    {
+        $sumNetRemaining = Bill::where('bill_type', '=', $dbBillType)
+            ->where('program_id', '=', $currentProgramId)
+            ->where(function ($query) use ($request) {
+                return $request->get('third_party_id') ?
+                    $query->from('bills')->where('third_party_id', $request->get('third_party_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('block_id') ?
+                    $query->from('bills')->whereIn('bills.block_id', $request->get('block_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('room_id') ?
+                    $query->from('bills')->whereIn('room_id', $request->get('room_id')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('net_remaining') ?
+                    $query->from('bills')->where('bills.net_remaining', $request->get('net_remaining'), 0) : '';
+            })
 
+            ->where(function ($query) use ($request) {
+                return $request->get('date_from') ?
+                    $query->from('bills')->where('bill_date', '>=', $request->get('date_from')) : '';
+            })
+            ->where(function ($query) use ($request) {
+                return $request->get('date_to') ?
+                    $query->from('bills')->where('bill_date', '<=', $request->get('date_to')) : '';
+            })
+            ->sum("net_remaining");
+        return $sumNetRemaining;
     }
 
-    public static  function checkIfBillExist($programId){
-        $nbBills =Bill::getCountBillsByProgramId($programId);
-        
-        if($nbBills>0){
+    public static  function checkIfBillExist($programId)
+    {
+        $nbBills = Bill::getCountBillsByProgramId($programId);
+
+        if ($nbBills > 0) {
             return true;
-        }else {
-            return false ;
+        } else {
+            return false;
         }
     }
 
-    public static  function getCountBillsByProgramId($programId){
-        
-        $nbBills = Bill::where('program_id','=',$programId)->count();
+    public static  function getCountBillsByProgramId($programId)
+    {
+
+        $nbBills = Bill::where('program_id', '=', $programId)->count();
         return $nbBills;
     }
-  
-
-   
 }
